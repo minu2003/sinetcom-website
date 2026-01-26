@@ -99,7 +99,7 @@ export default function Navbar() {
             {/* Home */}
             <Link
               href="/"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 text-white hover:text-gray-200"
+              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
               onMouseEnter={() => setSolutionsOpen(false)}
             >
               Home
@@ -135,13 +135,14 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              {/* Mega Menu Dropdown - Transparent Box Style */}
+              {/* Mega Menu Dropdown */}
               {solutionsOpen && (
                 <div 
-                  className="absolute left-0 mt-2 w-80 rounded-lg py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200 backdrop-blur-md"
+                  className="absolute left-0 mt-2 w-80 rounded-lg py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200"
                   style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5), 0 4px 10px rgba(0, 0, 0, 0.3)',
+                    backgroundColor: 'rgba(20, 27, 36, 0.85)',
+                    backdropFilter: 'blur(10px)',
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
                   }}
                 >
                   {/* Sophos Solutions */}
@@ -151,16 +152,17 @@ export default function Navbar() {
                     onMouseLeave={handleSophosLeave}
                   >
                     <button
-                      className="w-full flex items-center justify-between py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-left"
-                      style={{ color: '#FFFFFF' }}
+                      className="w-full flex items-center justify-between py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                       aria-expanded={sophosOpen}
                     >
-                      <span className="flex items-center gap-2">
-                        <span className="text-white/80">›</span>
+                      <div className="flex items-center gap-3">
+                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         <span className="text-base font-medium">Sophos Solutions</span>
-                      </span>
+                      </div>
                       <svg
-                        className={`w-4 h-4 transition-transform duration-200 text-white/80 ${
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
                           sophosOpen ? 'rotate-90' : ''
                         }`}
                         fill="none"
@@ -179,64 +181,74 @@ export default function Navbar() {
 
                     {/* Sophos Submenu */}
                     {sophosOpen && (
-                      <div className="ml-4 mt-1 space-y-1 border-l-2 border-white/20 pl-3">
+                      <div 
+                        className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
+                        style={{
+                          backgroundColor: 'rgba(20, 27, 36, 0.85)',
+                          backdropFilter: 'blur(10px)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
+                        }}
+                      >
                         <Link
                           href="/solutions/sophos/endpoint"
-                          className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                          style={{ color: '#FFFFFF' }}
+                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                         >
-                          <span className="text-white/80">›</span>
-                          <span className="text-sm">Sophos Endpoint</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-base">Sophos Endpoint</span>
                         </Link>
                         <Link
                           href="/solutions/sophos/firewall"
-                          className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                          style={{ color: '#FFFFFF' }}
+                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                         >
-                          <span className="text-white/80">›</span>
-                          <span className="text-sm">Sophos Firewall</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-base">Sophos Firewall</span>
                         </Link>
                         <Link
                           href="/solutions/sophos/mdr"
-                          className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                          style={{ color: '#FFFFFF' }}
+                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                         >
-                          <span className="text-white/80">›</span>
-                          <span className="text-sm">Sophos MDR</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-base">Sophos MDR</span>
                         </Link>
                       </div>
                     )}
                   </div>
 
                   {/* Storene Solutions */}
-                  <div className="mt-1">
-                    <Link
-                      href="/solutions/storene"
-                      className="flex items-center gap-2 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                      style={{ color: '#FFFFFF' }}
-                    >
-                      <span className="text-white/80">›</span>
-                      <span className="text-base font-medium">Storene Solutions</span>
-                    </Link>
-                  </div>
+                  <Link
+                    href="/solutions/storene"
+                    className="w-full flex items-center gap-3 py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                  >
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span className="text-base font-medium">Storene Solutions</span>
+                  </Link>
 
                   {/* Huawei Solutions */}
                   <div 
-                    className="relative mt-1"
+                    className="relative"
                     onMouseEnter={handleHuaweiEnter}
                     onMouseLeave={handleHuaweiLeave}
                   >
                     <button
-                      className="w-full flex items-center justify-between py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-left"
-                      style={{ color: '#FFFFFF' }}
+                      className="w-full flex items-center justify-between py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                       aria-expanded={huaweiOpen}
                     >
-                      <span className="flex items-center gap-2">
-                        <span className="text-white/80">›</span>
+                      <div className="flex items-center gap-3">
+                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                         <span className="text-base font-medium">Huawei Solutions</span>
-                      </span>
+                      </div>
                       <svg
-                        className={`w-4 h-4 transition-transform duration-200 text-white/80 ${
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
                           huaweiOpen ? 'rotate-90' : ''
                         }`}
                         fill="none"
@@ -255,22 +267,31 @@ export default function Navbar() {
 
                     {/* Huawei Submenu */}
                     {huaweiOpen && (
-                      <div className="ml-4 mt-1 space-y-1 border-l-2 border-white/20 pl-3">
+                      <div 
+                        className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
+                        style={{
+                          backgroundColor: 'rgba(20, 27, 36, 0.85)',
+                          backdropFilter: 'blur(10px)',
+                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
+                        }}
+                      >
                         <Link
                           href="/solutions/huawei/ups"
-                          className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                          style={{ color: '#FFFFFF' }}
+                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                         >
-                          <span className="text-white/80">›</span>
-                          <span className="text-sm">UPS Solutions</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-base">UPS Solutions</span>
                         </Link>
                         <Link
                           href="/solutions/huawei/smart-server-rack"
-                          className="flex items-center gap-2 py-1.5 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 block"
-                          style={{ color: '#FFFFFF' }}
+                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
                         >
-                          <span className="text-white/80">›</span>
-                          <span className="text-sm">Smart Server Rack Solutions</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                          <span className="text-base">Smart Server Rack Solutions</span>
                         </Link>
                       </div>
                     )}
@@ -311,7 +332,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3 flex-1 justify-end">
             <Link
               href="/contact"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 text-white hover:text-gray-200"
+              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
               onClick={() => setSolutionsOpen(false)}
             >
               Contact
