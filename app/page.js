@@ -1,12 +1,14 @@
 import Hero from "./components/hero";
 import Navbar from "./components/navbar";
-import CoreSolutions from "./components/core-solutions";
+import WeAreSinetcom from "./components/we-are-sinetcom";
+import WhyChooseUs from "./components/why-choose-us";
 
 export default function Home() {
   return (
     <div>
       <Hero/>
-      <CoreSolutions />
+      <WeAreSinetcom />
+      <WhyChooseUs />
     </div>
   );
 }

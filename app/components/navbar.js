@@ -71,7 +71,7 @@ export default function Navbar() {
     <nav 
       className="w-full bg-transparent "
       style={{
-        boxShadow: '0 4px 6px -1px rgba(255, 255, 255, 0.3)', // white bottom shadow
+        boxShadow: '0 2px 4px -1px rgba(255, 255, 255, 0.15)', // subtle white bottom shadow
       }}
     >
       <div className="w-full px-4 sm:px-6 lg:px-9">
