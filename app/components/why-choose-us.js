@@ -1,14 +1,10 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
+import { useRef, useEffect, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { colors } from './root';
-import sophosLogo from '../assets/Sophos-logo.png';
-import storoneLogo from '../assets/storone.png';
-import huaweiLogo from '../assets/huawei.png';
 
-/** Advantage cards: company strengths/benefits (not service solutions). */
-const advantages = [
+export const advantages = [
   {
     icon: (
       <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,7 +12,7 @@ const advantages = [
       </svg>
     ),
     title: 'Fast & Reliable Delivery',
-    subtitle: 'E-License',
+    description: 'E-License delivery for instant access to cybersecurity and enterprise IT solutions with secure implementation.',
   },
   {
     icon: (
@@ -25,7 +21,7 @@ const advantages = [
       </svg>
     ),
     title: '99% Positive Feedback',
-    subtitle: 'feedback',
+    description: 'Trusted by enterprise clients for cybersecurity solutions, data center infrastructure, and digital transformation services.',
   },
   {
     icon: (
@@ -34,7 +30,7 @@ const advantages = [
       </svg>
     ),
     title: '365-Day Support',
-    subtitle: 'Support',
+    description: 'Round-the-clock technical support for Sophos firewalls, StorONE backup solutions, and enterprise IT infrastructure.',
   },
   {
     icon: (
@@ -43,7 +39,7 @@ const advantages = [
       </svg>
     ),
     title: 'Secure Systems',
-    subtitle: 'Payment Security',
+    description: 'Enterprise-grade cybersecurity solutions and secure payment systems ensuring compliance and data protection.',
   },
   {
     icon: (
@@ -52,148 +48,82 @@ const advantages = [
       </svg>
     ),
     title: 'Trusted Partners',
-    subtitle: 'Only the best',
+    description: 'Authorized distributor for Sophos cybersecurity, StorONE data backup, and Huawei enterprise solutions.',
   },
 ];
 
-/** Partner brands we distribute; links to solution pages. */
-const partners = [
-  {
-    name: 'Sophos',
-    tagline: 'Cybersecurity evolved.',
-    description: 'AUTHORIZED DISTRIBUTOR',
-    logo: sophosLogo,
-    href: '/solutions/sophos',
-  },
-  {
-    name: 'StorONE',
-    tagline: 'THINK RESULTS™',
-    description: 'AUTHORIZED DISTRIBUTOR FOR BACKUP SOLUTIONS',
-    logo: storoneLogo,
-    href: '/solutions/storene',
-  },
-  {
-    name: 'Huawei',
-    tagline: '',
-    description: 'AUTHORIZED PARTNER FOR HUAWEI',
-    logo: huaweiLogo,
-    href: '/solutions/huawei',
-  },
-];
+/** Why Choose Us section (dark band) for use in WeAreSinetcom. Self-contained with scroll animation. */
+export default function WhyChooseUsSection() {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { amount: 0.2, once: false });
+  const [entryDirection, setEntryDirection] = useState('down');
+  const lastScrollYRef = useRef(0);
+  const scrollDirectionRef = useRef('down');
+  const prevInViewRef = useRef(false);
 
-export default function WhyChooseUs() {
+  useEffect(() => {
+    const handleScroll = () => {
+      const current = typeof window !== 'undefined' ? window.scrollY : 0;
+      scrollDirectionRef.current = current >= lastScrollYRef.current ? 'down' : 'up';
+      lastScrollYRef.current = current;
+    };
+    if (typeof window !== 'undefined') lastScrollYRef.current = window.scrollY;
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isInView && !prevInViewRef.current) {
+      setEntryDirection(scrollDirectionRef.current);
+    }
+    prevInViewRef.current = isInView;
+  }, [isInView]);
+
   return (
     <section
-      className="w-full py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50"
-      aria-labelledby="why-choose-us-heading"
+      ref={sectionRef}
+      className="relative w-full py-14 md:py-18 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      style={{ backgroundColor: '#0a1628' }}
+      aria-label="Why choose us"
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Section heading */}
-        <header className="text-center mb-20">
-          <h2
-            id="why-choose-us-heading"
-            className="text-5xl md:text-5xl font-bold tracking-tight mb-4"
-            style={{ color: colors.secondary }}
-          >
-            Why Choose Us
-          </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Trusted expertise, reliable delivery, and industry-leading partnerships.
-          </p>
-        </header>
-
-        {/* Advantages row */}
-        <div className="bg-white rounded-xl shadow-2xl border border-gray-100 mb-16 overflow-hidden hover:shadow-xl transition-shadow duration-300 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-gray-200">
-            {advantages.map((advantage, index) => (
-              <div
-                key={index}
-                className="px-6 sm:px-7 py-7 flex flex-col items-center text-center hover:bg-gray-50 transition-colors duration-200 group"
-              >
-                <div
-                  className="mb-4 transform group-hover:scale-110 transition-transform duration-200"
-                  style={{ color: colors.primary }}
-                >
-                  {advantage.icon}
-                </div>
-                <h3
-                  className="text-lg font-bold mb-2 group-hover:text-opacity-80 transition-opacity"
-                  style={{ color: colors.secondary }}
-                >
-                  {advantage.title}
-                </h3>
-                <p className="text-sm text-gray-600 font-medium">{advantage.subtitle}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Partner logos */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {partners.map((partner, index) => (
-            <article
-              key={partner.name}
-              className="rounded-xl p-8 flex flex-col justify-between min-h-[270px] hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group"
-              style={{ backgroundColor: '#F5F5F7' }}
+      <div className="absolute top-0 left-0 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
+      <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
+      <div className="max-w-7xl mx-auto relative z-10">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center mb-6 md:mb-8 text-white">
+          Why Choose Us
+        </h2>
+        <p className="text-center text-gray-300 text-lg md:text-xl mb-12 md:mb-16 max-w-2xl mx-auto">
+          Trusted expertise, reliable delivery, and industry-leading partnership.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
+          {advantages.map((item, index) => (
+            <motion.div
+              key={`${index}-${entryDirection}`}
+              initial={{
+                opacity: 0,
+                y: entryDirection === 'down' ? 48 : -48,
+              }}
+              animate={
+                isInView
+                  ? { opacity: 1, y: 0 }
+                  : {
+                      opacity: 0,
+                      y: entryDirection === 'down' ? 48 : -48,
+                    }
+              }
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] transition-shadow duration-300"
             >
-              <div className="flex flex-col items-center text-center">
-                <div className="mb-6 flex items-center justify-center w-full">
-                  <div className="relative w-full h-20 flex items-center justify-center">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} Logo`}
-                      width={200}
-                      height={80}
-                      className="object-contain max-h-20 w-auto"
-                      priority={index === 0}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1 mb-6 items-center">
-                  {partner.description.split(' ').map((word, wordIndex) => (
-                    <span
-                      key={wordIndex}
-                      className="text-xs font-bold uppercase tracking-wider leading-tight"
-                      style={{ color: colors.secondary }}
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
+              <div className="mb-4" style={{ color: colors.primary }}>
+                {item.icon}
               </div>
-              <Link
-                href={partner.href}
-                className="flex items-center justify-center gap-3 group/btn mt-auto"
-              >
-                <span
-                  className="text-sm font-semibold transition-colors duration-200 group-hover/btn:text-opacity-70"
-                  style={{ color: colors.secondary }}
-                >
-                  Contact us
-                </span>
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 group-hover/btn:translate-x-2 group-hover/btn:scale-110"
-                  style={{ backgroundColor: colors.primary }}
-                >
-                  <svg
-                    className="w-4 h-4 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </Link>
-            </article>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+              <p className="text-gray-600 text-sm md:text-base leading-relaxed">{item.description}</p>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
   );
 }
+

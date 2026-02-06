@@ -1,43 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { colors } from './root';
-
-const stats = [
-  {
-    label: 'Authorized Distributor',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Cybersecurity Focus',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Enterprise Solutions',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Trusted Partners',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-  },
-];
+import WhyChooseUsSection from './why-choose-us';
 
 const solutions = [
   {
@@ -134,30 +100,6 @@ function NetworkPattern() {
 
 export default function WeAreSinetcom() {
   const [openId, setOpenId] = useState(null);
-  const statsSectionRef = useRef(null);
-  const isStatsInView = useInView(statsSectionRef, { amount: 0.2, once: false });
-  const [statsEntryDirection, setStatsEntryDirection] = useState('down');
-  const lastScrollYRef = useRef(0);
-  const scrollDirectionRef = useRef('down');
-  const prevInViewRef = useRef(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const current = typeof window !== 'undefined' ? window.scrollY : 0;
-      scrollDirectionRef.current = current >= lastScrollYRef.current ? 'down' : 'up';
-      lastScrollYRef.current = current;
-    };
-    if (typeof window !== 'undefined') lastScrollYRef.current = window.scrollY;
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (isStatsInView && !prevInViewRef.current) {
-      setStatsEntryDirection(scrollDirectionRef.current);
-    }
-    prevInViewRef.current = isStatsInView;
-  }, [isStatsInView]);
 
   return (
     <>
@@ -178,43 +120,7 @@ export default function WeAreSinetcom() {
         </div>
       </section>
 
-      {/* Part 2: Stats row — from bottom when scrolling down, from top when scrolling up */}
-      <section
-        ref={statsSectionRef}
-        className="relative w-full py-14 md:py-18 px-4 sm:px-6 lg:px-8 overflow-hidden"
-        style={{ backgroundColor: '#0a1628' }}
-      >
-        <div className="absolute top-0 left-0 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
-        <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {stats.map((item, index) => (
-              <motion.div
-                key={`${index}-${statsEntryDirection}`}
-                initial={{
-                  opacity: 0,
-                  y: statsEntryDirection === 'down' ? 48 : -48,
-                }}
-                animate={
-                  isStatsInView
-                    ? { opacity: 1, y: 0 }
-                    : {
-                        opacity: 0,
-                        y: statsEntryDirection === 'down' ? 48 : -48,
-                      }
-                }
-                transition={{ duration: 0.4, delay: index * 0.08 }}
-                className="flex flex-col items-center text-center"
-              >
-                <div className="mb-4 text-white">
-                  {item.icon}
-                </div>
-                <span className="text-white text-sm md:text-base font-medium">{item.label}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WhyChooseUsSection/>
 
       {/* Part 3: Solutions We Offer (two-column, accordion) */}
       <section className="relative w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gray-100">
