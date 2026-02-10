@@ -2,11 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Navbar from './navbar';
 import { colors } from './root';
 
 const headlineLine1 = 'Next Generation';
-const headlineLine2 = 'Cybersecurity Starts Here';
+const headlineLine2 = 'Cyber Security Starts Here';
 
 const letterVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -33,11 +32,6 @@ export default function Hero() {
 
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10" />
-
-      {/* Navbar ON TOP of VIDEO */}
-      <div className="absolute top-0 left-0 w-full z-30">
-        <Navbar />
-      </div>
 
       {/* Hero Content - centered on video */}
       <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-6 sm:px-8 lg:px-12">

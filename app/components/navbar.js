@@ -1,18 +1,21 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import sinetcomLogo from '../assets/sinetcom-logo.png';
+import sinetcomLogoDark from '../assets/sinetcom-logo1.png';
 import { colors } from './root';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
-  const [sophosOpen, setSophosOpen] = useState(false);
   const [huaweiOpen, setHuaweiOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const solutionsTimeoutRef = useRef(null);
-  const sophosTimeoutRef = useRef(null);
   const huaweiTimeoutRef = useRef(null);
 
   // Handle solutions dropdown
@@ -24,20 +27,7 @@ export default function Navbar() {
   const handleSolutionsLeave = () => {
     solutionsTimeoutRef.current = setTimeout(() => {
       setSolutionsOpen(false);
-      setSophosOpen(false);
       setHuaweiOpen(false);
-    }, 200);
-  };
-
-  // Handle Sophos nested dropdown
-  const handleSophosEnter = () => {
-    if (sophosTimeoutRef.current) clearTimeout(sophosTimeoutRef.current);
-    setSophosOpen(true);
-  };
-
-  const handleSophosLeave = () => {
-    sophosTimeoutRef.current = setTimeout(() => {
-      setSophosOpen(false);
     }, 200);
   };
 
@@ -59,7 +49,6 @@ export default function Navbar() {
       if (e.key === 'Escape') {
         setMobileMenuOpen(false);
         setSolutionsOpen(false);
-        setSophosOpen(false);
         setHuaweiOpen(false);
       }
     };
@@ -67,12 +56,66 @@ export default function Navbar() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, []);
 
+  // Change navbar background when scrolling
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    handleScroll(); // Check initial position
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Determine navbar background based on page and scroll state
+  const getNavbarBackground = () => {
+    if (isScrolled) {
+      return 'bg-white'; // White when scrolled on any page
+    }
+    if (isHomePage) {
+      return 'bg-transparent'; // Transparent on home page
+    }
+    return ''; // Theme color on other pages (set via style)
+  };
+
+  const getNavbarStyle = () => {
+    if (isScrolled) {
+      return {
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      };
+    }
+    if (isHomePage) {
+      return {
+        boxShadow: '0 2px 4px -1px rgba(255, 255, 255, 0.15)',
+      };
+    }
+    // Other pages - theme color background
+    return {
+      backgroundColor: colors.primary,
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    };
+  };
+
+  // Helper to determine text color based on page and scroll state
+  const getTextColorClass = () => {
+    if (isScrolled) {
+      return 'text-black hover:bg-gray-100 hover:text-gray-800'; // Black when scrolled
+    }
+    // White text when navbar has primary color (other pages) or transparent (home page)
+    return 'text-white hover:bg-white/20 hover:text-gray-200';
+  };
+
+  const getGroupTextColorClass = () => {
+    if (isScrolled) {
+      return 'text-black group-hover:bg-gray-100 group-hover:text-gray-800'; // Black when scrolled
+    }
+    // White text when navbar has primary color (other pages) or transparent (home page)
+    return 'text-white group-hover:bg-white/20 group-hover:text-gray-200';
+  };
+
   return (
     <nav 
-      className="w-full bg-transparent "
-      style={{
-        boxShadow: '0 2px 4px -1px rgba(255, 255, 255, 0.15)', // subtle white bottom shadow
-      }}
+      className={`w-full transition-all duration-300 ${getNavbarBackground()}`}
+      style={getNavbarStyle()}
     >
       <div className="w-full px-4 sm:px-6 lg:px-9">
         <div className="flex items-center justify-between h-20">
@@ -84,7 +127,7 @@ export default function Navbar() {
               aria-label="Sinetcom Home"
             >
               <Image
-                src={sinetcomLogo}
+                src={isScrolled ? sinetcomLogoDark : sinetcomLogo}
                 alt="Sinetcom Logo"
                 width={230}
                 height={80}
@@ -99,7 +142,7 @@ export default function Navbar() {
             {/* Home */}
             <Link
               href="/"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
+              className={`px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${getTextColorClass()}`}
               onMouseEnter={() => setSolutionsOpen(false)}
             >
               Home
@@ -112,7 +155,7 @@ export default function Navbar() {
               onMouseLeave={handleSolutionsLeave}
             >
               <button
-                className="px-3 py-2 text-base font-medium rounded-md transition-all duration-200 flex items-center gap-1 group-hover:bg-white/20 text-white hover:text-gray-200"
+                className={`px-3 py-2 text-base font-medium rounded-md transition-all duration-200 flex items-center gap-1 ${getGroupTextColorClass()}`}
                 aria-expanded={solutionsOpen}
                 aria-haspopup="true"
               >
@@ -146,79 +189,16 @@ export default function Navbar() {
                   }}
                 >
                   {/* Sophos Solutions */}
-                  <div 
-                    className="relative"
-                    onMouseEnter={handleSophosEnter}
-                    onMouseLeave={handleSophosLeave}
+                  <Link
+                    href="/sophos"
+                    className="w-full flex items-center gap-3 py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                    onClick={() => setSolutionsOpen(false)}
                   >
-                    <button
-                      className="w-full flex items-center justify-between py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
-                      aria-expanded={sophosOpen}
-                    >
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                        <span className="text-base font-medium">Sophos Solutions</span>
-                      </div>
-                      <svg
-                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
-                          sophosOpen ? 'rotate-90' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
-
-                    {/* Sophos Submenu */}
-                    {sophosOpen && (
-                      <div 
-                        className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
-                        style={{
-                          backgroundColor: 'rgba(20, 27, 36, 0.85)',
-                          backdropFilter: 'blur(10px)',
-                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-                        }}
-                      >
-                        <Link
-                          href="/solutions/sophos/endpoint"
-                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-base">Sophos Endpoint</span>
-                        </Link>
-                        <Link
-                          href="/solutions/sophos/firewall"
-                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-base">Sophos Firewall</span>
-                        </Link>
-                        <Link
-                          href="/solutions/sophos/mdr"
-                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-base">Sophos MDR</span>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span className="text-base font-medium">Sophos Solutions</span>
+                  </Link>
 
                   {/* Storene Solutions */}
                   <Link
@@ -303,7 +283,7 @@ export default function Navbar() {
             {/* About Us */}
             <Link
               href="/about"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
+              className={`px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${getTextColorClass()}`}
               onClick={() => setSolutionsOpen(false)}
             >
               About Us
@@ -312,7 +292,7 @@ export default function Navbar() {
             {/* Events */}
             <Link
               href="/events"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
+              className={`px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${getTextColorClass()}`}
               onClick={() => setSolutionsOpen(false)}
             >
               Events
@@ -321,7 +301,7 @@ export default function Navbar() {
             {/* Blogs */}
             <Link
               href="/blogs"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
+              className={`px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${getTextColorClass()}`}
               onClick={() => setSolutionsOpen(false)}
             >
               Blogs
@@ -332,7 +312,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-3 flex-1 justify-end">
             <Link
               href="/contact"
-              className="px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 hover:bg-white/20 text-white hover:text-gray-200"
+              className={`px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${getTextColorClass()}`}
               onClick={() => setSolutionsOpen(false)}
             >
               Contact
@@ -342,8 +322,8 @@ export default function Navbar() {
               href="/support-ticket"
               className="px-4 py-2 text-base font-semibold rounded-md transition-all duration-200 hover:shadow-lg hover:scale-105"
               style={{
-                backgroundColor: colors.primary,
-                color: '#FFFFFF',
+                backgroundColor: isScrolled ? colors.primary : (!isHomePage ? '#FFFFFF' : colors.primary),
+                color: isScrolled ? '#FFFFFF' : (!isHomePage ? colors.primary : '#FFFFFF'),
               }}
               onClick={() => setSolutionsOpen(false)}
             >
@@ -355,7 +335,7 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md transition-colors duration-200 hover:bg-white/20 text-white"
+              className={`inline-flex items-center justify-center p-2 rounded-md transition-colors duration-200 ${isScrolled ? 'text-black hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle menu"
             >
@@ -428,71 +408,17 @@ export default function Navbar() {
               {/* Mobile Solutions Submenu */}
               {solutionsOpen && (
                 <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
-                  <button
-                    onClick={() => setSophosOpen(!sophosOpen)}
-                    className="w-full text-left px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150 flex items-center justify-between"
+                  <Link
+                    href="/solutions/sophos"
+                    className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setSolutionsOpen(false);
+                    }}
                   >
                     Sophos Solutions
-                    <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        sophosOpen ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
-
-                  {/* Mobile Sophos Submenu */}
-                  {sophosOpen && (
-                    <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
-                      <Link
-                        href="/solutions/sophos/endpoint"
-                        className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
-                        style={{ color: colors.secondary }}
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setSolutionsOpen(false);
-                          setSophosOpen(false);
-                        }}
-                      >
-                        Sophos Endpoint
-                      </Link>
-                      <Link
-                        href="/solutions/sophos/firewall"
-                        className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
-                        style={{ color: colors.secondary }}
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setSolutionsOpen(false);
-                          setSophosOpen(false);
-                        }}
-                      >
-                        Sophos Firewall
-                      </Link>
-                      <Link
-                        href="/solutions/sophos/mdr"
-                        className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
-                        style={{ color: colors.secondary }}
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setSolutionsOpen(false);
-                          setSophosOpen(false);
-                        }}
-                      >
-                        Sophos MDR
-                      </Link>
-                    </div>
-                  )}
+                  </Link>
 
                   <Link
                     href="/solutions/storene"
@@ -601,8 +527,8 @@ export default function Navbar() {
                 href="/support-ticket"
                 className="block px-3 py-2 rounded-md text-base font-semibold mt-2"
                 style={{
-                  backgroundColor: colors.primary,
-                  color: '#FFFFFF',
+                  backgroundColor: isScrolled ? colors.primary : (!isHomePage ? '#FFFFFF' : colors.primary),
+                  color: isScrolled ? '#FFFFFF' : (!isHomePage ? colors.primary : '#FFFFFF'),
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >
