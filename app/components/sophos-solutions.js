@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { colors } from './root';
 import sophosLogo from '../assets/Sophos-logo.png';
+import sophosCentralImage from '../assets/sophos-central-thumbnail.webp';
 import sophosMdrImage from '../assets/solutions-image/sophos-mdr.png';
 import sophosEndpointImage from '../assets/solutions-image/sophos-endpoint.png';
 import sophosFirewallImage from '../assets/solutions-image/sophos-firewall.png';
@@ -185,11 +186,11 @@ export default function SophosSolutions() {
             href="https://www.sophos.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200 hover:opacity-90 hover:shadow-lg"
+            className="group/btn inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98]"
             style={{ backgroundColor: colors.primary }}
           >
             Learn More
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -256,10 +257,10 @@ export default function SophosSolutions() {
                     {/* CTA Button */}
                     <div className="flex items-center justify-end mt-auto">
                       <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 group-hover:rotate-[-45deg] transition-all duration-300"
+                        className="w-10 h-10 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 group-hover:rotate-[-45deg] group-hover:shadow-lg group-hover:-translate-y-0.5 transition-all duration-300 ease-out"
                         style={{ backgroundColor: colors.primary }}
                       >
-                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -316,9 +317,9 @@ export default function SophosSolutions() {
                       </p>
                       
                       {/* Learn More Link */}
-                      <div className="flex items-center gap-1 text-sm font-semibold group-hover:gap-2 transition-all duration-300" style={{ color: colors.accent }}>
-                        <span>Learn More</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="inline-flex items-center gap-1 text-sm font-semibold transition-all duration-300 ease-out group-hover:gap-3" style={{ color: colors.accent }}>
+                        <span className="relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-current after:transition-all after:duration-300 group-hover:after:w-full">Learn More</span>
+                        <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -334,52 +335,59 @@ export default function SophosSolutions() {
       {/* Sophos Central - One Vendor One View */}
       <section className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <header className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">
+          <header className="text-center mb-14">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight">
               One vendor. One view.
             </h2>
-            <p className="text-gray-600 text-lg">
+            <p className="text-gray-600 text-lg md:text-xl">
               Manage all your Sophos products in one place.
             </p>
           </header>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left Column - Branding & Content */}
             <div>
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-2xl font-bold" style={{ color: colors.primary }}>SOPHOS</span>
-                <span className="w-px h-8 bg-gray-300" />
-                <span className="text-xl font-semibold" style={{ color: colors.accent }}>CENTRAL</span>
+              <div className="flex items-center gap-4 mb-8">
+                <Image
+                  src={sophosLogo}
+                  alt="Sophos"
+                  width={140}
+                  height={48}
+                  className="h-10 w-auto object-contain"
+                />
+                <span className="w-px h-10 bg-gray-300" aria-hidden="true" />
+                <span className="text-2xl md:text-3xl font-bold tracking-tight" style={{ color: colors.accent }}>
+                  CENTRAL
+                </span>
               </div>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <p className="text-gray-600 leading-relaxed mb-8 text-base md:text-lg">
                 Sophos Central is the open AI-native platform that delivers unrivalled protection for customers and enhances the power of defenders. Controlling all your Sophos solutions through a unified management console. Real-time information sharing between products and automated incident response makes cybersecurity easy.
               </p>
               <Link
                 href="https://www.sophos.com/products/sophos-central"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200 hover:opacity-90"
-                style={{ backgroundColor: colors.primary }}
+                className="group/btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98]"
+                style={{
+                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
+                }}
               >
                 Learn More
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
-            <div className="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ backgroundColor: colors.primary }}
-              >
-                <div className="text-center text-white p-8">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full border-2 border-white/30 flex items-center justify-center">
-                    <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <p className="font-semibold text-lg">Sophos Central</p>
-                  <p className="text-sm text-white/80">Unified Management Console</p>
-                </div>
-              </div>
+            {/* Right Column - Image */}
+            <div className="relative aspect-[4/3] lg:aspect-video rounded-2xl overflow-hidden shadow-xl">
+              <Image
+                src={sophosCentralImage}
+                alt="Sophos Central - Unified management console"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority={false}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
           </div>
         </div>
