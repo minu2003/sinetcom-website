@@ -336,7 +336,7 @@ export default function SophosSolutions() {
       <section className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <header className="text-center mb-14">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2 text-gray-900 tracking-tight">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 tracking-tight" style={{ color: colors.primary }}>
               One vendor. One view.
             </h2>
             <p className="text-gray-600 text-lg md:text-xl">
@@ -345,8 +345,8 @@ export default function SophosSolutions() {
           </header>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Column - Branding & Content */}
-            <div>
-              <div className="flex items-center gap-4 mb-8">
+            <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+              <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
                 <Image
                   src={sophosLogo}
                   alt="Sophos"
