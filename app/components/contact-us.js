@@ -13,6 +13,16 @@ const fadeIn = {
   transition: { duration: 0.5 },
 };
 
+const headlineContact = "Let's talk";
+const letterVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (delayIndex) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.4 + delayIndex * 0.025, duration: 0.25 },
+  }),
+};
+
 export default function ContactUs() {
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
   const [formState, setFormState] = useState({
@@ -87,7 +97,7 @@ export default function ContactUs() {
   return (
     <div className="pt-[var(--navbar-height,80px)]">
       {/* Hero: Let's talk + subtitle on image */}
-      <section className="relative w-full min-h-[40vh] sm:min-h-[50vh] flex items-center justify-center overflow-hidden">
+      <section className="relative w-full min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src={contactUsImage}
@@ -99,20 +109,39 @@ export default function ContactUs() {
           />
           <div className="absolute inset-0 bg-black/50 z-10" />
         </div>
-        <div className="relative z-20 text-center px-4 py-16 sm:py-24">
-          <motion.h1
-            initial={fadeIn.initial}
-            animate={fadeIn.animate}
-            transition={fadeIn.transition}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight"
+        <div className="relative z-20 w-full max-w-4xl mx-auto text-center px-4 pt-4 pb-16 sm:pt-6 sm:pb-24">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-block px-4 py-2 mb-6 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
           >
-            Let&apos;s talk
-          </motion.h1>
+            Get in touch
+          </motion.span>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight overflow-hidden block">
+            <span className="block">
+              {headlineContact.split('').map((char, i) => (
+                <motion.span
+                  key={`contact-${i}`}
+                  custom={i}
+                  variants={letterVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="inline-block"
+                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+          </h1>
+
           <motion.p
-            initial={fadeIn.initial}
-            animate={fadeIn.animate}
-            transition={{ ...fadeIn.transition, delay: 0.1 }}
-            className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed"
           >
             Get in touch with our team—we&apos;re here to help with your cybersecurity and IT needs.
           </motion.p>

@@ -57,7 +57,7 @@ const additionalSolutions = [
   {
     id: '1',
     title: 'Vulnerability Management',
-    description: 'Sophos Managed Risk — powered by Tenable — is a managed service that identifies high-priority cybersecurity exposures in your environment, so action can be taken to prevent attacks before they disrupt your business.',
+    description: 'Sophos Managed Risk powered by Tenable is a managed service that identifies high-priority cybersecurity exposures in your environment, so action can be taken to prevent attacks before they disrupt your business.',
     href: 'https://www.sophos.com/en-us/products/managed-risk',
     image: vulnerabilityManagementImage
   },
