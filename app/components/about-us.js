@@ -73,8 +73,21 @@ export default function AboutUs() {
       </section>
 
       {/* Vision & Mission */}
-      <section className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-32 h-64 opacity-5 rounded-r-full" style={{ background: colors.primary }} />
+      <section className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+        <div
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-32 h-64 rounded-r-full"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='2' fill='%23274794' fill-opacity='0.14'/%3E%3C/svg%3E")`,
+            backgroundColor: 'transparent',
+          }}
+        />
+        <div
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-32 h-64 rounded-l-full"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='6' cy='6' r='2' fill='%23274794' fill-opacity='0.14'/%3E%3C/svg%3E")`,
+            backgroundColor: 'transparent',
+          }}
+        />
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16">
             <motion.div
@@ -99,7 +112,7 @@ export default function AboutUs() {
               initial={{ opacity: 0, x: 24 }}
               animate={visionInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="group"
+              className="group pt-8 mt-8 border-t border-gray-300 md:pt-0 md:mt-0 md:border-t-0 md:border-l md:pl-12"
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg" style={{ background: colors.accent }}>

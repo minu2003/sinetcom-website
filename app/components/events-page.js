@@ -173,7 +173,7 @@ export default function EventsPage() {
               className="px-6 py-4 font-semibold text-white transition-colors hover:opacity-90"
               style={{ backgroundColor: colors.primary }}
             >
-              Go
+              Search
             </button>
           </div>
         </div>
