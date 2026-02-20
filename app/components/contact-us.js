@@ -95,21 +95,21 @@ export default function ContactUs() {
   const mapDirectionsUrl = 'https://www.google.com/maps/search/?api=1&query=No+58+42nd+Lane+Colombo+00600+Sri+Lanka';
 
   return (
-    <div className="pt-[var(--navbar-height,80px)]">
-      {/* Hero: Let's talk + subtitle on image */}
-      <section className="relative w-full min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <div>
+      {/* Hero: full-screen image with navbar overlay (like home) */}
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src={contactUsImage}
             alt="Contact us"
             fill
-            className="object-cover"
+            className="object-cover object-center"
             sizes="100vw"
             priority
           />
           <div className="absolute inset-0 bg-black/50 z-10" />
         </div>
-        <div className="relative z-20 w-full max-w-4xl mx-auto text-center px-4 pt-4 pb-16 sm:pt-6 sm:pb-24">
+        <div className="relative z-20 w-full max-w-4xl mx-auto text-center px-4 py-16 sm:py-24">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

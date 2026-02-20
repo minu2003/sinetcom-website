@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { colors } from './root';
 
 const headlineLine1 = 'Next Generation';
-const headlineLine2 = 'Cyber Security Starts Here';
+const headlineLine2 = 'Cybersecurity Starts Here';
 
 const letterVariants = {
   hidden: { opacity: 0, y: 24 },

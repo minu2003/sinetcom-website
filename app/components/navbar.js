@@ -11,6 +11,7 @@ import { colors } from './root';
 export default function Navbar() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+  const isContactPage = pathname === '/contact';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [huaweiOpen, setHuaweiOpen] = useState(false);
@@ -71,8 +72,8 @@ export default function Navbar() {
     if (isScrolled) {
       return 'bg-white'; // White when scrolled on any page
     }
-    if (isHomePage) {
-      return 'bg-transparent'; // Transparent on home page
+    if (isHomePage || isContactPage) {
+      return 'bg-transparent'; // Transparent on home and contact (hero image behind)
     }
     return ''; // Theme color on other pages (set via style)
   };
@@ -83,7 +84,7 @@ export default function Navbar() {
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       };
     }
-    if (isHomePage) {
+    if (isHomePage || isContactPage) {
       return {
         boxShadow: '0 2px 4px -1px rgba(255, 255, 255, 0.15)',
       };
@@ -100,7 +101,7 @@ export default function Navbar() {
     if (isScrolled) {
       return 'text-black hover:bg-gray-100 hover:text-gray-800'; // Black when scrolled
     }
-    // White text when navbar has primary color (other pages) or transparent (home page)
+    // White text when transparent (home/contact) or primary background (other pages)
     return 'text-white hover:bg-white/20 hover:text-gray-200';
   };
 
@@ -108,8 +109,42 @@ export default function Navbar() {
     if (isScrolled) {
       return 'text-black group-hover:bg-gray-100 group-hover:text-gray-800'; // Black when scrolled
     }
-    // White text when navbar has primary color (other pages) or transparent (home page)
     return 'text-white group-hover:bg-white/20 group-hover:text-gray-200';
+  };
+
+  // Dropdown box style: match navbar state (transparent = dark glass, blue = primary glass, white = light)
+  const getDropdownStyle = () => {
+    if (isScrolled) {
+      return {
+        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.08)',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+      };
+    }
+    if (isHomePage || isContactPage) {
+      return {
+        backgroundColor: 'rgba(20, 27, 36, 0.85)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
+      };
+    }
+    // Blue navbar (other pages at top)
+    return {
+      backgroundColor: 'rgba(39, 71, 148, 0.95)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.15)',
+    };
+  };
+
+  const getDropdownItemClass = () => {
+    if (isScrolled) {
+      return 'text-gray-900 hover:bg-gray-100';
+    }
+    return 'text-white hover:bg-white/10';
   };
 
   return (
@@ -182,16 +217,12 @@ export default function Navbar() {
               {solutionsOpen && (
                 <div 
                   className="absolute left-0 mt-2 w-80 rounded-lg py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200"
-                  style={{
-                    backgroundColor: 'rgba(20, 27, 36, 0.85)',
-                    backdropFilter: 'blur(10px)',
-                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-                  }}
+                  style={getDropdownStyle()}
                 >
                   {/* Sophos Solutions */}
                   <Link
                     href="/sophos"
-                    className="w-full flex items-center gap-3 py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                    className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                     onClick={() => setSolutionsOpen(false)}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +234,7 @@ export default function Navbar() {
                   {/* Storene Solutions */}
                   <Link
                     href="/solutions/storene"
-                    className="w-full flex items-center gap-3 py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                    className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -218,7 +249,7 @@ export default function Navbar() {
                     onMouseLeave={handleHuaweiLeave}
                   >
                     <button
-                      className="w-full flex items-center justify-between py-3 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                      className={`w-full flex items-center justify-between py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                       aria-expanded={huaweiOpen}
                     >
                       <div className="flex items-center gap-3">
@@ -249,15 +280,11 @@ export default function Navbar() {
                     {huaweiOpen && (
                       <div 
                         className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
-                        style={{
-                          backgroundColor: 'rgba(20, 27, 36, 0.85)',
-                          backdropFilter: 'blur(10px)',
-                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2)',
-                        }}
+                        style={getDropdownStyle()}
                       >
                         <Link
                           href="/solutions/huawei/ups"
-                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                          className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -266,7 +293,7 @@ export default function Navbar() {
                         </Link>
                         <Link
                           href="/solutions/huawei/smart-server-rack"
-                          className="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-white/10 transition-colors duration-150 text-white"
+                          className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -322,8 +349,8 @@ export default function Navbar() {
               href="/support-ticket"
               className="px-4 py-2 text-base font-semibold rounded-md transition-all duration-200 hover:shadow-lg hover:scale-105"
               style={{
-                backgroundColor: isScrolled ? colors.primary : (!isHomePage ? '#FFFFFF' : colors.primary),
-                color: isScrolled ? '#FFFFFF' : (!isHomePage ? colors.primary : '#FFFFFF'),
+                backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
+                color: isScrolled ? '#FFFFFF' : (!isHomePage && !isContactPage ? colors.primary : '#FFFFFF'),
               }}
               onClick={() => setSolutionsOpen(false)}
             >
@@ -335,7 +362,7 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md transition-colors duration-200 ${isScrolled ? 'text-black hover:bg-gray-100' : 'text-white hover:bg-white/20'}`}
+              className={`inline-flex items-center justify-center p-2 rounded-md transition-colors duration-200 ${isScrolled ? 'text-black hover:bg-gray-100' : 'text-white hover:bg-white/20 hover:text-gray-200'}`}
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle menu"
             >
@@ -527,8 +554,8 @@ export default function Navbar() {
                 href="/support-ticket"
                 className="block px-3 py-2 rounded-md text-base font-semibold mt-2"
                 style={{
-                  backgroundColor: isScrolled ? colors.primary : (!isHomePage ? '#FFFFFF' : colors.primary),
-                  color: isScrolled ? '#FFFFFF' : (!isHomePage ? colors.primary : '#FFFFFF'),
+                  backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
+                  color: isScrolled ? '#FFFFFF' : (!isHomePage && !isContactPage ? colors.primary : '#FFFFFF'),
                 }}
                 onClick={() => setMobileMenuOpen(false)}
               >
