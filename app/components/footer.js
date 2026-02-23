@@ -15,7 +15,7 @@ export default function Footer() {
     { name: 'Events', href: '/events' },
     { name: 'Blogs', href: '/blogs' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Support Ticket', href: '/support-ticket' },
+    { name: 'Support Center', href: '/support' },
   ];
 
   const solutions = [

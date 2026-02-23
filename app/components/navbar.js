@@ -239,7 +239,7 @@ export default function Navbar() {
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    <span className="text-base font-medium">Storene Solutions</span>
+                    <span className="text-base font-medium">Storone Solutions</span>
                   </Link>
 
                   {/* Huawei Solutions */}
@@ -346,7 +346,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/support-ticket"
+              href="/support"
               className="px-4 py-2 text-base font-semibold rounded-md transition-all duration-200 hover:shadow-lg hover:scale-105"
               style={{
                 backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
@@ -551,7 +551,7 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/support-ticket"
+                href="/support"
                 className="block px-3 py-2 rounded-md text-base font-semibold mt-2"
                 style={{
                   backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
