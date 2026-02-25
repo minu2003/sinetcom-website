@@ -79,6 +79,7 @@ export default function SupportTicketForm() {
   const [submitted, setSubmitted] = useState(false);
   const [ticketId, setTicketId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
   const textareaRef = useRef(null);
   const dropdownRef = useRef(null);
 
@@ -161,16 +162,35 @@ export default function SupportTicketForm() {
     return !Object.values(next).some(Boolean);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!runValidation()) return;
-    const id = `ST-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    setTicketId(id);
-    setSubmitted(true);
-    setShowModal(true);
+
+    setSubmitError(null);
+
     try {
-      localStorage.removeItem(DRAFT_KEY);
-    } catch (_) {}
+      const res = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setSubmitError(data.error || 'Failed to submit ticket. Please try again.');
+        return;
+      }
+
+      setTicketId(data.ticketId ?? null);
+      setShowModal(true);
+      try {
+        localStorage.removeItem(DRAFT_KEY);
+      } catch (_) {}
+    } catch (err) {
+      setSubmitError(err.message || 'Failed to submit ticket. Please try again.');
+    }
   };
 
   const handleCancel = () => {
@@ -226,26 +246,6 @@ export default function SupportTicketForm() {
               </h2>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">Email <span className="text-red-500">*</span></label>
-                  <div className="relative">
-                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden>
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                    </span>
-                    <input
-                      id="email"
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={(e) => updateForm('email', e.target.value)}
-                      onBlur={() => handleBlur('email')}
-                      placeholder="you@company.com"
-                      className={`${inputBase} ${touched.email && errors.email ? inputError : inputOk}`}
-                      style={{ '--tw-ring-color': touched.email && errors.email ? undefined : colors.primary }}
-                    />
-                  </div>
-                  {touched.email && errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-                </div>
-                <div>
                   <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1.5">Full Name <span className="text-red-500">*</span></label>
                   <div className="relative">
                     <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden>
@@ -264,6 +264,26 @@ export default function SupportTicketForm() {
                     />
                   </div>
                   {touched.fullName && errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">Email <span className="text-red-500">*</span></label>
+                  <div className="relative">
+                    <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" aria-hidden>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </span>
+                    <input
+                      id="email"
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={(e) => updateForm('email', e.target.value)}
+                      onBlur={() => handleBlur('email')}
+                      placeholder="you@company.com"
+                      className={`${inputBase} ${touched.email && errors.email ? inputError : inputOk}`}
+                      style={{ '--tw-ring-color': touched.email && errors.email ? undefined : colors.primary }}
+                    />
+                  </div>
+                  {touched.email && errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div className="sm:col-span-2">
@@ -442,6 +462,12 @@ export default function SupportTicketForm() {
               </div>
             </section>
 
+            {submitError && (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {submitError}
+              </div>
+            )}
+
             <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end pt-4">
               <button type="button" onClick={handleCancel} className="px-6 py-3 rounded-xl font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-200 shadow-sm">
                 Cancel
@@ -463,7 +489,7 @@ export default function SupportTicketForm() {
               </div>
               <h3 className="text-xl font-bold text-gray-900">Ticket Submitted</h3>
               <p className="text-gray-500 mt-2">We&apos;ll get back to you soon.</p>
-              <p className="mt-4 font-mono text-lg font-semibold tracking-wide" style={{ color: colors.primary }}>{ticketId}</p>
+              <p className="mt-4 font-mono text-lg font-semibold tracking-wide break-all" style={{ color: colors.primary }}>{ticketId ?? '—'}</p>
               <p className="text-xs text-gray-400 mt-1">Save this ID for reference</p>
               <div className="mt-6 flex gap-3 justify-center">
                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">Close</button>
@@ -476,3 +502,4 @@ export default function SupportTicketForm() {
     </div>
   );
 }
+  
