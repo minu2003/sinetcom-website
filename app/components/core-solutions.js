@@ -20,14 +20,14 @@ export default function CoreSolutions() {
           tagline: 'THINK RESULTS™',
           description: 'AUTHORIZED DISTRIBUTOR FOR BACKUP SOLUTIONS',
           logo: storoneLogo,
-          href: '/solutions/storene',
+          href: '/solutions?filter=backup',
         },
         {
           name: 'Huawei',
           tagline: '',
           description: 'AUTHORIZED PARTNER FOR HUAWEI',
           logo: huaweiLogo,
-          href: '/solutions/huawei',
+          href: '/solutions',
         },
       ];
 

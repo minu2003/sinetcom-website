@@ -316,7 +316,7 @@ export default function SophosSolutions() {
                         {solution.description}
                       </p>
                       
-                      {/* Learn More Link */}
+                      {/* Learn More Link – accent color for link-style consistency */}
                       <div className="inline-flex items-center gap-1 text-sm font-semibold transition-all duration-300 ease-out group-hover:gap-3" style={{ color: colors.accent }}>
                         <span className="relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-current after:transition-all after:duration-300 group-hover:after:w-full">Learn More</span>
                         <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,10 +366,8 @@ export default function SophosSolutions() {
                 href="https://www.sophos.com/products/sophos-central"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group/btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl active:scale-[0.98]"
-                style={{
-                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                }}
+                className="group/btn inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-semibold text-white transition-all duration-300 ease-out hover:scale-[1.02] hover:-translate-y-0.5 hover:shadow-xl hover:opacity-95 active:scale-[0.98]"
+                style={{ backgroundColor: colors.primary }}
               >
                 Learn More
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

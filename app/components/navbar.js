@@ -233,7 +233,7 @@ export default function Navbar() {
 
                   {/* Storene Solutions */}
                   <Link
-                    href="/solutions/storene"
+                    href="/solutions?filter=backup"
                     className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,7 +283,7 @@ export default function Navbar() {
                         style={getDropdownStyle()}
                       >
                         <Link
-                          href="/solutions/huawei/ups"
+                          href="/solutions?filter=ups"
                           className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -292,7 +292,7 @@ export default function Navbar() {
                           <span className="text-base">UPS Solutions</span>
                         </Link>
                         <Link
-                          href="/solutions/huawei/smart-server-rack"
+                          href="/solutions?filter=smart-server-rack"
                           className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -448,7 +448,7 @@ export default function Navbar() {
                   </Link>
 
                   <Link
-                    href="/solutions/storene"
+                    href="/solutions?filter=backup"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
@@ -486,7 +486,7 @@ export default function Navbar() {
                   {huaweiOpen && (
                     <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
                       <Link
-                        href="/solutions/huawei/ups"
+                        href="/solutions?filter=ups"
                         className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                         style={{ color: colors.secondary }}
                         onClick={() => {
@@ -498,7 +498,7 @@ export default function Navbar() {
                         UPS Solutions
                       </Link>
                       <Link
-                        href="/solutions/huawei/smart-server-rack"
+                        href="/solutions?filter=smart-server-rack"
                         className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                         style={{ color: colors.secondary }}
                         onClick={() => {

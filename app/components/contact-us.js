@@ -25,6 +25,9 @@ const letterVariants = {
 
 export default function ContactUs() {
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitError, setSubmitError] = useState('');
   const [formState, setFormState] = useState({
     firstName: '',
     lastName: '',
@@ -38,13 +41,36 @@ export default function ContactUs() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
+    if (submitStatus) setSubmitStatus(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!acceptedPolicy) return;
-    // TODO: wire to your backend or form service
-    console.log('Submit', { ...formState, acceptedPolicy });
+    setSubmitStatus(null);
+    setSubmitError('');
+    setSending(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setSubmitStatus('error');
+        setSubmitError(data.error || 'Failed to send message. Please try again.');
+        return;
+      }
+      setSubmitStatus('success');
+      setFormState({ firstName: '', lastName: '', email: '', company: '', country: '', contactNumber: '', message: '' });
+      setAcceptedPolicy(false);
+    } catch (err) {
+      setSubmitStatus('error');
+      setSubmitError(err.message || 'Failed to send message. Please try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   const contactInfo = [
@@ -299,16 +325,27 @@ export default function ContactUs() {
                 </label>
               </div>
 
+              {submitStatus === 'success' && (
+                <div className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
+                  Thank you! Your message has been sent. We&apos;ll get back to you soon.
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {submitError}
+                </div>
+              )}
+
               <div>
                 <button
                   type="submit"
-                  disabled={!acceptedPolicy}
+                  disabled={!acceptedPolicy || sending}
                   className="w-full sm:w-auto min-w-[180px] px-8 py-4 text-base font-semibold rounded-lg text-white transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-offset-2"
                   style={{
                     backgroundColor: acceptedPolicy ? colors.primary : colors.primary,
                   }}
                 >
-                  Send
+                  {sending ? 'Sending...' : 'Send'}
                 </button>
               </div>
             </form>

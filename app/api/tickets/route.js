@@ -1,4 +1,5 @@
 import { createServerSupabase } from '@/lib/supabase-server';
+import { sendNewTicketNotification } from '@/lib/email';
 
 export async function POST(req) {
   try {
@@ -24,6 +25,19 @@ export async function POST(req) {
     if (error) {
       return Response.json({ error: error.message }, { status: 500 });
     }
+
+    // Notify minuriviranga@gmail.com
+    sendNewTicketNotification({
+      ticketNumber,
+      email: body.email,
+      fullName: body.fullName,
+      phone: body.phone ?? null,
+      phoneExt: body.phoneExt ?? null,
+      note: body.note ?? null,
+      category: body.helpTopic,
+      issueSummary: body.issueSummary,
+      description: body.detailedDescription,
+    }).catch((err) => console.error('Ticket notification email failed:', err));
 
     return Response.json({ ticketId: ticketNumber });
   } catch (err) {

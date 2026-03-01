@@ -94,11 +94,11 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
-          <Link href="/solutions/sophos">
+          <Link href="/solutions">
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-white text-white hover:bg-white hover:text-gray-900 transition-colors duration-200 min-w-[180px] text-center"
+              className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-white bg-transparent text-white hover:bg-white hover:text-gray-900 transition-colors duration-200 min-w-[180px] text-center"
             >
               View Solutions
             </motion.span>
@@ -107,7 +107,7 @@ export default function Hero() {
             <motion.span
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-transparent text-white transition-colors duration-200 min-w-[180px] text-center"
+              className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-transparent text-white transition-colors duration-200 min-w-[180px] text-center hover:opacity-90"
               style={{ backgroundColor: colors.primary }}
             >
               Contact Us
