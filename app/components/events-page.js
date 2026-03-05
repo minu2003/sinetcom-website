@@ -24,13 +24,13 @@ const TIME_OPTIONS = {
 };
 
 // Placeholder events – replace with real data or API. Each has type + when (future/past)
-const INITIAL_EVENTS = [
-  { id: 1, title: 'Sinetcom Cyber Security Summit 2026', type: 'customer', when: 'future', dateStart: '05/10/2026', dateEnd: '06/10/2026', tag: 'FUTURE EVENT', slug: 'cyber-security-summit-2026' },
-  { id: 2, title: 'Partner Enablement Workshop', type: 'partner', when: 'future', dateStart: '15/11/2026', dateEnd: '16/11/2026', tag: 'FUTURE EVENT', slug: 'partner-enablement-workshop' },
-  { id: 3, title: 'Sophos Solutions Webinar Series', type: 'webinar', when: 'future', dateStart: '20/12/2026', dateEnd: '20/12/2026', tag: 'WEBINAR', slug: 'sophos-webinar-series' },
-  { id: 4, title: 'StorONE Backup Best Practices', type: 'webinar', when: 'past', dateStart: '08/01/2026', dateEnd: '08/01/2026', tag: 'WEBINAR', slug: 'storone-backup-webinar' },
-  { id: 5, title: 'Enterprise IT Roundtable', type: 'customer', when: 'past', dateStart: '22/02/2026', dateEnd: '22/02/2026', tag: 'PAST EVENT', slug: 'enterprise-it-roundtable' },
-  { id: 6, title: 'Channel Partner Meetup', type: 'partner', when: 'future', dateStart: '14/03/2026', dateEnd: '15/03/2026', tag: 'FUTURE EVENT', slug: 'channel-partner-meetup' },
+export const INITIAL_EVENTS = [
+  { id: 1, title: 'Sinetcom Cyber Security Summit 2026', type: 'customer', when: 'future', dateStart: '05/10/2026', dateEnd: '06/10/2026', tag: 'FUTURE EVENT', slug: 'cyber-security-summit-2026', image: eventHeroImage },
+  { id: 2, title: 'Partner Enablement Workshop', type: 'partner', when: 'future', dateStart: '15/11/2026', dateEnd: '16/11/2026', tag: 'FUTURE EVENT', slug: 'partner-enablement-workshop', image: eventHeroImage },
+  { id: 3, title: 'Sophos Solutions Webinar Series', type: 'webinar', when: 'future', dateStart: '20/12/2026', dateEnd: '20/12/2026', tag: 'WEBINAR', slug: 'sophos-webinar-series', image: eventHeroImage },
+  { id: 4, title: 'StorONE Backup Best Practices', type: 'webinar', when: 'past', dateStart: '08/01/2026', dateEnd: '08/01/2026', tag: 'WEBINAR', slug: 'storone-backup-webinar', image: eventHeroImage },
+  { id: 5, title: 'Enterprise IT Roundtable', type: 'customer', when: 'past', dateStart: '22/02/2026', dateEnd: '22/02/2026', tag: 'PAST EVENT', slug: 'enterprise-it-roundtable', image: eventHeroImage },
+  { id: 6, title: 'Channel Partner Meetup', type: 'partner', when: 'future', dateStart: '14/03/2026', dateEnd: '15/03/2026', tag: 'FUTURE EVENT', slug: 'channel-partner-meetup', image: eventHeroImage },
 ];
 
 const SORT_OPTIONS = [
@@ -291,11 +291,10 @@ export default function EventsPage() {
                           key={page}
                           type="button"
                           onClick={() => setCurrentPage(page)}
-                          className={`w-10 h-10 rounded-lg font-medium transition-colors ${
-                            currentPage === page
-                              ? 'text-white'
-                              : 'border border-gray-300 hover:bg-gray-100'
-                          }`}
+                          className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
+                            ? 'text-white'
+                            : 'border border-gray-300 hover:bg-gray-100'
+                            }`}
                           style={currentPage === page ? { backgroundColor: colors.primary } : {}}
                         >
                           {page}

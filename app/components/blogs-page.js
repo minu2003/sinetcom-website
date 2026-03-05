@@ -8,7 +8,7 @@ import { colors } from './root';
 import blogHeroImage from '../assets/blog.jpg';
 
 // Placeholder blogs – replace with real data or API
-const INITIAL_BLOGS = [
+export const INITIAL_BLOGS = [
   { id: 1, title: 'Next-Generation Cybersecurity: What You Need to Know in 2026', slug: 'next-gen-cybersecurity-2026', category: 'Cybersecurity', excerpt: 'Explore the latest trends in enterprise security and how Sophos solutions are evolving to protect modern businesses.', date: 'Feb 10, 2026', readTime: '5 min read' },
   { id: 2, title: 'Data Backup Best Practices for Enterprise', slug: 'data-backup-best-practices', category: 'Data Center', excerpt: 'Learn how StorONE and modern backup strategies help organizations achieve better resilience and cost optimization.', date: 'Feb 5, 2026', readTime: '4 min read' },
   { id: 3, title: 'Digital Transformation: People, Process, and Technology', slug: 'digital-transformation-guide', category: 'Industry', excerpt: 'How Sinetcom helps businesses align people, processes, and technology for successful digital transformation.', date: 'Jan 28, 2026', readTime: '6 min read' },
@@ -42,7 +42,7 @@ function BlogCard({ blog, index }) {
           <p className="text-gray-600 text-base leading-relaxed line-clamp-2 mb-4 flex-1">
             {blog.excerpt}
           </p>
-          <span className="inline-flex items-center gap-2 text-sm font-semibold" style={{ color: colors.primary }}>
+          <span className="inline-flex items-center gap-2 text-sm font-semibold group-hover:underline decoration-2 underline-offset-2" style={{ color: colors.primary }}>
             Read more
             <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </span>
@@ -92,7 +92,7 @@ export default function BlogsPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}

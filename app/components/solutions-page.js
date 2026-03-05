@@ -4,8 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { colors } from './root';
 import SophosSolutions from './sophos-solutions';
+
+import snapshotsImg from '../assets/solution/snapshots.png';
+import storageImg from '../assets/solution/storage.png';
+import raidImg from '../assets/solution/Raid.png';
+
 
 const CATEGORY_LABELS = {
   backup: 'Backup',
@@ -21,22 +27,22 @@ const FILTERS = [
 ];
 
 const BACKUP_SOLUTIONS = [
-  { id: 'better-snapshots', category: 'backup', title: 'Better Snapshots', description: 'Snapshot storage systems for data protection and capacity reduction. Efficient, space-saving snapshots that integrate with your backup strategy.', href: '/contact' },
-  { id: 'better-storage', category: 'backup', title: 'Better Storage', description: 'Storage management, upgrades, auto-tiering, and integration with enterprise storage platforms. Optimize capacity and performance across your infrastructure.', href: '/contact' },
-  { id: 'better-raid', category: 'backup', title: 'Better Raid', description: 'Data protection from media failure with various RAID levels and efficient rebuilding. Reliable storage with minimal overhead.', href: '/contact' },
+  { id: 'better-snapshots', category: 'backup', title: 'Better Snapshots', description: 'Snapshot storage systems for data protection and capacity reduction. Efficient, space-saving snapshots that integrate with your backup strategy.', href: '/contact', image: snapshotsImg },
+  { id: 'better-storage', category: 'backup', title: 'Better Storage', description: 'Storage management, upgrades, auto-tiering, and integration with enterprise storage platforms. Optimize capacity and performance across your infrastructure.', href: '/contact', image: storageImg },
+  { id: 'better-raid', category: 'backup', title: 'Better Raid', description: 'Data protection from media failure with various RAID levels and efficient rebuilding. Reliable storage with minimal overhead.', href: '/contact', image: raidImg },
 ];
 
 const UPS_SOLUTIONS = [
-  { id: 'ups2000-g', category: 'ups', title: 'UPS2000-G Series (6-10kVA)', description: 'Online double conversion technology, high efficiency, compact design, and mobile app communication. Multiple model specifications for small to medium deployments.', href: '/contact' },
-  { id: 'fusionpower9000', category: 'ups', title: 'FusionPower9000', description: 'Integrated full-power UPS for data centers with high-density components, intelligent features, and enhanced security for critical infrastructure.', href: '/contact' },
-  { id: 'ups5000-a-30-120', category: 'ups', title: 'FusionPower Series UPS5000-A-(30-120KVA)', description: 'High-efficiency power supply with intelligent monitoring and compact design. Ideal for medium to large data center and facility applications.', href: '/contact' },
-  { id: 'ups5000-a-geb-800', category: 'ups', title: 'FusionPower Series UPS5000-A-GEB-(800KVA)', description: 'Efficient pure online dual conversion UPS with high power density and continuous power supply for enterprise and data center environments.', href: '/contact' },
+  { id: 'ups2000-g', category: 'ups', title: 'UPS2000-G Series (6-10kVA)', description: 'Online double conversion technology, high efficiency, compact design, and mobile app communication. Multiple model specifications for small to medium deployments.', href: '/contact', image: null },
+  { id: 'fusionpower9000', category: 'ups', title: 'FusionPower9000', description: 'Integrated full-power UPS for data centers with high-density components, intelligent features, and enhanced security for critical infrastructure.', href: '/contact', image: null },
+  { id: 'ups5000-a-30-120', category: 'ups', title: 'FusionPower Series UPS5000-A-(30-120KVA)', description: 'High-efficiency power supply with intelligent monitoring and compact design. Ideal for medium to large data center and facility applications.', href: '/contact', image: null },
+  { id: 'ups5000-a-geb-800', category: 'ups', title: 'FusionPower Series UPS5000-A-GEB-(800KVA)', description: 'Efficient pure online dual conversion UPS with high power density and continuous power supply for enterprise and data center environments.', href: '/contact', image: null },
 ];
 
 const SMART_SERVER_RACK_SOLUTIONS = [
-  { id: 'fusionmodule6000', category: 'smart-server-rack', title: 'FusionModule6000 Integrated Cooling Solution', description: 'Integrated modular data center solution with high integration, power density, and smart control for rapid deployment and efficient operations.', href: '/contact' },
-  { id: 'fusionmodule800', category: 'smart-server-rack', title: 'FusionModule800', description: 'Modular data center with flexible deployment and smart management. Scalable design for growing IT and facility needs.', href: '/contact' },
-  { id: 'fusionmodule2000', category: 'smart-server-rack', title: 'FusionModule2000 Smart Modular Data Center', description: 'Smart modular data center solution for rapid deployment, high density, and intelligent monitoring. Built for reliability and ease of expansion.', href: '/contact' },
+  { id: 'fusionmodule6000', category: 'smart-server-rack', title: 'FusionModule6000 Integrated Cooling Solution', description: 'Integrated modular data center solution with high integration, power density, and smart control for rapid deployment and efficient operations.', href: '/contact', image: null },
+  { id: 'fusionmodule800', category: 'smart-server-rack', title: 'FusionModule800', description: 'Modular data center with flexible deployment and smart management. Scalable design for growing IT and facility needs.', href: '/contact', image: null },
+  { id: 'fusionmodule2000', category: 'smart-server-rack', title: 'FusionModule2000 Smart Modular Data Center', description: 'Smart modular data center solution for rapid deployment, high density, and intelligent monitoring. Built for reliability and ease of expansion.', href: '/contact', image: null },
 ];
 
 const ALL_SOLUTIONS = [...BACKUP_SOLUTIONS, ...UPS_SOLUTIONS, ...SMART_SERVER_RACK_SOLUTIONS];
@@ -51,8 +57,13 @@ function SolutionCard({ item, index }) {
     >
       <Link href={item.href} className="block flex-1 flex flex-col">
         <div className="relative aspect-[16/10] bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-          <div className="absolute inset-0 opacity-60 group-hover:scale-105 transition-transform duration-500" style={{ background: `linear-gradient(135deg, ${colors.primary}18 0%, ${colors.accent}12 50%, transparent 100%)` }} />
-          <span className="absolute top-4 left-4 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide rounded-full text-white shadow-sm" style={{ backgroundColor: colors.primary }}>{categoryLabel}</span>
+          {item.image ? (
+            <Image src={item.image} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+          ) : (
+            <div className="absolute inset-0 opacity-60 group-hover:scale-105 transition-transform duration-500" style={{ background: `linear-gradient(135deg, ${colors.primary}18 0%, ${colors.accent}12 50%, transparent 100%)` }} />
+          )}
+          <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+          <span className="absolute top-4 left-4 z-10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wide rounded-full text-white shadow-sm" style={{ backgroundColor: colors.primary }}>{categoryLabel}</span>
         </div>
         <div className="p-6 flex-1 flex flex-col">
           <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4 line-clamp-2">{item.title}</h3>
