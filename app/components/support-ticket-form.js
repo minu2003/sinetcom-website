@@ -72,12 +72,9 @@ export default function SupportTicketForm() {
   const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-  const [files, setFiles] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownSearch, setDropdownSearch] = useState('');
-  const [isDragging, setIsDragging] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [ticketId, setTicketId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const textareaRef = useRef(null);
@@ -91,14 +88,14 @@ export default function SupportTicketForm() {
         const { helpTopic, issueSummary, ...rest } = parsed;
         setForm((prev) => ({ ...prev, ...rest }));
       }
-    } catch (_) {}
+    } catch (_) { }
   }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       try {
         localStorage.setItem(DRAFT_KEY, JSON.stringify(form));
-      } catch (_) {}
+      } catch (_) { }
     }, 500);
     return () => clearTimeout(timer);
   }, [form]);
@@ -170,24 +167,13 @@ export default function SupportTicketForm() {
     setSubmitError(null);
 
     try {
-      const res = await fetch('/api/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
+      // Mock network delay (osTicket submission will happen here later)
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setSubmitError(data.error || 'Failed to submit ticket. Please try again.');
-        return;
-      }
-
-      setTicketId(data.ticketId ?? null);
       setShowModal(true);
       try {
         localStorage.removeItem(DRAFT_KEY);
-      } catch (_) {}
+      } catch (_) { }
     } catch (err) {
       setSubmitError(err.message || 'Failed to submit ticket. Please try again.');
     }
@@ -196,18 +182,6 @@ export default function SupportTicketForm() {
   const handleCancel = () => {
     if (typeof window !== 'undefined') window.history.back();
   };
-
-  const handleFileSelect = (e) => {
-    setFiles((prev) => [...prev, ...Array.from(e.target.files || [])]);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    setFiles((prev) => [...prev, ...Array.from(e.dataTransfer.files || [])]);
-  };
-
-  const removeFile = (index) => setFiles((prev) => prev.filter((_, i) => i !== index));
 
   const inputBase = 'w-full pl-10 pr-4 py-3 rounded-xl border bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200';
   const inputError = 'border-red-400 focus:ring-red-400/30';
@@ -430,35 +404,6 @@ export default function SupportTicketForm() {
                   </div>
                   {touched.detailedDescription && errors.detailedDescription && <p className="text-red-500 text-sm mt-1">{errors.detailedDescription}</p>}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Attachments (optional)</label>
-                  <div
-                    onDrop={(e) => { e.preventDefault(); setIsDragging(false); setFiles((p) => [...p, ...Array.from(e.dataTransfer.files || [])]); }}
-                    onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                    onDragLeave={() => setIsDragging(false)}
-                    className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors duration-200 ${isDragging ? 'border-gray-400 bg-gray-50' : 'border-gray-200 hover:border-gray-300 bg-gray-50/50'}`}
-                  >
-                    <input type="file" id="file-upload" multiple onChange={handleFileSelect} className="hidden" />
-                    <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-2">
-                      <span className="text-gray-500"><svg className="w-10 h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg></span>
-                      <span className="text-sm font-medium text-gray-600">Drag & drop files or <span className="underline" style={{ color: colors.primary }}>browse</span></span>
-                    </label>
-                  </div>
-                  {files.length > 0 && (
-                    <ul className="mt-3 space-y-2">
-                      {files.map((file, i) => (
-                        <li key={i} className="flex items-center gap-2 py-2 px-3 rounded-lg bg-gray-50 border border-gray-200">
-                          <svg className="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                          <span className="text-sm text-gray-700 truncate flex-1">{file.name}</span>
-                          <span className="text-xs text-gray-500">{(file.size / 1024).toFixed(1)} KB</span>
-                          <button type="button" onClick={() => removeFile(i)} className="p-1 rounded hover:bg-gray-200 text-gray-500 hover:text-red-600 transition-colors" aria-label="Remove file">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
               </div>
             </section>
 
@@ -489,8 +434,6 @@ export default function SupportTicketForm() {
               </div>
               <h3 className="text-xl font-bold text-gray-900">Ticket Submitted</h3>
               <p className="text-gray-500 mt-2">We&apos;ll get back to you soon.</p>
-              <p className="mt-4 font-mono text-lg font-semibold tracking-wide break-all" style={{ color: colors.primary }}>{ticketId ?? '—'}</p>
-              <p className="text-xs text-gray-400 mt-1">Save this ID for reference</p>
               <div className="mt-6 flex gap-3 justify-center">
                 <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors">Close</button>
                 <Link href="/support" className="px-4 py-2 rounded-xl font-semibold text-white transition-colors" style={{ backgroundColor: colors.primary }}>Back to Support Center</Link>
@@ -502,4 +445,3 @@ export default function SupportTicketForm() {
     </div>
   );
 }
-  
