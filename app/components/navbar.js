@@ -148,7 +148,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav 
+    <nav
       className={`w-full transition-all duration-300 ${getNavbarBackground()}`}
       style={getNavbarStyle()}
     >
@@ -156,8 +156,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex-shrink-0 flex-1 mt-3">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="inline-flex items-center hover:opacity-80 transition-opacity duration-200"
               aria-label="Sinetcom Home"
             >
@@ -196,9 +196,8 @@ export default function Navbar() {
               >
                 Our Solutions
                 <svg
-                  className={`w-4 h-4 transition-transform duration-300 ${
-                    solutionsOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`w-4 h-4 transition-transform duration-300 ${solutionsOpen ? 'rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={2}
@@ -215,7 +214,7 @@ export default function Navbar() {
 
               {/* Mega Menu Dropdown */}
               {solutionsOpen && (
-                <div 
+                <div
                   className="absolute left-0 mt-2 w-80 rounded-lg py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200"
                   style={getDropdownStyle()}
                 >
@@ -243,7 +242,7 @@ export default function Navbar() {
                   </Link>
 
                   {/* Huawei Solutions */}
-                  <div 
+                  <div
                     className="relative"
                     onMouseEnter={handleHuaweiEnter}
                     onMouseLeave={handleHuaweiLeave}
@@ -259,9 +258,8 @@ export default function Navbar() {
                         <span className="text-base font-medium">Huawei Solutions</span>
                       </div>
                       <svg
-                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${
-                          huaweiOpen ? 'rotate-90' : ''
-                        }`}
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${huaweiOpen ? 'rotate-90' : ''
+                          }`}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -278,7 +276,7 @@ export default function Navbar() {
 
                     {/* Huawei Submenu */}
                     {huaweiOpen && (
-                      <div 
+                      <div
                         className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
                         style={getDropdownStyle()}
                       >
@@ -345,8 +343,10 @@ export default function Navbar() {
               Contact
             </Link>
 
-            <Link
-              href="/support"
+            <a
+              href="https://support.sinetcomm.com/upload/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2 text-base font-semibold rounded-md transition-all duration-200 hover:shadow-lg hover:scale-105"
               style={{
                 backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
@@ -355,7 +355,7 @@ export default function Navbar() {
               onClick={() => setSolutionsOpen(false)}
             >
               Support Ticket
-            </Link>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -367,9 +367,8 @@ export default function Navbar() {
               aria-label="Toggle menu"
             >
               <svg
-                className={`w-6 h-6 transition-transform duration-300 ${
-                  mobileMenuOpen ? 'rotate-90' : ''
-                }`}
+                className={`w-6 h-6 transition-transform duration-300 ${mobileMenuOpen ? 'rotate-90' : ''
+                  }`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -415,9 +414,8 @@ export default function Navbar() {
               >
                 Our Solutions
                 <svg
-                  className={`w-4 h-4 transition-transform duration-200 ${
-                    solutionsOpen ? 'rotate-180' : ''
-                  }`}
+                  className={`w-4 h-4 transition-transform duration-200 ${solutionsOpen ? 'rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth={2}
@@ -465,9 +463,8 @@ export default function Navbar() {
                   >
                     Huawei Solutions
                     <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        huaweiOpen ? 'rotate-180' : ''
-                      }`}
+                      className={`w-4 h-4 transition-transform duration-200 ${huaweiOpen ? 'rotate-180' : ''
+                        }`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -550,8 +547,10 @@ export default function Navbar() {
                 Contact Us
               </Link>
 
-              <Link
-                href="/support"
+              <a
+                href="https://support.sinetcomm.com/upload/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block px-3 py-2 rounded-md text-base font-semibold mt-2"
                 style={{
                   backgroundColor: isScrolled ? colors.primary : (!isHomePage && !isContactPage ? '#FFFFFF' : colors.primary),
@@ -560,13 +559,13 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Support Ticket
-              </Link>
+              </a>
             </div>
           </div>
         )}
       </div>
     </nav>
 
-    
+
   );
 }

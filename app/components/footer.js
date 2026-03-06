@@ -15,7 +15,7 @@ export default function Footer() {
     { name: 'Events', href: '/events' },
     { name: 'Blogs', href: '/blogs' },
     { name: 'Contact', href: '/contact' },
-    { name: 'Support Center', href: '/support' },
+    { name: 'Support Ticket', href: 'https://support.sinetcomm.com/upload/' },
   ];
 
   const solutions = [
@@ -116,12 +116,23 @@ export default function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
-                  >
-                    {link.name}
-                  </Link>
+                  {link.href.startsWith('http') ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
