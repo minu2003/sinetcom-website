@@ -57,7 +57,7 @@ export default function ChatbotWidget() {
     const el = listRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [open, messages.length]);
+  }, [open, messages.length, sending]);
 
   const send = async () => {
     const text = input.trim();
@@ -69,18 +69,70 @@ export default function ChatbotWidget() {
       { id: `u-${Date.now()}`, role: 'user', text, ts: 'now' },
     ]);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://minuri.app.n8n.cloud/webhook/f43ec7bb-d6a7-4ccd-93b8-9431b4680656/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // We send the current message, and optionally the chat history (messages)
+        body: JSON.stringify({
+          action: 'sendMessage',
+          sessionId: 'user-session-' + Date.now(), // Simple session ID for context if needed
+          chatInput: text
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json().catch(() => ({}));
+
+      // Determine the bot response text based on common n8n webhook output formats
+      let botResponseText = 'Thanks — please wait while we process your request.';
+
+      if (data && data.output) {
+        botResponseText = data.output;
+      } else if (data && data.text) {
+        botResponseText = data.text;
+      } else if (data && data.message) {
+        botResponseText = data.message;
+      } else if (Array.isArray(data) && data[0] && data[0].output) {
+        botResponseText = data[0].output;
+      } else if (Array.isArray(data) && data[0] && data[0].text) {
+        botResponseText = data[0].text;
+      } else if (typeof data === 'string' && data) {
+        botResponseText = data;
+      } else {
+        // Fallback if we can't parse the structure but request was successful
+        console.log("Webhook response:", data);
+        botResponseText = 'Thank you for your message. Our team will get back to you shortly.';
+      }
+
       setMessages((prev) => [
         ...prev,
         {
           id: `a-${Date.now()}`,
           role: 'assistant',
-          text: 'Thanks — I can help route this. For faster help, you can open a support ticket or contact our team.',
+          text: botResponseText,
           ts: 'now',
         },
       ]);
+    } catch (error) {
+      console.error('Error sending message to webhook:', error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `a-${Date.now()}`,
+          role: 'assistant',
+          text: 'Sorry, I am having trouble connecting to the server at the moment. Please try again later.',
+          ts: 'now',
+        },
+      ]);
+    } finally {
       setSending(false);
-    }, 600);
+    }
   };
 
   return (
@@ -106,7 +158,7 @@ export default function ChatbotWidget() {
               </svg>
             </button>
 
-            <div className="rounded-[12px] overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-[#e5e7eb] bg-white flex flex-col font-sans w-full h-full">
+            <div className="rounded-[12px] overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-[#e5e7eb] bg-white flex flex-col font-sans w-full h-[550px]">
               {/* Header */}
               <div className="pt-6 px-5 relative bg-white">
                 <div className="flex flex-col">
@@ -120,9 +172,19 @@ export default function ChatbotWidget() {
 
               {/* Messages */}
               <div ref={listRef} className="px-5 pt-6 pb-2 bg-white max-h-[380px] overflow-y-auto overflow-x-hidden hide-scrollbar flex-1">
-                {messages.map((m) => (
+                {(messages.length > 2 ? messages.slice(2) : messages).map((m) => (
                   <MessageBubble key={m.id} message={m} />
                 ))}
+
+                {sending && (
+                  <div className="flex mb-5">
+                    <div className="bg-[#f0f2f5] rounded-[18px] rounded-bl-[4px] px-[15px] py-[13px] flex items-center justify-center gap-[5px] shadow-sm">
+                      <motion.div className="w-2 h-2 rounded-full bg-[#8b93a0]" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0 }} />
+                      <motion.div className="w-2 h-2 rounded-full bg-[#8b93a0]" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.15 }} />
+                      <motion.div className="w-2 h-2 rounded-full bg-[#8b93a0]" animate={{ y: [0, -5, 0] }} transition={{ duration: 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }} />
+                    </div>
+                  </div>
+                )}
 
                 {/* Quick actions (show if no user messages sent yet) */}
                 {messages.length === 2 && (
