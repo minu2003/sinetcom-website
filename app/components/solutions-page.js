@@ -88,7 +88,10 @@ export default function SolutionsPage() {
     setActiveFilter(validFilter);
   }, [validFilter]);
 
-  const filtered = activeFilter === 'all' ? ALL_SOLUTIONS : ALL_SOLUTIONS.filter((s) => s.category === activeFilter);
+  const handleFilterClick = (filterId) => {
+    setActiveFilter(filterId);
+    window.history.pushState(null, '', filterId === 'all' ? '/solutions' : `/solutions?filter=${filterId}`);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -99,133 +102,89 @@ export default function SolutionsPage() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] } },
   };
 
-  const heroSection = (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-[#0d1a2d] via-[#132542] to-[#0d1a2d]">
-      <div className="absolute inset-0 opacity-25">
-        <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: colors.primary }} />
-        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl" style={{ background: colors.accent }} />
+  const renderCategorySection = (title, items) => {
+    if (items.length === 0) return null;
+    return (
+      <div className="mb-16 last:mb-0">
+        <h2 className="text-3xl font-bold mb-8 pb-2 border-b-[3px] inline-block text-gray-900" style={{ borderColor: colors.accent }}>
+          {title}
+        </h2>
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" variants={containerVariants} initial="hidden" animate="visible">
+          {items.map((item, i) => (
+            <motion.div key={item.id} variants={itemVariants}>
+              <SolutionCard item={item} index={i} />
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-      <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%23274794' fill-opacity='0.12'/%3E%3C/g%3E%3C/svg%3E")` }} />
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="inline-block px-4 py-2 mb-4 text-xs font-semibold uppercase tracking-widest rounded-full border border-white/30 text-white/90">Solutions</motion.span>
-        <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-3">All <span style={{ color: colors.accent }}>Solutions</span></motion.h1>
-        <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-white/85 text-base md:text-lg max-w-2xl">Sophos cybersecurity, StorONE backup, and Huawei infrastructure in one place.</motion.p>
-      </div>
-    </section>
-  );
+    );
+  };
 
   return (
     <div className="pt-[var(--navbar-height,80px)] min-h-screen bg-gray-50">
-      {validFilter === 'all' && (
-        <>
-          {heroSection}
-          <SophosSolutions />
-          <section className="relative w-full py-14 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-            <div className="max-w-7xl mx-auto">
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                <span className="inline-block px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full text-white mb-4" style={{ backgroundColor: colors.primary }}>StorONE</span>
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Backup <span style={{ color: colors.primary }}>Solutions</span></h2>
-                <p className="text-gray-600 max-w-2xl mb-8">Data protection, storage management, and RAID solutions for enterprise backup. Better Snapshots, Better Storage, and Better Raid.</p>
-                <Link href="/solutions?filter=backup" className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:opacity-95 hover:shadow-lg" style={{ backgroundColor: colors.primary }}>
-                  View StorONE Solutions
-                  <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </Link>
-              </motion.div>
-            </div>
-          </section>
-          <section className="relative w-full py-14 md:py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-40 h-80 rounded-l-full opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${colors.primary}15)` }} />
-            <div className="max-w-7xl mx-auto relative z-10">
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                <span className="inline-block px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full text-white mb-4" style={{ backgroundColor: colors.accent }}>Huawei</span>
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Infrastructure <span style={{ color: colors.accent }}>Solutions</span></h2>
-                <p className="text-gray-600 max-w-2xl mb-8">UPS and Smart Server Rack solutions for data centers and critical infrastructure. FusionPower, FusionModule, and modular data center solutions.</p>
-                <Link href="/solutions?filter=ups" className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-200 hover:opacity-95 hover:shadow-lg" style={{ backgroundColor: colors.primary }}>
-                  View Huawei Solutions
-                  <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </Link>
-              </motion.div>
-            </div>
-          </section>
-        </>
-      )}
+      <section className="relative w-full overflow-hidden bg-gradient-to-br from-[#0d1a2d] via-[#132542] to-[#0d1a2d]">
+        <div className="absolute inset-0 opacity-25">
+          <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: colors.primary }} />
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl" style={{ background: colors.accent }} />
+        </div>
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%23274794' fill-opacity='0.12'/%3E%3C/g%3E%3C/svg%3E")` }} />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="inline-block px-4 py-2 mb-4 text-xs font-semibold uppercase tracking-widest rounded-full border border-white/30 text-white/90">Solutions</motion.span>
+          <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }} className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight mb-3">
+            {activeFilter === 'all' && <>All <span style={{ color: colors.accent }}>Solutions</span></>}
+            {activeFilter === 'backup' && 'StorONE Backup'}
+            {(activeFilter === 'ups' || activeFilter === 'smart-server-rack') && 'Huawei Infrastructure'}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-white/85 text-base md:text-lg max-w-2xl">
+            {activeFilter === 'all' && 'Sophos cybersecurity, StorONE backup, and Huawei infrastructure in one place.'}
+            {activeFilter === 'backup' && 'Data protection, storage management, and RAID solutions for enterprise backup.'}
+            {(activeFilter === 'ups' || activeFilter === 'smart-server-rack') && 'UPS and Smart Server Rack solutions for data centers and critical infrastructure.'}
+          </motion.p>
+        </div>
+      </section>
 
-      {validFilter !== 'all' && (
-        <>
-          <section className="relative w-full overflow-hidden bg-gradient-to-br from-[#0d1a2d] via-[#132542] to-[#0d1a2d]">
-            <div className="absolute inset-0 opacity-25">
-              <div className="absolute top-1/4 left-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: colors.primary }} />
-              <div className="absolute bottom-1/4 right-1/4 w-64 h-64 rounded-full blur-3xl" style={{ background: colors.accent }} />
-            </div>
-            <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z' fill='%23274794' fill-opacity='0.12'/%3E%3C/g%3E%3C/svg%3E")` }} />
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-              <Link href="/solutions" className="inline-flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium mb-4">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                All Solutions
-              </Link>
-              <motion.h1 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight">
-                {activeFilter === 'backup' ? 'StorONE Backup' : 'Huawei Infrastructure'}
-              </motion.h1>
-            </div>
-          </section>
-          <section className="relative z-10 -mt-6 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <nav className="flex flex-wrap gap-2 bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-5" aria-label="Filter solutions">
-                {FILTERS.map((f) => (
-                  <button
-                    key={f.id}
-                    onClick={() => setActiveFilter(f.id)}
-                    className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${activeFilter === f.id ? 'text-white shadow-md' : 'text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900'}`}
-                    style={activeFilter === f.id ? { backgroundColor: colors.primary } : {}}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </section>
-          {(activeFilter === 'all' || activeFilter === 'backup') && (
-            <section className="relative w-full py-14 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
-              <div className="max-w-7xl mx-auto">
-                <div className="mb-10">
-                  <span className="inline-block px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full text-white mb-4" style={{ backgroundColor: colors.primary }}>StorONE</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Backup <span style={{ color: colors.primary }}>Solutions</span></h2>
-                  <p className="text-gray-600 max-w-2xl">Data protection, storage management, and RAID solutions for enterprise backup.</p>
-                </div>
-                <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" variants={containerVariants} initial="hidden" animate="visible">
-                  <AnimatePresence mode="popLayout">
-                    {(activeFilter === 'all' ? BACKUP_SOLUTIONS : filtered).map((item, i) => (
-                      <motion.div key={item.id} variants={itemVariants}><SolutionCard item={item} index={i} /></motion.div>
-                    ))}
-                  </AnimatePresence>
-                </motion.div>
-              </div>
-            </section>
-          )}
-          {(activeFilter === 'ups' || activeFilter === 'smart-server-rack') && (
-            <section className="relative w-full py-14 md:py-20 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-40 h-80 rounded-l-full opacity-30" style={{ background: `linear-gradient(90deg, transparent, ${colors.primary}15)` }} />
-              <div className="max-w-7xl mx-auto relative z-10">
-                <div className="mb-10">
-                  <span className="inline-block px-4 py-2 text-xs font-semibold uppercase tracking-wider rounded-full text-white mb-4" style={{ backgroundColor: colors.accent }}>Huawei</span>
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Infrastructure <span style={{ color: colors.accent }}>Solutions</span></h2>
-                  <p className="text-gray-600 max-w-2xl">UPS and Smart Server Rack solutions for data centers and critical infrastructure.</p>
-                </div>
-                <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" variants={containerVariants} initial="hidden" animate="visible">
-                  {filtered.map((item, i) => (
-                    <motion.div key={item.id} variants={itemVariants}><SolutionCard item={item} index={i} /></motion.div>
-                  ))}
-                </motion.div>
-              </div>
-            </section>
-          )}
-          {filtered.length === 0 && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-              <p className="text-gray-500">No solutions match this filter.</p>
-            </div>
-          )}
-        </>
-      )}
+      <section className="relative z-10 -mt-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <nav className="flex flex-wrap gap-2 bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-5" aria-label="Filter solutions">
+            {FILTERS.map((f) => (
+              <button
+                key={f.id}
+                onClick={() => handleFilterClick(f.id)}
+                className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 ${activeFilter === f.id ? 'text-white shadow-md' : 'text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-gray-900'}`}
+                style={activeFilter === f.id ? { backgroundColor: colors.primary } : {}}
+              >
+                {f.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </section>
+
+      {activeFilter === 'all' && <div className="mt-8"><SophosSolutions /></div>}
+
+      <section className="relative w-full py-14 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <AnimatePresence mode="popLayout">
+            {(activeFilter === 'all' || activeFilter === 'backup') && (
+              <motion.div key="backup" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
+                {renderCategorySection('Backup Solutions', BACKUP_SOLUTIONS)}
+              </motion.div>
+            )}
+            
+            {(activeFilter === 'all' || activeFilter === 'smart-server-rack') && (
+              <motion.div key="smart-server-rack" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
+                {renderCategorySection('Smart Server Rack Solutions', SMART_SERVER_RACK_SOLUTIONS)}
+              </motion.div>
+            )}
+            
+            {(activeFilter === 'all' || activeFilter === 'ups') && (
+              <motion.div key="ups" layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }}>
+                {renderCategorySection('UPS Solutions', UPS_SOLUTIONS)}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
     </div>
   );
 }

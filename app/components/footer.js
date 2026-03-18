@@ -2,10 +2,17 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import sinetcomLogo from '../assets/sinetcom-logo.png';
 import { colors } from './root';
 
 export default function Footer() {
+  const pathname = usePathname();
+  
+  if (pathname === '/login' || pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [

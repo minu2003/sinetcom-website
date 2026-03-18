@@ -10,6 +10,11 @@ import { colors } from './root';
 
 export default function Navbar() {
   const pathname = usePathname();
+  
+  if (pathname === '/login' || pathname.startsWith('/admin')) {
+    return null;
+  }
+
   const isHomePage = pathname === '/';
   const isContactPage = pathname === '/contact';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
