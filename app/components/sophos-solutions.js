@@ -23,6 +23,7 @@ import Email from '../assets/solutions-image/sophos-email.webp';
 import Phish from '../assets/solutions-image/sophos-phish-threat.webp';
 import ITDR from '../assets/solutions-image/sophos-itdr.webp';
 import Advisory from '../assets/solutions-image/sophos-advisory-services.webp';
+import Workspace from '../assets/solutions-image/sophos-workspace.webp';
 
 const mainSolutions = [
   {
@@ -54,6 +55,15 @@ const mainSolutions = [
 // Additional Solutions - Ready for 15 solutions
 // Structure: { id, title, description, href, image }
 const additionalSolutions = [
+
+  {
+    id: '1',
+    title: 'Workspace Protection',
+    description: 'Sophos Workspace Protection provides an affordable new way to secure remote and hybrid workers, with easy deployment and management — delivering consistent protection on and off the network.',
+    href: 'https://www.sophos.com/en-us/products/workspace-protection',
+    image: Workspace
+  },
+
   {
     id: '1',
     title: 'Vulnerability Management',
@@ -256,7 +266,7 @@ export default function SophosSolutions() {
 
                     {/* CTA Button */}
                     <div className="flex items-center justify-end mt-auto">
-                      <div 
+                      <div
                         className="w-10 h-10 rounded-full flex items-center justify-center shadow-md group-hover:scale-110 group-hover:rotate-[-45deg] group-hover:shadow-lg group-hover:-translate-y-0.5 transition-all duration-300 ease-out"
                         style={{ backgroundColor: colors.primary }}
                       >
@@ -276,7 +286,7 @@ export default function SophosSolutions() {
             <h3 className="text-xl md:text-2xl font-bold mb-10 text-center" style={{ color: colors.primary }}>
               Additional Solutions
             </h3>
-            
+
             {/* 2-Column Grid for Additional Solutions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               {additionalSolutions.map((solution, index) => (
@@ -315,7 +325,7 @@ export default function SophosSolutions() {
                       <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-4 line-clamp-3">
                         {solution.description}
                       </p>
-                      
+
                       {/* Learn More Link – accent color for link-style consistency */}
                       <div className="inline-flex items-center gap-1 text-sm font-semibold transition-all duration-300 ease-out group-hover:gap-3" style={{ color: colors.accent }}>
                         <span className="relative after:absolute after:left-0 after:bottom-0 after:h-0.5 after:w-0 after:bg-current after:transition-all after:duration-300 group-hover:after:w-full">Learn More</span>
