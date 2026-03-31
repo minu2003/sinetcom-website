@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { colors } from './root';
 
-const headlineLine1 = 'Next Generation';
-const headlineLine2 = 'Cybersecurity Starts Here';
+const headlineLine1 = 'Secure Your Future';
+const headlineLine2 = 'with Intelligent Defense.';
 
 const letterVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -33,14 +33,14 @@ export default function Hero() {
       {/* Dark Overlay */}
       <div className="absolute inset-0 bg-black/40 z-10" />
 
-      {/* Hero Content - centered on video */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-6 sm:px-8 lg:px-12">
+      {/* Hero Content - centered with nav offset */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-6 sm:px-8 lg:px-12 pt-5">
         <div className="w-full max-w-4xl mx-auto text-center">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block px-4 py-2 mb-6 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
+            className="inline-block px-4 py-2 mb-8 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
           >
             Authorized Sophos Distributor
           </motion.span>
@@ -84,8 +84,9 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-lg sm:text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed"
           >
-            Sophos firewalls, endpoint protection, and enterprise IT solutions
-            designed to secure, monitor, and protect modern businesses.
+            Providing Sri Lanka and the Maldives with elite Sophos protection, from 24/7 Managed
+            Detection to Next-Gen Firewalls, we bridge the gap between complex threats and
+            seamless business continuity.
           </motion.p>
 
           <motion.div
@@ -94,13 +95,13 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <Link href="/solutions">
+            <Link href="/sophos">
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-white bg-transparent text-white hover:bg-white hover:text-gray-900 transition-colors duration-200 min-w-[180px] text-center"
               >
-                View Solutions
+                Expert Defense
               </motion.span>
             </Link>
             <Link href="/contact">

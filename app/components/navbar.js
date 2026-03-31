@@ -14,10 +14,8 @@ export default function Navbar() {
   const isContactPage = pathname === '/contact';
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
-  const [huaweiOpen, setHuaweiOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const solutionsTimeoutRef = useRef(null);
-  const huaweiTimeoutRef = useRef(null);
 
   // Handle solutions dropdown
   const handleSolutionsEnter = () => {
@@ -28,21 +26,10 @@ export default function Navbar() {
   const handleSolutionsLeave = () => {
     solutionsTimeoutRef.current = setTimeout(() => {
       setSolutionsOpen(false);
-      setHuaweiOpen(false);
     }, 200);
   };
 
-  // Handle Huawei nested dropdown
-  const handleHuaweiEnter = () => {
-    if (huaweiTimeoutRef.current) clearTimeout(huaweiTimeoutRef.current);
-    setHuaweiOpen(true);
-  };
 
-  const handleHuaweiLeave = () => {
-    huaweiTimeoutRef.current = setTimeout(() => {
-      setHuaweiOpen(false);
-    }, 200);
-  };
 
   // Close mobile menu when escape is pressed
   useEffect(() => {
@@ -50,7 +37,6 @@ export default function Navbar() {
       if (e.key === 'Escape') {
         setMobileMenuOpen(false);
         setSolutionsOpen(false);
-        setHuaweiOpen(false);
       }
     };
     window.addEventListener('keydown', handleEscape);
@@ -173,7 +159,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center flex-1 space-x-1">
+          <div className="hidden lg:flex items-center justify-center flex-1 space-x-1 mb-1">
             {/* Home */}
             <Link
               href="/"
@@ -194,7 +180,7 @@ export default function Navbar() {
                 aria-expanded={solutionsOpen}
                 aria-haspopup="true"
               >
-                Our Solutions
+                Sophos Solution
                 <svg
                   className={`w-4 h-4 transition-transform duration-300 ${solutionsOpen ? 'rotate-180' : ''
                     }`}
@@ -218,89 +204,41 @@ export default function Navbar() {
                   className="absolute left-0 mt-2 w-80 rounded-lg py-4 px-4 animate-in fade-in slide-in-from-top-2 duration-200"
                   style={getDropdownStyle()}
                 >
-                  {/* Sophos Solutions */}
+                  {/* Sophos Solutions Sub-menu */}
                   <Link
-                    href="/sophos"
+                    href="/sophos/endpoint"
                     className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
                     onClick={() => setSolutionsOpen(false)}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    <span className="text-base font-medium">Sophos Solutions</span>
+                    <span className="text-base font-medium">Sophos Endpoint</span>
                   </Link>
 
-                  {/* Storene Solutions */}
                   <Link
-                    href="/solutions?filter=backup"
+                    href="/sophos/firewall"
                     className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
+                    onClick={() => setSolutionsOpen(false)}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
-                    <span className="text-base font-medium">Storone Solutions</span>
+                    <span className="text-base font-medium">Sophos Firewall</span>
                   </Link>
 
-                  {/* Huawei Solutions */}
-                  <div
-                    className="relative"
-                    onMouseEnter={handleHuaweiEnter}
-                    onMouseLeave={handleHuaweiLeave}
+                  <Link
+                    href="/sophos/mdr"
+                    className={`w-full flex items-center gap-3 py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
+                    onClick={() => setSolutionsOpen(false)}
                   >
-                    <button
-                      className={`w-full flex items-center justify-between py-3 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
-                      aria-expanded={huaweiOpen}
-                    >
-                      <div className="flex items-center gap-3">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                        <span className="text-base font-medium">Huawei Solutions</span>
-                      </div>
-                      <svg
-                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${huaweiOpen ? 'rotate-90' : ''
-                          }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </button>
+                    <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                    <span className="text-base font-medium">Sophos MDR</span>
+                  </Link>
 
-                    {/* Huawei Submenu */}
-                    {huaweiOpen && (
-                      <div
-                        className="absolute left-full top-0 ml-2 w-64 rounded-lg py-3 px-3 animate-in fade-in slide-in-from-left-2 duration-200"
-                        style={getDropdownStyle()}
-                      >
-                        <Link
-                          href="/solutions?filter=ups"
-                          className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-base">UPS Solutions</span>
-                        </Link>
-                        <Link
-                          href="/solutions?filter=smart-server-rack"
-                          className={`flex items-center gap-3 py-2 px-2 rounded-md transition-colors duration-150 ${getDropdownItemClass()}`}
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <span className="text-base">Smart Server Rack Solutions</span>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+
                 </div>
               )}
             </div>
@@ -412,7 +350,7 @@ export default function Navbar() {
                 className="w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 transition-colors duration-150 flex items-center justify-between"
                 style={{ color: colors.secondary }}
               >
-                Our Solutions
+                Sophos Solutions
                 <svg
                   className={`w-4 h-4 transition-transform duration-200 ${solutionsOpen ? 'rotate-180' : ''
                     }`}
@@ -434,7 +372,7 @@ export default function Navbar() {
               {solutionsOpen && (
                 <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
                   <Link
-                    href="/solutions/sophos"
+                    href="/solutions/sophos/endpoint"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
@@ -442,11 +380,10 @@ export default function Navbar() {
                       setSolutionsOpen(false);
                     }}
                   >
-                    Sophos Solutions
+                    Sophos Endpoint
                   </Link>
-
                   <Link
-                    href="/solutions?filter=backup"
+                    href="/solutions/sophos/firewall"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
@@ -454,60 +391,21 @@ export default function Navbar() {
                       setSolutionsOpen(false);
                     }}
                   >
-                    Storene Solutions
+                    Sophos Firewall
                   </Link>
-                  <button
-                    onClick={() => setHuaweiOpen(!huaweiOpen)}
-                    className="w-full text-left px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150 flex items-center justify-between"
+                  <Link
+                    href="/solutions/sophos/mdr"
+                    className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setSolutionsOpen(false);
+                    }}
                   >
-                    Huawei Solutions
-                    <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${huaweiOpen ? 'rotate-180' : ''
-                        }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </button>
+                    Sophos MDR
+                  </Link>
 
-                  {/* Mobile Huawei Submenu */}
-                  {huaweiOpen && (
-                    <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
-                      <Link
-                        href="/solutions?filter=ups"
-                        className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
-                        style={{ color: colors.secondary }}
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setSolutionsOpen(false);
-                          setHuaweiOpen(false);
-                        }}
-                      >
-                        UPS Solutions
-                      </Link>
-                      <Link
-                        href="/solutions?filter=smart-server-rack"
-                        className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
-                        style={{ color: colors.secondary }}
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          setSolutionsOpen(false);
-                          setHuaweiOpen(false);
-                        }}
-                      >
-                        Smart Server Rack Solutions
-                      </Link>
-                    </div>
-                  )}
+
                 </div>
               )}
 

@@ -107,36 +107,72 @@ export default function WeAreSinetcom() {
       <section className="relative w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <DotGrid />
         <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4"
+          >
             <span className="text-gray-900">We Are </span>
             <span style={{ color: colors.primary }}>Sinetcom</span>
-          </h2>
-          <p className="text-lg md:text-xl font-medium mb-6" style={{ color: colors.primary }}>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg md:text-xl font-medium mb-6" style={{ color: colors.primary }}
+          >
             A leading value-added distributor & technology enabler
-          </p>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl mx-auto"
+          >
             Sinetcom, a subsidiary of Debug Group, specializes in providing innovative technology products and services. As an authorized Sophos distributor and partner for leading brands, we deliver next-generation cybersecurity, enterprise IT, and digital solutions to secure and empower modern businesses.
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      <WhyChooseUsSection/>
+      <WhyChooseUsSection />
 
       {/* Part 3: Solutions We Offer (two-column, accordion) */}
       <section className="relative w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gray-100">
         <NetworkPattern />
         <div className="max-w-7xl mx-auto relative z-10">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-12 md:mb-16 tracking-tight">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-12 md:mb-16 tracking-tight"
+          >
             Solutions We Offer
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
             <div className="lg:col-span-5 space-y-6">
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-gray-700 text-base md:text-lg leading-relaxed"
+              >
                 With our team of experienced experts, we share industry knowledge with enterprise customers. We offer best practices and assess how people, processes, and management can work together to drive enterprise security and digital transformation.
-              </p>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-gray-700 text-base md:text-lg leading-relaxed"
+              >
                 Our strengths lie in Cyber Security, Data Center & Backup, and Digital Transformation. We specialize in delivering top-tier solutions—from Sophos and StorONE to Huawei—with fast delivery, secure systems, and 365-day support.
-              </p>
+              </motion.p>
             </div>
             <div className="lg:col-span-7 space-y-4">
               {solutions.map((item) => {

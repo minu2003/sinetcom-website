@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { colors } from './root';
 import sophosLogo from '../assets/Sophos-logo.png';
 import storoneLogo from '../assets/storone.png';
@@ -35,16 +38,26 @@ export default function CoreSolutions() {
         <section className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8" aria-labelledby="core-solutions-heading">
           <div className="max-w-7xl mx-auto">
             <header className="text-center mb-12 md:mb-16">
-              <h2
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
                 id="core-solutions-heading"
                 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3"
                 style={{ color: colors.secondary }}
               >
                 Core Solutions
-              </h2>
-              <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+              </motion.h2>
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
+              >
                 Authorized distributor and partner for leading technology brands.
-              </p>
+              </motion.p>
             </header>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {partners.map((partner, index) => (

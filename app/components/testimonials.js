@@ -158,12 +158,25 @@ export default function Testimonials() {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" style={{ color: colors.primary }}>
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4" 
+            style={{ color: colors.primary }}
+          >
             Our Trusted Clients
-          </h2>
-          <p className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-gray-600 text-base md:text-lg max-w-3xl mx-auto"
+          >
             Trusted by enterprise clients across industries for cybersecurity, data center, and digital transformation solutions.
-          </p>
+          </motion.p>
         </div>
 
         {/* Main Testimonial Card */}

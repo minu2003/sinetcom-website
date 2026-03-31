@@ -64,7 +64,7 @@ export default function AboutUs() {
             About Sinetcom
           </motion.span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight mb-6">
-            Why We <span style={{ color: colors.accent }}>Are</span>
+            Who We <span style={{ color: colors.accent }}>Are</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
             A leading value-added distributor and technology enabler, committed to tomorrow&apos;s innovative solutions and exceptional customer satisfaction.

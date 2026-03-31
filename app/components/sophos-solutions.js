@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { colors } from './root';
 import sophosLogo from '../assets/Sophos-logo.png';
 import sophosCentralImage from '../assets/sophos-central-thumbnail.webp';
@@ -186,12 +187,24 @@ export default function SophosSolutions() {
               className="h-14 w-auto object-contain"
             />
           </div>
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6" style={{ color: colors.primary }}>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6" style={{ color: colors.primary }}
+          >
             Sophos
-          </h1>
-          <p className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-gray-600 text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto"
+          >
             Sophos defends more than 600,000 organizations and more than 100 million users globally from active adversaries, ransomware, phishing, malware, and more.
-          </p>
+          </motion.p>
           <Link
             href="https://www.sophos.com"
             target="_blank"
@@ -211,12 +224,24 @@ export default function SophosSolutions() {
       <section className="w-full py-16 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <header className="text-center mb-12 md:mb-16">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4" style={{ color: colors.primary }}>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4" style={{ color: colors.primary }}
+            >
               Better Cybersecurity Outcomes
-            </h2>
-            <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto"
+            >
               Continue reading for more on the Sophos product portfolio, and find the solution that best suits your business requirements:
-            </p>
+            </motion.p>
           </header>
 
           {/* Main 3 Solution Cards - Modern Design */}
@@ -283,9 +308,15 @@ export default function SophosSolutions() {
 
           {/* Additional Solutions Section */}
           <div className="mt-16 pt-12 border-t border-gray-200">
-            <h3 className="text-xl md:text-2xl font-bold mb-10 text-center" style={{ color: colors.primary }}>
+            <motion.h3 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-xl md:text-2xl font-bold mb-10 text-center" style={{ color: colors.primary }}
+            >
               Additional Solutions
-            </h3>
+            </motion.h3>
 
             {/* 2-Column Grid for Additional Solutions */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -346,12 +377,24 @@ export default function SophosSolutions() {
       <section className="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <header className="text-center mb-14">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 tracking-tight" style={{ color: colors.primary }}>
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2 tracking-tight" style={{ color: colors.primary }}
+            >
               One vendor. One view.
-            </h2>
-            <p className="text-gray-600 text-lg md:text-xl">
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-gray-600 text-lg md:text-xl"
+            >
               Manage all your Sophos products in one place.
-            </p>
+            </motion.p>
           </header>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left Column - Branding & Content */}
@@ -369,9 +412,15 @@ export default function SophosSolutions() {
                   CENTRAL
                 </span>
               </div>
-              <p className="text-gray-600 leading-relaxed mb-8 text-base md:text-lg">
+              <motion.p 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-gray-600 leading-relaxed mb-8 text-base md:text-lg"
+              >
                 Sophos Central is the open AI-native platform that delivers unrivalled protection for customers and enhances the power of defenders. Controlling all your Sophos solutions through a unified management console. Real-time information sharing between products and automated incident response makes cybersecurity easy.
-              </p>
+              </motion.p>
               <Link
                 href="https://www.sophos.com/products/sophos-central"
                 target="_blank"

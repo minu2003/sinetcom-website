@@ -11,8 +11,8 @@ export const advantages = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
-    title: 'Fast & Reliable Delivery',
-    description: 'E-License delivery for instant access to cybersecurity and enterprise IT solutions with secure implementation.',
+    title: 'Instant Digital Activation',
+    description: 'Minimize downtime with rapid E-License delivery, ensuring your enterprise is protected the moment your solution is finalized.',
   },
   {
     icon: (
@@ -20,8 +20,8 @@ export const advantages = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
       </svg>
     ),
-    title: '99% Positive Feedback',
-    description: 'Trusted by enterprise clients for cybersecurity solutions, data center infrastructure, and digital transformation services.',
+    title: '99% Client Satisfaction',
+    description: 'Trusted by the region’s largest enterprises to lead their digital transformation with precision and world-class cybersecurity.',
   },
   {
     icon: (
@@ -29,8 +29,8 @@ export const advantages = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
       </svg>
     ),
-    title: '365-Day Support',
-    description: 'Round-the-clock technical support for Sophos firewalls, StorONE backup solutions, and enterprise IT infrastructure.',
+    title: '365-Day Expert Response',
+    description: 'Security never sleeps, and neither do we. Get round-the-clock technical support for your critical Sophos firewalls and enterprise IT infrastructure.',
   },
   {
     icon: (
@@ -38,7 +38,7 @@ export const advantages = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
       </svg>
     ),
-    title: 'Secure Systems',
+    title: 'Enterprise-Grade Compliance',
     description: 'Enterprise-grade cybersecurity solutions and secure payment systems ensuring compliance and data protection.',
   },
   {
@@ -47,8 +47,8 @@ export const advantages = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
       </svg>
     ),
-    title: 'Trusted Partners',
-    description: 'Authorized distributor for Sophos cybersecurity, StorONE data backup, and Huawei enterprise solutions.',
+    title: 'Authorized Sophos Distributor',
+    description: 'As an elite regional gateway, we provide direct access to the world’s most advanced Sophos cybersecurity ecosystem and technical training.',
   },
 ];
 
@@ -89,12 +89,24 @@ export default function WhyChooseUsSection() {
       <div className="absolute top-0 left-0 w-64 h-64 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
       <div className="absolute top-0 right-0 w-48 h-48 rounded-full opacity-10 blur-3xl" style={{ background: colors.primary }} />
       <div className="max-w-7xl mx-auto relative z-10">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center mb-6 md:mb-8 text-white">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-center mb-6 md:mb-8 text-white"
+        >
           Why Choose Us
-        </h2>
-        <p className="text-center text-gray-300 text-lg md:text-xl mb-12 md:mb-16 max-w-2xl mx-auto">
-          Trusted expertise, reliable delivery, and industry-leading partnership.
-        </p>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-center text-gray-300 text-lg md:text-xl mb-12 md:mb-16 max-w-2xl mx-auto"
+        >
+          Nearly 20 Years of securing the digital landscape for the Sri Lanka and Maldives.
+        </motion.p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 md:gap-8">
           {advantages.map((item, index) => (
             <motion.div
@@ -107,12 +119,12 @@ export default function WhyChooseUsSection() {
                 isInView
                   ? { opacity: 1, y: 0 }
                   : {
-                      opacity: 0,
-                      y: entryDirection === 'down' ? 48 : -48,
-                    }
+                    opacity: 0,
+                    y: entryDirection === 'down' ? 48 : -48,
+                  }
               }
               transition={{ duration: 0.4, delay: index * 0.08 }}
-              className="bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.2)] transition-shadow duration-300"
+              className="bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.25)] hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300 cursor-pointer"
             >
               <div className="mb-4" style={{ color: colors.primary }}>
                 {item.icon}

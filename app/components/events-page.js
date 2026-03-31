@@ -41,7 +41,13 @@ const SORT_OPTIONS = [
 
 function EventCard({ event }) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col"
+    >
       <div className="relative aspect-video bg-gray-200">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400" />
         <span className="absolute top-3 left-3 px-2 py-1 text-xs font-semibold uppercase tracking-wide bg-white/90 text-gray-600 rounded">
@@ -71,7 +77,7 @@ function EventCard({ event }) {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
