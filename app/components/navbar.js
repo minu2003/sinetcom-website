@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import sinetcomLogo from '../assets/sinetcom-logo.png';
-import sinetcomLogoDark from '../assets/sinetcom-logo1.png';
+import sinetcomLogoDark from '../assets/sinetcom1-logo.png';
 import { colors } from './root';
 
 export default function Navbar() {
@@ -28,8 +28,6 @@ export default function Navbar() {
       setSolutionsOpen(false);
     }, 200);
   };
-
-
 
   // Close mobile menu when escape is pressed
   useEffect(() => {
@@ -150,8 +148,8 @@ export default function Navbar() {
               <Image
                 src={isScrolled ? sinetcomLogoDark : sinetcomLogo}
                 alt="Sinetcom Logo"
-                width={230}
-                height={80}
+                width={250}
+                height={90}
                 className="h-auto"
                 priority
               />

@@ -1,52 +1,33 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { colors } from './root';
 
 export const advantages = [
   {
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
+    icon: require('../assets/icons/Fast and Reliable.png'),
     title: 'Instant Digital Activation',
     description: 'Minimize downtime with rapid E-License delivery, ensuring your enterprise is protected the moment your solution is finalized.',
   },
   {
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-      </svg>
-    ),
+    icon: require('../assets/icons/Feedback.png'),
     title: '99% Client Satisfaction',
     description: 'Trusted by the region’s largest enterprises to lead their digital transformation with precision and world-class cybersecurity.',
   },
   {
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    ),
+    icon: require('../assets/icons/365 Days.png'),
     title: '365-Day Expert Response',
     description: 'Security never sleeps, and neither do we. Get round-the-clock technical support for your critical Sophos firewalls and enterprise IT infrastructure.',
   },
   {
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    ),
+    icon: require('../assets/icons/Secure System.png'),
     title: 'Enterprise-Grade Compliance',
     description: 'Enterprise-grade cybersecurity solutions and secure payment systems ensuring compliance and data protection.',
   },
   {
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-      </svg>
-    ),
+    icon: require('../assets/icons/Trusted Partner.png'),
     title: 'Authorized Sophos Distributor',
     description: 'As an elite regional gateway, we provide direct access to the world’s most advanced Sophos cybersecurity ecosystem and technical training.',
   },
@@ -126,8 +107,19 @@ export default function WhyChooseUsSection() {
               transition={{ duration: 0.4, delay: index * 0.08 }}
               className="bg-white rounded-xl p-6 shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.25)] hover:scale-[1.03] hover:-translate-y-1 transition-all duration-300 cursor-pointer"
             >
-              <div className="mb-4" style={{ color: colors.primary }}>
-                {item.icon}
+              <div className="mb-4 item">
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center ring-1 ring-black/5"
+
+                >
+                  <Image
+                    src={item.icon}
+                    alt=""
+                    width={45}
+                    height={39}
+                    className="object-contain"
+                  />
+                </div>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
               <p className="text-gray-600 text-sm md:text-base leading-relaxed">{item.description}</p>
