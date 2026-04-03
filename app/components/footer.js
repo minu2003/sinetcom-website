@@ -20,9 +20,9 @@ export default function Footer() {
   ];
 
   const solutions = [
-    { name: 'Sophos Endpoint', href: '/solutions/sophos/endpoint' },
-    { name: 'Sophos Firewall', href: '/solutions/sophos/firewall' },
-    { name: 'Sophos MDR', href: '/solutions/sophos/mdr' },
+    { name: 'Sophos Endpoint', href: '/sophos/endpoint' },
+    { name: 'Sophos Firewall', href: '/sophos/firewall' },
+    { name: 'Sophos MDR', href: '/sophos/mdr' },
   ];
 
   const socialMedia = [

@@ -370,7 +370,7 @@ export default function Navbar() {
               {solutionsOpen && (
                 <div className="pl-4 space-y-1 py-2 border-l-2 border-gray-200">
                   <Link
-                    href="/solutions/sophos/endpoint"
+                    href="/sophos/endpoint"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
@@ -381,7 +381,7 @@ export default function Navbar() {
                     Sophos Endpoint
                   </Link>
                   <Link
-                    href="/solutions/sophos/firewall"
+                    href="/sophos/firewall"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
@@ -392,7 +392,7 @@ export default function Navbar() {
                     Sophos Firewall
                   </Link>
                   <Link
-                    href="/solutions/sophos/mdr"
+                    href="/sophos/mdr"
                     className="block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors duration-150"
                     style={{ color: colors.secondary }}
                     onClick={() => {
