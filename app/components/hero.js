@@ -34,13 +34,13 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/50 z-10" />
 
       {/* Hero Content - centered with nav offset */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-4 sm:px-8 lg:px-12 pt-16 sm:pt-20 lg:pt-24">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-4 sm:px-8 lg:px-12 pt-4 sm:pt-12 lg:pt-14 pb-12 sm:pb-0">
         <div className="w-full max-w-5xl mx-auto text-center">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 mb-4 sm:mb-8 text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-widest rounded-full border border-white/60 sm:border-2 border-white/80 text-white"
+            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 mb-3 sm:mb-6 text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-widest rounded-full border border-white/60 sm:border-2 border-white/80 text-white"
           >
             Authorized Sophos Distributor
           </motion.span>
@@ -48,30 +48,38 @@ export default function Hero() {
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] sm:leading-tight tracking-tight block">
             <span className="block mb-1 sm:mb-0">
               {headlineLine1.split(' ').map((word, i) => (
-                <motion.span
-                  key={`l1w-${i}`}
-                  custom={i}
-                  variants={letterVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="inline-block whitespace-nowrap mr-[0.3em] md:mr-[0.4em]"
-                >
-                  {word}
-                </motion.span>
+                <span key={`l1w-${i}`} className="inline-block whitespace-nowrap mr-[0.2em] md:mr-[0.3em]">
+                  {word.split('').map((char, j) => (
+                    <motion.span
+                      key={`l1c-${i}-${j}`}
+                      custom={i * 5 + j} 
+                      variants={letterVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
               ))}
             </span>
             <span className="block">
               {headlineLine2.split(' ').map((word, i) => (
-                <motion.span
-                  key={`l2w-${i}`}
-                  custom={headlineLine1.split(' ').length + i}
-                  variants={letterVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="inline-block whitespace-nowrap mr-[0.3em] md:mr-[0.4em]"
-                >
-                  {word}
-                </motion.span>
+                <span key={`l2w-${i}`} className="inline-block whitespace-nowrap mr-[0.2em] md:mr-[0.3em]">
+                  {word.split('').map((char, j) => (
+                    <motion.span
+                      key={`l2c-${i}-${j}`}
+                      custom={headlineLine1.length + i * 5 + j} 
+                      variants={letterVariants}
+                      initial="hidden"
+                      animate="visible"
+                      className="inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
               ))}
             </span>
           </h1>
