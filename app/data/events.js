@@ -1,5 +1,10 @@
 import eventHeroImage from '../assets/event/event-hero.jpg';
 
+// Dynamic image assets moved to public/assets/events/ folder
+const summitImage = "/assets/events/summit.jpg";
+const workshopImage = "/assets/events/workshop.jpg";
+const roundtableImage = "/assets/events/roundtable.jpg";
+
 export const INITIAL_EVENTS = [
   {
     id: 1,
@@ -10,7 +15,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '06/10/2026',
     tag: 'FUTURE EVENT',
     slug: 'cyber-security-summit-2026',
-    images: [eventHeroImage, eventHeroImage, eventHeroImage],
+    images: [summitImage, eventHeroImage, roundtableImage],
     description: "Join industry leaders at our flagship summit to explore the cutting edge of cybersecurity defense and strategy. Experience deep-dive technical sessions and exclusive networking opportunities. This event features deep-dive technical sessions and exclusive networking opportunities for all attendees."
   },
   {
@@ -22,7 +27,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '16/11/2026',
     tag: 'FUTURE EVENT',
     slug: 'partner-enablement-workshop',
-    images: [eventHeroImage, eventHeroImage],
+    images: [workshopImage, eventHeroImage],
     description: "An intensive training session designed for Sinetcom partners to master the latest solutions and enhance their service delivery capabilities. Get hands-on with new product features and learn how to implement them effectively in your client environments."
   },
   {
@@ -34,7 +39,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '20/12/2026',
     tag: 'WEBINAR',
     slug: 'sophos-webinar-series',
-    images: [eventHeroImage, eventHeroImage],
+    images: [eventHeroImage, summitImage],
     description: "Weekly deep-dives into the Sophos ecosystem. Learn about everything from MDR to firewall configuration in these expert-led virtual sessions. Our experts will cover troubleshooting, advanced configuration and much more."
   },
   {
@@ -46,7 +51,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '08/01/2026',
     tag: 'WEBINAR',
     slug: 'storone-backup-webinar',
-    images: [eventHeroImage],
+    images: [roundtableImage, workshopImage],
     description: "Missed the live session? Catch up on how to optimize your backup infrastructure using StorONE's latest storage technologies. This session covers backup strategy, ransomware protection and data recovery."
   },
   {
@@ -58,7 +63,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '22/02/2026',
     tag: 'PAST EVENT',
     slug: 'enterprise-it-roundtable',
-    images: [eventHeroImage],
+    images: [roundtableImage, summitImage],
     description: "A summary of the key takeaways from our exclusive executive roundtable session covering cloud migration and hybrid workforce security. Industry experts discuss the challenges and successes of modern cloud architecture."
   },
   {
@@ -70,7 +75,7 @@ export const INITIAL_EVENTS = [
     dateEnd: '15/03/2026',
     tag: 'FUTURE EVENT',
     slug: 'channel-partner-meetup',
-    images: [eventHeroImage],
+    images: [summitImage, workshopImage],
     description: "Networking event for our channel partners to celebrate successes and discuss future roadmaps in a relaxed environment. Meet other professionals and learn about upcoming product releases."
   },
 ];

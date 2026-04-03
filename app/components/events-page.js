@@ -74,7 +74,7 @@ function CardCarousel({ images, title }) {
   if (!images || images.length === 0) return null;
 
   return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-2xl bg-black">
+    <div className="relative aspect-video w-full overflow-hidden rounded-t-2xl bg-black">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
@@ -252,17 +252,17 @@ function EventCard({ event }) {
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ type: "spring", stiffness: 350, damping: 25 }}
               className="absolute z-[70] left-1/2 -translate-x-1/2 top-[-20px] pointer-events-auto"
-              style={{ width: '450px', maxWidth: '90vw' }}
+              style={{ width: '400px', maxWidth: '90vw' }}
             >
               <div className="bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-gray-100 w-full overflow-hidden flex flex-col transform-gpu ring-1 ring-black/5">
                 <CardCarousel images={event.images} title={event.title} />
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 rounded-full border border-blue-100">
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 rounded-full border border-blue-100">
                       {event.tag}
                     </span>
                     <span
-                      className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border"
+                      className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border"
                       style={{
                         backgroundColor: `${colors.primary}10`,
                         color: colors.primary,
@@ -272,11 +272,11 @@ function EventCard({ event }) {
                       {event.type}
                     </span>
                   </div>
-                  <h4 className="text-2xl font-extrabold text-gray-900 mb-4 leading-tight">
+                  <h4 className="text-xl font-extrabold text-gray-900 mb-3 leading-tight">
                     {event.title}
                   </h4>
                   <div className="relative mb-5">
-                    <p className={`text-gray-600 text-lg leading-relaxed transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                    <p className={`text-gray-600 text-base leading-relaxed transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
                       {event.description}
                     </p>
                     {event.description.length > 150 && (
@@ -334,8 +334,13 @@ export default function EventsPage() {
 
   const sortedEvents = [...filteredEvents].sort((a, b) => {
     if (sortBy === 'title') return a.title.localeCompare(b.title);
-    if (sortBy === 'upcoming') return 0; // Add date logic if needed
-    return 0;
+    if (sortBy === 'upcoming') {
+      if (a.when === 'future' && b.when === 'past') return -1;
+      if (a.when === 'past' && b.when === 'future') return 1;
+      return b.id - a.id;
+    }
+    // Default 'recent' sort (highest ID first)
+    return b.id - a.id;
   });
 
   const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
