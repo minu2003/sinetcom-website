@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { colors } from './root';
-
-// Add event-hero.jpg to app/assets/event/ folder
+import { INITIAL_EVENTS } from '../data/events';
 import eventHeroImage from '../assets/event/event-hero.jpg';
 
 // Type: All, Customer, Partner, Webinar
@@ -23,15 +22,6 @@ const TIME_OPTIONS = {
   past: 'Past',
 };
 
-// Placeholder events – replace with real data or API. Each has type + when (future/past)
-export const INITIAL_EVENTS = [
-  { id: 1, title: 'Sinetcom Cyber Security Summit 2026', type: 'customer', when: 'future', dateStart: '05/10/2026', dateEnd: '06/10/2026', tag: 'FUTURE EVENT', slug: 'cyber-security-summit-2026', image: eventHeroImage },
-  { id: 2, title: 'Partner Enablement Workshop', type: 'partner', when: 'future', dateStart: '15/11/2026', dateEnd: '16/11/2026', tag: 'FUTURE EVENT', slug: 'partner-enablement-workshop', image: eventHeroImage },
-  { id: 3, title: 'Sophos Solutions Webinar Series', type: 'webinar', when: 'future', dateStart: '20/12/2026', dateEnd: '20/12/2026', tag: 'WEBINAR', slug: 'sophos-webinar-series', image: eventHeroImage },
-  { id: 4, title: 'StorONE Backup Best Practices', type: 'webinar', when: 'past', dateStart: '08/01/2026', dateEnd: '08/01/2026', tag: 'WEBINAR', slug: 'storone-backup-webinar', image: eventHeroImage },
-  { id: 5, title: 'Enterprise IT Roundtable', type: 'customer', when: 'past', dateStart: '22/02/2026', dateEnd: '22/02/2026', tag: 'PAST EVENT', slug: 'enterprise-it-roundtable', image: eventHeroImage },
-  { id: 6, title: 'Channel Partner Meetup', type: 'partner', when: 'future', dateStart: '14/03/2026', dateEnd: '15/03/2026', tag: 'FUTURE EVENT', slug: 'channel-partner-meetup', image: eventHeroImage },
-];
 
 const SORT_OPTIONS = [
   { value: 'recent', label: 'Recent Events' },
@@ -39,45 +29,286 @@ const SORT_OPTIONS = [
   { value: 'title', label: 'Title A-Z' },
 ];
 
-function EventCard({ event }) {
+function CardCarousel({ images, title }) {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  const paginate = (newDirection) => {
+    setDirection(newDirection);
+    setCurrent((prev) => (prev + newDirection + images.length) % images.length);
+  };
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+
+    const timer = setInterval(() => {
+      paginate(1);
+    }, 2000); // Change image every 4 seconds
+
+    return () => clearInterval(timer);
+  }, [images, current]); // Re-run when images or current index changes to reset timer
+
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0
+    })
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+  };
+
+
+  if (!images || images.length === 0) return null;
+
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-      className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col"
+    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-2xl bg-black">
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={current}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
+            if (swipe < -swipeConfidenceThreshold) {
+              paginate(1);
+            } else if (swipe > swipeConfidenceThreshold) {
+              paginate(-1);
+            }
+          }}
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        >
+          <Image
+            src={images[current]}
+            alt={`${title} - ${current + 1}`}
+            fill
+            className="object-cover pointer-events-none"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none z-10" />
+
+      {images.length > 1 && (
+        <>
+          <div className="absolute inset-y-0 inset-x-4 flex items-center justify-between z-20 pointer-events-none">
+            <button
+              onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-lg border border-white/30 transition-all pointer-events-auto shadow-lg"
+              aria-label="Previous"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); paginate(1); }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-lg border border-white/30 transition-all pointer-events-auto shadow-lg"
+              aria-label="Next"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={(e) => { e.stopPropagation(); setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                className={`h-2 rounded-full transition-all duration-300 ${i === current ? 'bg-white w-8' : 'bg-white/30 hover:bg-white/50'}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function EventCard({ event }) {
+  const [isCopied, setIsCopied] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleShare = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareData = {
+      title: event.title,
+      text: `Check out this event: ${event.title}`,
+      url: `${window.location.origin}/events`,
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Could not copy text: ', err);
+      }
+    }
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="relative aspect-video bg-gray-200">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400" />
-        <span className="absolute top-3 left-3 px-2 py-1 text-xs font-semibold uppercase tracking-wide bg-white/90 text-gray-600 rounded">
-          {event.tag}
-        </span>
-      </div>
-      <div className="p-5 flex-1 flex flex-col">
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{event.title}</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          {event.dateStart}{event.dateEnd !== event.dateStart ? ` - ${event.dateEnd}` : ''}
-        </p>
-        <div className="mt-auto flex items-center gap-2">
-          <Link
-            href={`/events/${event.slug}`}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-colors hover:opacity-90"
-            style={{ backgroundColor: colors.primary }}
-          >
-            Find out more
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          </Link>
-          <button
-            type="button"
-            className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
-            aria-label="Share"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
-          </button>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full group cursor-default"
+      >
+        <div className="relative aspect-video bg-gray-200 overflow-hidden">
+          {event.images && event.images.length > 0 ? (
+            <Image
+              src={event.images[0]}
+              alt={event.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400" />
+          )}
+          <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+          <span className="absolute top-3 left-3 px-2 py-1 text-xs font-semibold uppercase tracking-wide bg-white/90 text-gray-600 rounded">
+            {event.tag}
+          </span>
         </div>
-      </div>
-    </motion.div>
+        <div className="p-5 flex-1 flex flex-col">
+          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{event.title}</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            {event.dateStart}{event.dateEnd !== event.dateStart ? ` - ${event.dateEnd}` : ''}
+          </p>
+          <div className="mt-auto flex items-center gap-2">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                aria-label="Share"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+              </button>
+              {isCopied && (
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-[10px] font-medium rounded whitespace-nowrap animate-fade-in-up">
+                  Link copied!
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-4 border-x-transparent border-t-4 border-t-gray-800"></div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Global Backdrop Blur logic handled in parent, local here for focus */}
+      <AnimatePresence>
+        {isHovered && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-[60] pointer-events-none"
+            />
+
+            {/* Popup Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              className="absolute z-[70] left-1/2 -translate-x-1/2 top-[-20px] pointer-events-auto"
+              style={{ width: '450px', maxWidth: '90vw' }}
+            >
+              <div className="bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-gray-100 w-full overflow-hidden flex flex-col transform-gpu ring-1 ring-black/5">
+                <CardCarousel images={event.images} title={event.title} />
+                <div className="p-8">
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 rounded-full border border-blue-100">
+                      {event.tag}
+                    </span>
+                    <span
+                      className="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border"
+                      style={{
+                        backgroundColor: `${colors.primary}10`,
+                        color: colors.primary,
+                        borderColor: `${colors.primary}20`
+                      }}
+                    >
+                      {event.type}
+                    </span>
+                  </div>
+                  <h4 className="text-2xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    {event.title}
+                  </h4>
+                  <div className="relative mb-5">
+                    <p className={`text-gray-600 text-lg leading-relaxed transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                      {event.description}
+                    </p>
+                    {event.description.length > 150 && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+                        className="mt-2 text-sm font-bold hover:underline"
+                        style={{ color: colors.primary }}
+                      >
+                        {isExpanded ? 'Read less' : 'Read more...'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between pt-5 border-t border-gray-100">
+                    <div className="flex items-center gap-2 text-gray-500 font-semibold">
+                      <svg className="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      {event.dateStart}
+                    </div>
+                    <button
+                      onClick={handleShare}
+                      className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold transition-all border border-gray-200 active:scale-95 shadow-sm"
+                    >
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                      Share Event
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
