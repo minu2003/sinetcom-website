@@ -18,7 +18,7 @@ const letterVariants = {
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-screen min-h-[600px] h-[100dvh] overflow-hidden">
       {/* Video Background */}
       <video
         autoPlay
@@ -31,48 +31,46 @@ export default function Hero() {
       </video>
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10" />
+      <div className="absolute inset-0 bg-black/50 z-10" />
 
       {/* Hero Content - centered with nav offset */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-6 sm:px-8 lg:px-12 pt-5">
-        <div className="w-full max-w-4xl mx-auto text-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-20 w-full px-4 sm:px-8 lg:px-12 pt-16 sm:pt-20 lg:pt-24">
+        <div className="w-full max-w-5xl mx-auto text-center">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block px-4 py-2 mb-8 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
+            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 mb-4 sm:mb-8 text-[10px] sm:text-xs md:text-sm font-semibold uppercase tracking-widest rounded-full border border-white/60 sm:border-2 border-white/80 text-white"
           >
             Authorized Sophos Distributor
           </motion.span>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight overflow-hidden block">
-            <span className="block">
-              {headlineLine1.split('').map((char, i) => (
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-[1.1] sm:leading-tight tracking-tight block">
+            <span className="block mb-1 sm:mb-0">
+              {headlineLine1.split(' ').map((word, i) => (
                 <motion.span
-                  key={`l1-${i}`}
+                  key={`l1w-${i}`}
                   custom={i}
                   variants={letterVariants}
                   initial="hidden"
                   animate="visible"
-                  className="inline-block"
-                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                  className="inline-block whitespace-nowrap mr-[0.3em] md:mr-[0.4em]"
                 >
-                  {char}
+                  {word}
                 </motion.span>
               ))}
             </span>
             <span className="block">
-              {headlineLine2.split('').map((char, i) => (
+              {headlineLine2.split(' ').map((word, i) => (
                 <motion.span
-                  key={`l2-${i}`}
-                  custom={headlineLine1.length + i}
+                  key={`l2w-${i}`}
+                  custom={headlineLine1.split(' ').length + i}
                   variants={letterVariants}
                   initial="hidden"
                   animate="visible"
-                  className="inline-block"
-                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+                  className="inline-block whitespace-nowrap mr-[0.3em] md:mr-[0.4em]"
                 >
-                  {char}
+                  {word}
                 </motion.span>
               ))}
             </span>
@@ -82,7 +80,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-lg sm:text-xl md:text-2xl text-white/90 mb-10 max-w-3xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-0"
           >
             Providing Sri Lanka and the Maldives with elite Sophos protection, from 24/7 Managed
             Detection to Next-Gen Firewalls, we bridge the gap between complex threats and
@@ -93,13 +91,13 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
             <Link href="/sophos">
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-white bg-transparent text-white hover:bg-white hover:text-gray-900 transition-colors duration-200 min-w-[180px] text-center"
+                className="inline-block px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold rounded-lg border-2 border-white bg-transparent text-white hover:bg-white hover:text-gray-900 transition-colors duration-200 min-w-[160px] sm:min-w-[180px] text-center"
               >
                 Expert Defense
               </motion.span>
@@ -108,7 +106,7 @@ export default function Hero() {
               <motion.span
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-block px-8 py-4 text-base font-semibold rounded-lg border-2 border-transparent text-white transition-colors duration-200 min-w-[180px] text-center hover:opacity-90"
+                className="inline-block px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold rounded-lg border-2 border-transparent text-white transition-colors duration-200 min-w-[160px] sm:min-w-[180px] text-center hover:opacity-90"
                 style={{ backgroundColor: colors.primary }}
               >
                 Contact Us
