@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { colors } from './root';
-import { INITIAL_EVENTS } from '../data/events';
+import { INITIAL_EVENTS } from '@/app/data/events';
 import eventHeroImage from '@/app/assets/event/event-hero.jpg';
 
 // Type: All, Customer, Partner, Webinar

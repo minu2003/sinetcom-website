@@ -177,12 +177,12 @@ export default function AboutUs() {
                 Our <span style={{ color: colors.primary }}>History</span>
               </h2>
               <div className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
-                <TypewriterText 
-                  text="In 1989, Colombo's rapidly progressing IT industry saw the birth of an organisation aptly named " 
-                  startDelay={0.5} 
-                  isInView={historyInView} 
+                <TypewriterText
+                  text="In 1989, Colombo's rapidly progressing IT industry saw the birth of an organisation aptly named "
+                  startDelay={0.5}
+                  isInView={historyInView}
                 />
-                <motion.strong 
+                <motion.strong
                   className="text-gray-900"
                   initial={{ opacity: 0 }}
                   animate={historyInView ? { opacity: 1 } : { opacity: 0 }}
@@ -190,31 +190,31 @@ export default function AboutUs() {
                 >
                   Debug Computer Peripherals
                 </motion.strong>
-                <TypewriterText 
-                  text=". This new organization was committed to supporting the growing demand for computer peripherals of reputed quality." 
-                  startDelay={2.24} 
-                  isInView={historyInView} 
+                <TypewriterText
+                  text=". This new organization was committed to supporting the growing demand for computer peripherals of reputed quality."
+                  startDelay={2.24}
+                  isInView={historyInView}
                 />
               </div>
               <div className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
-                <TypewriterText 
-                  text="Since then, the Debug Group has played a major role in shaping the responsible distribution of high-quality IT products, introducing a new standard in the sale and servicing of enterprise hardware." 
-                  startDelay={4.25} 
-                  isInView={historyInView} 
+                <TypewriterText
+                  text="Since then, the Debug Group has played a major role in shaping the responsible distribution of high-quality IT products, introducing a new standard in the sale and servicing of enterprise hardware."
+                  startDelay={4.25}
+                  isInView={historyInView}
                 />
               </div>
               <div className="text-gray-700 text-base md:text-lg leading-relaxed mb-6">
-                <TypewriterText 
-                  text="Moving forward and recognizing the critical need for robust digital security, Sinetcom was established as a specialized subsidiary. Our goal is to elevate the region's cybersecurity and structural IT defenses." 
-                  startDelay={7.5} 
-                  isInView={historyInView} 
+                <TypewriterText
+                  text="Moving forward and recognizing the critical need for robust digital security, Sinetcom was established as a specialized subsidiary. Our goal is to elevate the region's cybersecurity and structural IT defenses."
+                  startDelay={7.5}
+                  isInView={historyInView}
                 />
               </div>
               <div className="text-gray-700 text-base md:text-lg leading-relaxed">
-                <TypewriterText 
-                  text="Today, Sinetcom stands as a premier value-added distributor and technological enabler. We proudly bridge the gap between global enterprise solutions like Sophos and local businesses across Sri Lanka and the Maldives, securing the digital transformation of hundreds of organizations daily." 
-                  startDelay={10.9} 
-                  isInView={historyInView} 
+                <TypewriterText
+                  text="Today, Sinetcom stands as a premier value-added distributor and technological enabler. We proudly bridge the gap between global enterprise solutions like Sophos and local businesses across Sri Lanka and the Maldives, securing the digital transformation of hundreds of organizations daily."
+                  startDelay={10.9}
+                  isInView={historyInView}
                 />
               </div>
             </motion.div>
