@@ -1,0 +1,567 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import { colors } from './root';
+import { INITIAL_EVENTS } from '../data/events';
+import eventHeroImage from '@/app/assets/event/event-hero.jpg';
+
+// Type: All, Customer, Partner, Webinar
+const TYPE_OPTIONS = {
+  all: 'All',
+  customer: 'Customer',
+  partner: 'Partner',
+  webinar: 'Webinar',
+};
+
+// Time: Upcoming (future), Past
+const TIME_OPTIONS = {
+  upcoming: 'Upcoming',
+  past: 'Past',
+};
+
+
+const SORT_OPTIONS = [
+  { value: 'recent', label: 'Recent Events' },
+  { value: 'upcoming', label: 'Upcoming First' },
+  { value: 'title', label: 'Title A-Z' },
+];
+
+function CardCarousel({ images, title }) {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  const paginate = (newDirection) => {
+    setDirection(newDirection);
+    setCurrent((prev) => (prev + newDirection + images.length) % images.length);
+  };
+
+  useEffect(() => {
+    if (!images || images.length <= 1) return;
+
+    const timer = setInterval(() => {
+      paginate(1);
+    }, 2000); // Change image every 4 seconds
+
+    return () => clearInterval(timer);
+  }, [images, current]); // Re-run when images or current index changes to reset timer
+
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0
+    })
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+  };
+
+
+  if (!images || images.length === 0) return null;
+
+  return (
+    <div className="relative aspect-video w-full overflow-hidden rounded-t-2xl bg-black">
+      <AnimatePresence initial={false} custom={direction}>
+        <motion.div
+          key={current}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={1}
+          onDragEnd={(e, { offset, velocity }) => {
+            const swipe = swipePower(offset.x, velocity.x);
+            if (swipe < -swipeConfidenceThreshold) {
+              paginate(1);
+            } else if (swipe > swipeConfidenceThreshold) {
+              paginate(-1);
+            }
+          }}
+          className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        >
+          <Image
+            src={images[current]}
+            alt={`${title} - ${current + 1}`}
+            fill
+            className="object-cover pointer-events-none"
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none z-10" />
+
+      {images.length > 1 && (
+        <>
+          <div className="absolute inset-y-0 inset-x-4 flex items-center justify-between z-20 pointer-events-none">
+            <button
+              onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-lg border border-white/30 transition-all pointer-events-auto shadow-lg"
+              aria-label="Previous"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); paginate(1); }}
+              className="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-lg border border-white/30 transition-all pointer-events-auto shadow-lg"
+              aria-label="Next"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={(e) => { e.stopPropagation(); setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                className={`h-2 rounded-full transition-all duration-300 ${i === current ? 'bg-white w-8' : 'bg-white/30 hover:bg-white/50'}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+function EventCard({ event }) {
+  const [isCopied, setIsCopied] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleShare = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const shareData = {
+      title: event.title,
+      text: `Check out this event: ${event.title}`,
+      url: `${window.location.origin}/events`,
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      } catch (err) {
+        console.error('Could not copy text: ', err);
+      }
+    }
+  };
+
+  return (
+    <div
+      className="relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full group cursor-default"
+      >
+        <div className="relative aspect-video bg-gray-200 overflow-hidden">
+          {event.images && event.images.length > 0 ? (
+            <Image
+              src={event.images[0]}
+              alt={event.title}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={75}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400" />
+          )}
+          <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+          <span className="absolute top-3 left-3 px-2 py-1 text-xs font-semibold uppercase tracking-wide bg-white/90 text-gray-600 rounded">
+            {event.tag}
+          </span>
+        </div>
+        <div className="p-5 flex-1 flex flex-col">
+          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">{event.title}</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            {event.dateStart}{event.dateEnd !== event.dateStart ? ` - ${event.dateEnd}` : ''}
+          </p>
+          <div className="mt-auto flex items-center gap-2">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 transition-colors"
+                aria-label="Share"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+              </button>
+              {isCopied && (
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-[10px] font-medium rounded whitespace-nowrap animate-fade-in-up">
+                  Link copied!
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-x-4 border-x-transparent border-t-4 border-t-gray-800"></div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Global Backdrop Blur logic handled in parent, local here for focus */}
+      <AnimatePresence>
+        {isHovered && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-[60] pointer-events-none"
+            />
+
+            {/* Popup Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              className="absolute z-[70] left-1/2 -translate-x-1/2 top-[-20px] pointer-events-auto"
+              style={{ width: '400px', maxWidth: '90vw' }}
+            >
+              <div className="bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-gray-100 w-full overflow-hidden flex flex-col transform-gpu ring-1 ring-black/5">
+                <CardCarousel images={event.images} title={event.title} />
+                <div className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 rounded-full border border-blue-100">
+                      {event.tag}
+                    </span>
+                    <span
+                      className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border"
+                      style={{
+                        backgroundColor: `${colors.primary}10`,
+                        color: colors.primary,
+                        borderColor: `${colors.primary}20`
+                      }}
+                    >
+                      {event.type}
+                    </span>
+                  </div>
+                  <h4 className="text-xl font-extrabold text-gray-900 mb-3 leading-tight">
+                    {event.title}
+                  </h4>
+                  <div className="relative mb-5">
+                    <p className={`text-gray-600 text-base leading-relaxed transition-all duration-300 ${!isExpanded ? 'line-clamp-3' : ''}`}>
+                      {event.description}
+                    </p>
+                    {event.description.length > 150 && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+                        className="mt-2 text-sm font-bold hover:underline"
+                        style={{ color: colors.primary }}
+                      >
+                        {isExpanded ? 'Read less' : 'Read more...'}
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between pt-5 border-t border-gray-100">
+                    <div className="flex items-center gap-2 text-gray-500 font-semibold">
+                      <svg className="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      {event.dateStart}
+                    </div>
+                    <button
+                      onClick={handleShare}
+                      className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold transition-all border border-gray-200 active:scale-95 shadow-sm"
+                    >
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                      Share Event
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+export default function EventsPage() {
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({
+    type: 'all',
+    upcoming: true,
+    past: true,
+  });
+  const [sortBy, setSortBy] = useState('recent');
+  const [currentPage, setCurrentPage] = useState(1);
+  const eventsPerPage = 9;
+
+  const filteredEvents = INITIAL_EVENTS.filter((e) => {
+    const matchType = filters.type === 'all' || e.type === filters.type;
+    const matchTime =
+      (e.when === 'future' && filters.upcoming) ||
+      (e.when === 'past' && filters.past);
+    const matchSearch = !search || e.title.toLowerCase().includes(search.toLowerCase());
+    return matchType && matchTime && matchSearch;
+  });
+
+  const sortedEvents = [...filteredEvents].sort((a, b) => {
+    if (sortBy === 'title') return a.title.localeCompare(b.title);
+    if (sortBy === 'upcoming') {
+      if (a.when === 'future' && b.when === 'past') return -1;
+      if (a.when === 'past' && b.when === 'future') return 1;
+      return b.id - a.id;
+    }
+    // Default 'recent' sort (highest ID first)
+    return b.id - a.id;
+  });
+
+  const totalPages = Math.ceil(sortedEvents.length / eventsPerPage);
+  const paginatedEvents = sortedEvents.slice(
+    (currentPage - 1) * eventsPerPage,
+    currentPage * eventsPerPage
+  );
+
+  const setType = (value) => setFilters((prev) => ({ ...prev, type: value }));
+  const toggleTime = (key) => setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  return (
+    <div className="pt-[var(--navbar-height,80px)]">
+      {/* Hero */}
+      <section className="relative w-full min-h-[50vh] flex overflow-hidden" style={{ backgroundColor: colors.primary }}>
+        <div className="flex flex-col lg:flex-row w-full">
+          <div className="flex-1 flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-12 lg:py-16 order-2 lg:order-1">
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4"
+            >
+              Join us at our Sinetcom Events and Webinars
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-white/90 text-base md:text-lg leading-relaxed mb-4"
+            >
+              Our in-person or virtual events and webinars will ignite inspiration, foster collaboration, and unlock limitless possibilities. Explore this page to find the event or webinar that is right for you, or catch up on content you may have missed.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="text-white/80 text-sm md:text-base"
+            >
+              We can&apos;t wait to see you at a Sinetcom event soon!
+            </motion.p>
+          </div>
+          <div className="relative w-full lg:w-[45%] min-h-[280px] lg:min-h-full order-1 lg:order-2">
+            <Image
+              src={eventHeroImage}
+              alt="Sinetcom events and webinars"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              priority
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Search bar */}
+      <section className="relative -mt-8 z-10 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex rounded-xl bg-white shadow-lg border border-gray-200 overflow-hidden">
+            <div className="flex items-center pl-4 text-gray-400">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Start typing to search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 px-4 py-4 text-gray-900 placeholder-gray-500 focus:outline-none"
+            />
+            <button
+              type="button"
+              className="px-6 py-4 font-semibold text-white transition-colors hover:opacity-90"
+              style={{ backgroundColor: colors.primary }}
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Filters + Event grid */}
+      <section className="w-full py-12 lg:py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Filters sidebar */}
+            <aside className="lg:w-64 flex-shrink-0">
+              <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm sticky top-24">
+                <h2 className="text-lg font-bold text-gray-900 mb-4">Filters</h2>
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-800 mb-2">Type</h3>
+                    <div className="space-y-2">
+                      {['all', 'customer', 'partner', 'webinar'].map((key) => {
+                        const count = key === 'all' ? INITIAL_EVENTS.length : INITIAL_EVENTS.filter((e) => e.type === key).length;
+                        return (
+                          <label key={key} className="flex items-center gap-2 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="type"
+                              checked={filters.type === key}
+                              onChange={() => setType(key)}
+                              className="border-gray-300"
+                              style={{ accentColor: colors.primary }}
+                            />
+                            <span className="text-sm text-gray-700">{TYPE_OPTIONS[key]}</span>
+                            <span className="text-xs text-gray-400">({count})</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="pt-3 border-t border-gray-200">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-2">Time</h3>
+                    <div className="space-y-2">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={filters.upcoming}
+                          onChange={() => toggleTime('upcoming')}
+                          className="rounded border-gray-300"
+                          style={{ accentColor: colors.primary }}
+                        />
+                        <span className="text-sm text-gray-700">{TIME_OPTIONS.upcoming}</span>
+                        <span className="text-xs text-gray-400">
+                          ({INITIAL_EVENTS.filter((e) => e.when === 'future').length})
+                        </span>
+                      </label>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={filters.past}
+                          onChange={() => toggleTime('past')}
+                          className="rounded border-gray-300"
+                          style={{ accentColor: colors.primary }}
+                        />
+                        <span className="text-sm text-gray-700">{TIME_OPTIONS.past}</span>
+                        <span className="text-xs text-gray-400">
+                          ({INITIAL_EVENTS.filter((e) => e.when === 'past').length})
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* Event listing */}
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <p className="text-sm text-gray-600">
+                  {filteredEvents.length > 0
+                    ? `${(currentPage - 1) * eventsPerPage + 1} - ${Math.min(currentPage * eventsPerPage, filteredEvents.length)} of ${filteredEvents.length} results`
+                    : '0 results'}
+                </p>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">Sort by:</span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:ring-2 focus:ring-offset-0 focus:border-transparent"
+                    style={{ '--tw-ring-color': colors.primary }}
+                  >
+                    {SORT_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {paginatedEvents.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {paginatedEvents.map((event) => (
+                      <EventCard key={event.id} event={event} />
+                    ))}
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div className="flex justify-center gap-2 mt-10">
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                        disabled={currentPage === 1}
+                        className="w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                      </button>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          type="button"
+                          onClick={() => setCurrentPage(page)}
+                          className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
+                            ? 'text-white'
+                            : 'border border-gray-300 hover:bg-gray-100'
+                            }`}
+                          style={currentPage === page ? { backgroundColor: colors.primary } : {}}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                        disabled={currentPage === totalPages}
+                        className="w-10 h-10 rounded-lg border border-gray-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center py-16 text-gray-500">No events match your filters.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
