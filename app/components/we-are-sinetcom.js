@@ -7,34 +7,34 @@ import WhyChooseUsSection from './why-choose-us';
 
 const solutions = [
   {
-    id: 'cyber',
-    title: 'Cyber Security',
+    id: 'mdr',
+    title: 'Managed Detection and Response (MDR)',
     icon: (
       <svg className="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
-    description: 'Sophos firewalls, endpoint protection, and enterprise security solutions to secure, monitor, and protect modern businesses. We deliver next-generation cybersecurity as an authorized distributor.',
+    description: 'Expert-led threat hunting, detection, and response delivered as a fully managed service. As an authorized Sophos partner, we offer round-the-clock protection backed by a dedicated team of cybersecurity analysts.',
   },
   {
-    id: 'datacenter',
-    title: 'Data Center & Backup',
+    id: 'firewall',
+    title: 'Next-Generation Firewall',
     icon: (
       <svg className="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
     ),
-    description: 'StorONE and enterprise storage and backup solutions. We help organizations achieve better cost optimization, data resilience, and agile infrastructure for the digital era.',
+    description: 'Powerful network protection with Xstream architecture to accelerate SaaS, SD-WAN, and cloud traffic. Advanced defense against the latest threats, complete visibility, and zero-day protection for your enterprise.',
   },
   {
-    id: 'digital',
-    title: 'Digital Transformation',
+    id: 'endpoint',
+    title: 'Endpoint Protection',
     icon: (
       <svg className="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    description: 'From advanced infrastructure to cloud and AI-driven solutions, we provide the technology and expertise businesses need to stay ahead. People, processes, and management working together for enterprise security and digital transformation.',
+    description: 'Industry-leading endpoint security with Intercept X. Leveraging deep learning AI and anti-ransomware capabilities to stop advanced attacks before they impact your business systems.',
   },
   {
     id: 'value',
@@ -44,7 +44,7 @@ const solutions = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
       </svg>
     ),
-    description: 'Fast delivery, secure systems, and dedicated support. We offer E-License, 365-day support, and only the best brands—backed by deep industry expertise and specialized training for our channel partners.',
+    description: 'Fast delivery, secure systems, and dedicated support. We offer E-License, 365-day support, and deep industry expertise with specialized training for our channel partners to maximize their cybersecurity investments.',
   },
 ];
 
@@ -162,7 +162,7 @@ export default function WeAreSinetcom() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-gray-700 text-base md:text-lg leading-relaxed"
               >
-                With our team of experienced experts, we share industry knowledge with enterprise customers. We offer best practices and assess how people, processes, and management can work together to drive enterprise security and digital transformation.
+                With our team of experienced experts, we share industry knowledge with enterprise customers. We offer best practices and assess how your people, processes, and management can work together to achieve an uncompromising cybersecurity posture.
               </motion.p>
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
@@ -171,7 +171,7 @@ export default function WeAreSinetcom() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="text-gray-700 text-base md:text-lg leading-relaxed"
               >
-                Our strengths lie in Cyber Security, Data Center & Backup, and Digital Transformation. We specialize in delivering top-tier solutions—from Sophos and StorONE to Huawei—with fast delivery, secure systems, and 365-day support.
+                As an authorized distributor of Sophos, our core focus is delivering next-generation cybersecurity. From Managed Detection and Response (MDR) to industry-leading Endpoint and Firewall solutions, we provide top-tier protection backed by our 365-day dedicated support.
               </motion.p>
             </div>
             <div className="lg:col-span-7 space-y-4">
