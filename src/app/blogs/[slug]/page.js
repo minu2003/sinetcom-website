@@ -1,9 +1,10 @@
 import BlogDetailPage from '@/components/blog-detail-page';
 
-import { INITIAL_BLOGS } from '@/components/blogs-page';
+import { INITIAL_BLOGS } from '@/app/data/blogs';
 
-export function generateMetadata({ params }) {
-    const slug = params.slug;
+export async function generateMetadata({ params }) {
+    const awaitedParams = await params;
+    const slug = awaitedParams.slug;
     const blog = INITIAL_BLOGS.find((b) => b.slug === slug);
 
     if (!blog) {
@@ -41,6 +42,6 @@ export function generateMetadata({ params }) {
     };
 }
 
-export default function BlogRoute() {
+export default async function BlogRoute({ params }) {
     return <BlogDetailPage />;
 }

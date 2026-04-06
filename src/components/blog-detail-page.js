@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { INITIAL_BLOGS } from './blogs-page';
+import { INITIAL_BLOGS } from '@/app/data/blogs';
 import { colors } from './root';
 import Link from 'next/link';
 import Image from 'next/image';
