@@ -13,7 +13,7 @@ const fadeIn = {
   transition: { duration: 0.5 },
 };
 
-const headlineContact = "Let's talk";
+const headlineContact = "Let’s Secure Your Business Together";
 const letterVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: (delayIndex) => ({
@@ -169,7 +169,7 @@ export default function ContactUs() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed"
           >
-            Get in touch with our team—we&apos;re here to help with your cybersecurity and IT needs.
+            Connect with our experts to explore tailored solutions that protect, optimize, and transform your enterprise.
           </motion.p>
         </div>
       </section>
