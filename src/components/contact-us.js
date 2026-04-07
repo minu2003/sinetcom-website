@@ -140,7 +140,7 @@ export default function ContactUs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block px-4 py-2 mb-6 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
+            className="inline-block px-4 py-2 mb-2 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
           >
             Get in touch
           </motion.span>
