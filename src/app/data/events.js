@@ -1,11 +1,3 @@
-import eventHeroImage from '@/app/assets/event/event-hero.jpg';
-
-import partnerImg1 from '@/app/assets/event/1-partner.jpg';
-import partnerImg2 from '@/app/assets/event/2-partner.jpg';
-import partnerImg3 from '@/app/assets/event/3-partner.jpg';
-import partnerImg4 from '@/app/assets/event/4-partner.jpg';
-import partnerImg5 from '@/app/assets/event/5-partner.jpg';
-import customerImg6 from '@/app/assets/event/6 - customer.jpg';
 import customer1_1 from '@/app/assets/event/customer1 - 1.jpg';
 import customer1_2 from '@/app/assets/event/customer1 - 2.jpg';
 import customer1_3 from '@/app/assets/event/customer1 - 3.jpg';
@@ -24,6 +16,41 @@ import partner2_3 from '@/app/assets/event/partner2_3.jpg';
 import partner2_4 from '@/app/assets/event/partner2_4.jpg';
 import partner2_5 from '@/app/assets/event/partner2_5.jpg';
 import partner2_6 from '@/app/assets/event/partner2_6.jpg';
+import partner3_1 from '@/app/assets/event/partner3-1.jpg';
+import partner3_2 from '@/app/assets/event/partner3-2.jpg';
+import partner3_3 from '@/app/assets/event/partner3-3.jpg';
+import partner3_4 from '@/app/assets/event/partner3-4.jpg';
+import partner3_5 from '@/app/assets/event/partner3-5.jpg';
+import partner3_6 from '@/app/assets/event/partner3-6.jpg';
+import partner4_1 from '@/app/assets/event/partner4-1.jpg';
+import partner4_2 from '@/app/assets/event/partner4-2.jpg';
+import partner4_3 from '@/app/assets/event/partner4-3.jpg';
+import partner4_4 from '@/app/assets/event/partner4-4.jpg';
+import partner5_1 from '@/app/assets/event/partner5-1.jpg';
+import partner5_2 from '@/app/assets/event/partner5-2.jpg';
+import partner5_3 from '@/app/assets/event/partner5-3.jpg';
+import partner5_4 from '@/app/assets/event/partner5-4.jpg';
+import partner5_5 from '@/app/assets/event/partner5-5.jpg';
+import partner5_6 from '@/app/assets/event/partner5-6.jpg';
+import partner6_1 from '@/app/assets/event/partner6-1.jpg';
+import partner6_2 from '@/app/assets/event/partner6-2.jpg';
+import partner6_3 from '@/app/assets/event/partner6-3.jpg';
+import partner6_4 from '@/app/assets/event/partner6-4.jpg';
+import partner6_5 from '@/app/assets/event/partner6-5.jpg';
+import partner6_6 from '@/app/assets/event/partner6-6.jpg';
+import partner7_1 from '@/app/assets/event/partner7-1.jpg';
+import partner7_2 from '@/app/assets/event/partner7-2.jpg';
+import partner7_3 from '@/app/assets/event/partner7-3.jpg';
+import partner7_4 from '@/app/assets/event/partner7-4.jpg';
+import partner7_5 from '@/app/assets/event/partner7-5.jpg';
+import partner7_6 from '@/app/assets/event/partner7-6.jpg';
+import partner7_7 from '@/app/assets/event/partner7-7.jpg';
+import customer2_1 from '@/app/assets/event/customer2-1.jpg';
+import customer2_2 from '@/app/assets/event/customer2-2.jpg';
+import partner8_1 from '@/app/assets/event/partner8-1.jpg';
+import partner8_2 from '@/app/assets/event/partner8-2.jpg';
+import partner8_3 from '@/app/assets/event/partner8-3.jpg';
+import partner8_4 from '@/app/assets/event/partner8-4.jpg';
 
 
 export const INITIAL_EVENTS = [
@@ -62,35 +89,79 @@ export const INITIAL_EVENTS = [
   },
   {
     id: 4,
-    title: 'StorONE Backup Best Practices',
-    type: 'webinar',
+    title: 'Sophos Product Awareness Session for Finco Technologies',
+    type: 'partner',
     when: 'past',
     date: '08/01/2026',
-    tag: 'WEBINAR',
-    slug: 'storone-backup-webinar',
-    images: [partnerImg4, eventHeroImage],
-    description: "Missed the live session? Catch up on how to optimize your backup infrastructure using StorONE's latest storage technologies. This session covers backup strategy, ransomware protection and data recovery."
+    tag: 'PAST EVENT',
+    slug: 'Sophos Product Awareness Session for Finco Technologies',
+    images: [partner3_1, partner3_2, partner3_3, partner3_4, partner3_5, partner3_6],
+    description: "Sinetcom (Pvt) Ltd conducted an engaging Sophos Product Awareness session for Finco Technologies Private Limited, led by Mr. Prasad Wijesuriya from Sophos. The session focused on the latest advancements in next-generation protection and threat management, empowering participants with valuable insights to strengthen cybersecurity practices and build a safer digital future."
   },
   {
     id: 5,
-    title: 'Enterprise IT Roundtable',
-    type: 'customer',
+    title: 'Sophos Technical Training Session for SLTS',
+    type: 'partner',
     when: 'past',
     date: '22/02/2026',
     tag: 'PAST EVENT',
-    slug: 'enterprise-it-roundtable',
-    images: [customerImg6, eventHeroImage],
-    description: "A summary of the key takeaways from our exclusive executive roundtable session covering cloud migration and hybrid workforce security. Industry experts discuss the challenges and successes of modern cloud architecture."
+    slug: 'Sophos Technical Training Session for SLTS',
+    images: [partner4_1, partner4_2, partner4_3, partner4_4],
+    description: "Sinetcom (Pvt) Ltd conducted a focused technical training session on Sophos solutions for SLTS, providing a valuable platform for in-depth knowledge sharing and discussions on security technologies and best practices. The session strengthened collaboration between both teams, and we thank the SLTS team for their enthusiastic participation in advancing cybersecurity expertise."
   },
   {
     id: 6,
-    title: 'Channel Partner Meetup',
+    title: 'Sophos Product Awareness Session for ZILLIONe',
     type: 'partner',
-    when: 'future',
+    when: 'past',
     date: '14/03/2026',
-    tag: 'FUTURE EVENT',
-    slug: 'channel-partner-meetup',
-    images: [partnerImg5, partnerImg1],
-    description: "Networking event for our channel partners to celebrate successes and discuss future roadmaps in a relaxed environment. Meet other professionals and learn about upcoming product releases."
+    tag: 'PAST EVENT',
+    slug: 'Sophos Product Awareness Session for ZILLIONe',
+    images: [partner5_1, partner5_2, partner5_3, partner5_4, partner5_5, partner5_6],
+    description: "Sinetcom (Pvt) Ltd conducted an intensive Sophos Product Awareness session for the team at ZILLIONe, led by Mr. Prasad Wijesuriya. The session focused on enhancing knowledge of the latest cybersecurity solutions, supporting continuous upskilling and enabling partners to better serve their customers with advanced security practices."
+  },
+  {
+    id: 7,
+    title: 'Strategic Training Session with Asia Pacific Technology Systems (Pvt) Ltd',
+    type: 'partner',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Strategic Training Session with Asia Pacific Technology Systems (Pvt) Ltd',
+    images: [partner6_1, partner6_2, partner6_3, partner6_4, partner6_5, partner6_6],
+    description: "Sinetcom (Pvt) Ltd conducted a strategic training session with the Asia Pacific Technology Systems (Pvt) Ltd team, focusing on knowledge sharing, collaboration, and growth. The session provided a valuable platform for strengthening partnership alignment and enhancing capabilities, reinforcing a shared commitment to driving success through continuous learning and teamwork."
+  },
+  {
+    id: 8,
+    title: 'Sophos MDR Sales Enablement Training Session',
+    type: 'partner',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Sophos MDR Sales Enablement Training Session',
+    images: [partner7_1, partner7_2, partner7_3, partner7_4, partner7_5, partner7_6, partner7_7],
+    description: "Sinetcom (Pvt) Ltd hosted an exclusive Sales Enablement Training session focused on Sophos MDR, designed to strengthen partner capabilities in Cyber Security as a Service. The session provided an in-depth understanding of MDR fundamentals and sales consultancy, enabling participants to fast-track certifications, with several successfully completing their sales exams during the session. The event concluded with an engaging quiz, where top performers were rewarded, highlighting a strong commitment to continuous learning and delivering advanced cybersecurity solutions."
+  },
+  {
+    id: 9,
+    title: 'Sophos Awareness Session for Customers',
+    type: 'customer',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Sophos Awareness Session for Customers',
+    images: [customer2_1, customer2_2],
+    description: "Sinetcom (Pvt) Ltd hosted a Sophos Awareness session for valued customers at Renuka Hotel, Colombo, focusing on practical technical strategies and real-world defense tactics. The session provided valuable insights into strengthening cybersecurity posture and operational resilience, with active participation contributing to an engaging and impactful knowledge-sharing experience."
+  },
+  {
+    id: 10,
+    title: 'Advanced Sophos Training Session with Finco Technologies – Part II',
+    type: 'partner',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Advanced Sophos Training Session with Finco Technologies – Part II',
+    images: [partner8_1, partner8_2, partner8_3, partner8_4],
+    description: "Sinetcom (Pvt) Ltd hosted the second phase of its specialized Sophos training session for Finco Technologies Private Limited, focusing on deeper insights into the evolving threat landscape and advanced security solutions. Led by industry experts including Mr. Prasad Wijesuriya and Mr. Sahan Marga, the session emphasized strategic implementation and market trends, strengthening collaboration and empowering partners to deliver enhanced cybersecurity solutions."
   },
 ];
