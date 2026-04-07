@@ -1,57 +1,74 @@
 import eventHeroImage from '@/app/assets/event/event-hero.jpg';
 
-// Dynamic image assets moved to public/assets/events/ folder
-const summitImage = "/assets/events/summit.jpg";
-const workshopImage = "/assets/events/workshop.jpg";
-const roundtableImage = "/assets/events/roundtable.jpg";
+import partnerImg1 from '@/app/assets/event/1-partner.jpg';
+import partnerImg2 from '@/app/assets/event/2-partner.jpg';
+import partnerImg3 from '@/app/assets/event/3-partner.jpg';
+import partnerImg4 from '@/app/assets/event/4-partner.jpg';
+import partnerImg5 from '@/app/assets/event/5-partner.jpg';
+import customerImg6 from '@/app/assets/event/6 - customer.jpg';
+import customer1_1 from '@/app/assets/event/customer1 - 1.jpg';
+import customer1_2 from '@/app/assets/event/customer1 - 2.jpg';
+import customer1_3 from '@/app/assets/event/customer1 - 3.jpg';
+import customer1_4 from '@/app/assets/event/customer1 - 4.jpg';
+import customer1_5 from '@/app/assets/event/customer1 - 5.jpg';
+import customer1_6 from '@/app/assets/event/customer1 - 6.jpg';
+import partner1_1 from '@/app/assets/event/partner1-1.jpg';
+import partner1_2 from '@/app/assets/event/partner1-2.jpg';
+import partner1_3 from '@/app/assets/event/partner1-3.jpg';
+import partner1_4 from '@/app/assets/event/partner1-4.jpg';
+import partner1_5 from '@/app/assets/event/partner1-5.jpg';
+import partner1_6 from '@/app/assets/event/partner1-6.jpg';
+import partner2_1 from '@/app/assets/event/partner2_1.jpg';
+import partner2_2 from '@/app/assets/event/partner2_2.jpg';
+import partner2_3 from '@/app/assets/event/partner2_3.jpg';
+import partner2_4 from '@/app/assets/event/partner2_4.jpg';
+import partner2_5 from '@/app/assets/event/partner2_5.jpg';
+import partner2_6 from '@/app/assets/event/partner2_6.jpg';
+
 
 export const INITIAL_EVENTS = [
   {
     id: 1,
-    title: 'Sinetcom Cyber Security Summit 2026',
+    title: 'Accelerate Your Cyber Security Immunity with Sophos',
     type: 'customer',
-    when: 'future',
-    dateStart: '05/10/2026',
-    dateEnd: '06/10/2026',
-    tag: 'FUTURE EVENT',
-    slug: 'cyber-security-summit-2026',
-    images: [summitImage, eventHeroImage, roundtableImage],
-    description: "Join industry leaders at our flagship summit to explore the cutting edge of cybersecurity defense and strategy. Experience deep-dive technical sessions and exclusive networking opportunities. This event features deep-dive technical sessions and exclusive networking opportunities for all attendees."
+    when: 'past',
+    date: '13/11/2025',
+    tag: 'PAST EVENT',
+    slug: 'Accelerate Your Cyber Security Immunity with Sophos',
+    images: [customer1_1, customer1_2, customer1_3, customer1_4, customer1_5, customer1_6],
+    description: "Sinetcom (Pvt) Ltd, in collaboration with AlphaSonic Technologies (Pvt) Ltd, hosted the event “Accelerate Your Cyber Security Immunity with Sophos” at Marino Beach Hotel, Colombo, featuring Mr. Prasad Wijesuriya from Sophos, who shared key insights on modern cybersecurity. The event brought together industry professionals for knowledge sharing and collaboration, contributing to a stronger cybersecurity landscape in Sri Lanka."
   },
   {
     id: 2,
-    title: 'Partner Enablement Workshop',
+    title: 'Sophos Security Solutions – Technical Knowledge Sharing Session',
     type: 'partner',
-    when: 'future',
-    dateStart: '15/11/2026',
-    dateEnd: '16/11/2026',
-    tag: 'FUTURE EVENT',
-    slug: 'partner-enablement-workshop',
-    images: [workshopImage, eventHeroImage],
-    description: "An intensive training session designed for Sinetcom partners to master the latest solutions and enhance their service delivery capabilities. Get hands-on with new product features and learn how to implement them effectively in your client environments."
+    when: 'past',
+    date: '12/12/2025',
+    tag: 'PAST EVENT',
+    slug: 'Sophos Security Solutions – Technical Knowledge Sharing Session',
+    images: [partner1_1, partner1_2, partner1_3, partner1_4, partner1_5, partner1_6],
+    description: "Sinetcom successfully hosted the Sophos Security Solutions – Technical Knowledge Sharing Session at the Sinetcom Training Centre, Colombo 06, providing a focused platform for technical knowledge exchange. The session concluded with an engaging quiz, where participants tested their understanding, and winners were recognized with gifts. We thank all attendees for their active participation and look forward to continuing collaboration in advancing cybersecurity expertise."
   },
   {
     id: 3,
-    title: 'Sophos Solutions Webinar Series',
-    type: 'webinar',
-    when: 'future',
-    dateStart: '20/12/2026',
-    dateEnd: '20/12/2026',
-    tag: 'WEBINAR',
-    slug: 'sophos-webinar-series',
-    images: [eventHeroImage, summitImage],
-    description: "Weekly deep-dives into the Sophos ecosystem. Learn about everything from MDR to firewall configuration in these expert-led virtual sessions. Our experts will cover troubleshooting, advanced configuration and much more."
+    title: 'Sophos Technical Training Session for Finco Technologies',
+    type: 'partner',
+    when: 'past',
+    date: '20/12/2026',
+    tag: 'PAST EVENT',
+    slug: 'Sophos Technical Training Session for Finco Technologies',
+    images: [partner2_1, partner2_2, partner2_3, partner2_4, partner2_5, partner2_6],
+    description: "Sinetcom (Pvt) Ltd conducted a targeted technical training session on Sophos solutions for Finco Technologies Private Limited, creating a platform for in-depth knowledge sharing and discussions on security technologies and best practices. The session strengthened collaboration between both teams, and we extend our appreciation to the Finco Technologies team for their active participation and engagement in advancing cybersecurity expertise."
   },
   {
     id: 4,
     title: 'StorONE Backup Best Practices',
     type: 'webinar',
     when: 'past',
-    dateStart: '08/01/2026',
-    dateEnd: '08/01/2026',
+    date: '08/01/2026',
     tag: 'WEBINAR',
     slug: 'storone-backup-webinar',
-    images: [roundtableImage, workshopImage],
+    images: [partnerImg4, eventHeroImage],
     description: "Missed the live session? Catch up on how to optimize your backup infrastructure using StorONE's latest storage technologies. This session covers backup strategy, ransomware protection and data recovery."
   },
   {
@@ -59,11 +76,10 @@ export const INITIAL_EVENTS = [
     title: 'Enterprise IT Roundtable',
     type: 'customer',
     when: 'past',
-    dateStart: '22/02/2026',
-    dateEnd: '22/02/2026',
+    date: '22/02/2026',
     tag: 'PAST EVENT',
     slug: 'enterprise-it-roundtable',
-    images: [roundtableImage, summitImage],
+    images: [customerImg6, eventHeroImage],
     description: "A summary of the key takeaways from our exclusive executive roundtable session covering cloud migration and hybrid workforce security. Industry experts discuss the challenges and successes of modern cloud architecture."
   },
   {
@@ -71,11 +87,10 @@ export const INITIAL_EVENTS = [
     title: 'Channel Partner Meetup',
     type: 'partner',
     when: 'future',
-    dateStart: '14/03/2026',
-    dateEnd: '15/03/2026',
+    date: '14/03/2026',
     tag: 'FUTURE EVENT',
     slug: 'channel-partner-meetup',
-    images: [summitImage, workshopImage],
+    images: [partnerImg5, partnerImg1],
     description: "Networking event for our channel partners to celebrate successes and discuss future roadmaps in a relaxed environment. Meet other professionals and learn about upcoming product releases."
   },
 ];

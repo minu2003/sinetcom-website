@@ -23,6 +23,9 @@ export const metadata = {
   keywords: ["Cybersecurity", "Sophos Distributor", "Sri Lanka", "Maldives", "Network Security", "Endpoint Protection", "Managed Detection and Response", "MDR", "Sinetcom", "Debug Group"],
   authors: [{ name: "Sinetcom" }],
   creator: "Sinetcom",
+  icons: {
+    icon: "/favicon.png",
+  },
   openGraph: {
     type: "website",
     locale: "en_LK",
