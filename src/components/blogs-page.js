@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { colors } from './root';
-import blogHeroImage from '@/app/assets/blog.jpg';
+import blogHeroImage from '@/app/assets/blog.png';
 
 import { INITIAL_BLOGS } from '@/app/data/blogs';
 
@@ -80,24 +80,35 @@ export default function BlogsPage() {
         </div>
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(135deg, rgba(39,71,148,0.25) 0%, rgba(39,71,148,0.12) 50%, rgba(39,71,148,0.06) 100%)' }}
+          style={{ background: 'linear-gradient(135deg, rgba(11,22,53,0.72) 0%, rgba(11,22,53,0.56) 52%, rgba(11,22,53,0.66) 100%)' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-black/10 pointer-events-none" />
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col justify-center px-6 sm:px-8 lg:px-12 py-16 lg:py-24">
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.03 }}
+            className="inline-block w-fit px-4 py-2 mb-4 text-xs sm:text-sm font-semibold uppercase tracking-widest rounded-full border text-white backdrop-blur-sm"
+            style={{ backgroundColor: `${colors.primary}66`, borderColor: `${colors.accent}B3` }}
+          >
+            Sinetcom Blogs
+          </motion.span>
 
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.06 }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-5 tracking-tight leading-[1.1] max-w-2xl"
+            style={{ textShadow: '0 6px 24px rgba(0, 0, 0, 0.35)' }}
           >
-            Insights & <span style={{ color: colors.accent }}>Updates</span>
+            Insights & <span style={{ color: '#58B8FF' }}>Updates</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.12 }}
-            className="text-white/90 text-base md:text-lg leading-relaxed max-w-xl"
+            className="text-[#EAF1FF] text-base md:text-lg leading-relaxed max-w-xl"
+            style={{ textShadow: '0 4px 16px rgba(0, 0, 0, 0.3)' }}
           >
             Stay informed with the latest on cybersecurity, data center solutions, and digital transformation from Sinetcom.
           </motion.p>

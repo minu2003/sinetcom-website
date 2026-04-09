@@ -4,8 +4,10 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { colors } from './root';
+import aboutImage from '@/app/assets/about.jpg';
 import debugImage from '@/app/assets/debug.jpg';
-const headlineAbout = "Who We Are";
+const headlineAbout = "Empowering Businesses with Secure Technology";
+const headlineAccentFromIndex = headlineAbout.indexOf('Secure');
 const letterVariants = {
   hidden: { opacity: 0, y: 24 },
   visible: (delayIndex) => ({
@@ -78,37 +80,63 @@ export default function AboutUs() {
   return (
     <div>
       {/* Hero: full-screen with new trend */}
-      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#0d1f3c] to-[#0a1628]">
-        <div className="absolute inset-0 opacity-20">
+      <section
+        className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: `url(${aboutImage.src})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B1635]/70 via-[#0B1635]/58 to-[#0B1635]/68 z-10" />
+        <div className="absolute inset-0 z-10 opacity-15">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full blur-3xl" style={{ background: colors.primary }} />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: colors.accent }} />
         </div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\' fill=\'%23274794\' fill-opacity=\'0.08\'/%3E%3C/g%3E%3C/svg%3E')] opacity-60" />
+        <div className="absolute inset-0 z-10 bg-[url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\' fill=\'%23274794\' fill-opacity=\'0.08\'/%3E%3C/g%3E%3C/svg%3E')] opacity-15" />
         <div className="relative z-20 w-full max-w-4xl mx-auto text-center px-4 py-16 sm:py-24">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block px-4 py-2 mb-2 text-sm font-semibold uppercase tracking-widest rounded-full border-2 border-white/80 text-white"
+            className="inline-block px-4 py-2 mb-3 text-sm font-semibold uppercase tracking-widest rounded-full border text-white backdrop-blur-sm"
+            style={{ backgroundColor: `${colors.primary}66`, borderColor: `${colors.accent}B3` }}
           >
-            About Sinetcom
+            Who We Are
           </motion.span>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight overflow-hidden block">
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight overflow-hidden block"
+            style={{ textShadow: '0 6px 24px rgba(0, 0, 0, 0.35)' }}
+          >
             <span className="block">
-              {headlineAbout.split('').map((char, i) => (
-                <motion.span
-                  key={`about-${i}`}
-                  custom={i}
-                  variants={letterVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="inline-block"
-                  style={{ whiteSpace: char === ' ' ? 'pre' : 'normal', color: i >= 7 ? colors.accent : 'inherit' }}
-                >
-                  {char}
-                </motion.span>
-              ))}
+              {headlineAbout.split(' ').map((word, wordIndex) => {
+                const wordStart =
+                  wordIndex === 0
+                    ? 0
+                    : headlineAbout.split(' ').slice(0, wordIndex).join(' ').length + 1;
+                return (
+                  <span key={`word-${wordIndex}`} className="inline-block whitespace-nowrap mr-[0.25em] last:mr-0">
+                    {word.split('').map((char, j) => {
+                      const i = wordStart + j;
+                      return (
+                        <motion.span
+                          key={`about-${wordIndex}-${j}`}
+                          custom={i}
+                          variants={letterVariants}
+                          initial="hidden"
+                          animate="visible"
+                          className="inline-block"
+                          style={{
+                            color:
+                              headlineAccentFromIndex >= 0 && i >= headlineAccentFromIndex
+                                ? '#58B8FF'
+                                : '#FFFFFF',
+                          }}
+                        >
+                          {char}
+                        </motion.span>
+                      );
+                    })}
+                  </span>
+                );
+              })}
             </span>
           </h1>
 
@@ -116,9 +144,10 @@ export default function AboutUs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl md:text-2xl text-[#EAF1FF] max-w-3xl mx-auto leading-relaxed"
+            style={{ textShadow: '0 4px 16px rgba(0, 0, 0, 0.3)' }}
           >
-            A leading value-added distributor and technology enabler, committed to tomorrow&apos;s innovative solutions and exceptional customer satisfaction.
+            At Sinetcom, we deliver cutting-edge cybersecurity, data center, and digital transformation solutions to help enterprises thrive in a rapidly evolving digital world.
           </motion.p>
         </div>
       </section>
@@ -227,9 +256,15 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Journey / Legacy Alternative Display */}
-      <section className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+      {/* Journey / Premium Timeline */}
+      <section className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#081325] via-[#0b1a34] to-[#071224]">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-16 -left-10 w-64 h-64 rounded-full blur-3xl" style={{ background: colors.primary }} />
+          <div className="absolute bottom-16 right-0 w-72 h-72 rounded-full blur-3xl" style={{ background: colors.accent }} />
+          <div className="absolute top-1/3 right-1/4 w-48 h-48 rounded-full blur-3xl bg-cyan-400/30" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             ref={historyRef}
             initial={{ opacity: 0, y: 20 }}
@@ -237,66 +272,59 @@ export default function AboutUs() {
             transition={{ duration: 0.5 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900 mb-3">
-              The Journey: <span style={{ color: colors.primary }}>A Legacy of Digital Trust</span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3">
+              The Journey: <span style={{ color: '#7dd3fc' }}>A Legacy of Digital Trust</span>
             </h2>
-            <p className="text-lg md:text-xl font-semibold" style={{ color: colors.accent }}>
+            <p className="text-lg md:text-xl font-semibold text-cyan-200">
               37 Years of Innovation | 19 Years of Security Excellence
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={historyInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative rounded-3xl overflow-hidden shadow-xl ring-1 ring-black/5 mb-12"
-          >
-            <Image
-              src={debugImage}
-              alt="Sinetcom digital trust journey"
-              width={1200}
-              height={520}
-              className="w-full h-[260px] md:h-[360px] object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/35 to-transparent pointer-events-none" />
-          </motion.div>
+          <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            <motion.div
+              initial={{ opacity: 0, x: -20, y: 20 }}
+              animate={historyInView ? { opacity: 1, x: 0, y: -6 } : {}}
+              transition={{ duration: 0.55, delay: 0.08 }}
+              className="group lg:col-span-5 self-start lg:sticky lg:top-24 relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/15"
+            >
+              <Image
+                src={debugImage}
+                alt="Sinetcom digital trust journey"
+                width={900}
+                height={900}
+                className="w-full h-[230px] sm:h-[290px] lg:h-[590px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 42vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050b18]/70 via-[#050b18]/25 to-transparent pointer-events-none" />
+              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md px-4 py-3">
+                <p className="text-xs uppercase tracking-[0.12em] text-white/75">Legacy Timeline</p>
+                <p className="text-lg font-semibold text-white">From Debug Foundation to Sinetcom Leadership</p>
+              </div>
+            </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-            {journeyMilestones.map((item, idx) => (
-              <motion.article
-                key={item.phase}
-                initial={{ opacity: 0, y: 16 }}
-                animate={historyInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.35, delay: 0.1 * idx }}
-                className="group relative rounded-2xl p-[1px] md:p-[1.5px] transition-transform duration-300 hover:scale-[1.03]"
-                style={{
-                  background:
-                    idx % 2 === 0
-                      ? `linear-gradient(135deg, ${colors.primary}40 0%, ${colors.primary}10 55%, #ffffff 100%)`
-                      : `linear-gradient(135deg, ${colors.accent}35 0%, ${colors.accent}10 55%, #ffffff 100%)`,
-                }}
-              >
-                <div className="relative bg-white rounded-2xl p-6 md:p-8 h-full shadow-sm group-hover:shadow-xl transition-shadow duration-300">
-                  <span
-                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-3"
-                    style={{
-                      color: idx % 2 === 0 ? colors.primary : colors.accent,
-                      backgroundColor: idx % 2 === 0 ? `${colors.primary}14` : `${colors.accent}14`,
-                    }}
+            <div className="lg:col-span-7 relative pl-8">
+              <div className="absolute left-3 top-2 bottom-2 w-px bg-gradient-to-b from-blue-300/60 via-violet-300/60 to-cyan-300/60" />
+              <div className="space-y-6">
+                {journeyMilestones.map((item, idx) => (
+                  <motion.article
+                    key={item.phase}
+                    initial={{ opacity: 0, y: 22 }}
+                    animate={historyInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.38, delay: 0.1 * idx }}
+                    className="group relative"
                   >
-                    {item.phase}
-                  </span>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-700 text-base md:text-lg leading-relaxed">{item.content}</p>
-                  <div
-                    className="absolute top-4 right-4 w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: idx % 2 === 0 ? colors.primary : colors.accent }}
-                    aria-hidden
-                  />
-                </div>
-              </motion.article>
-            ))}
+                    <span className="absolute -left-[28px] top-6 w-4 h-4 rounded-full border-2 border-white/70 shadow-[0_0_18px_rgba(125,211,252,0.55)] bg-cyan-300" />
+                    <div className="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-lg p-5 md:p-6 shadow-[0_12px_30px_rgba(0,0,0,0.25)] transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-[1.02] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.35)]">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/10 text-cyan-200 border border-cyan-200/30 mb-3">
+                        {item.phase}
+                      </div>
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{item.title}</h3>
+                      <p className="text-blue-100/90 text-base md:text-lg leading-relaxed">{item.content}</p>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
