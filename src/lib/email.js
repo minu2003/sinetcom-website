@@ -1,4 +1,16 @@
-export async function sendContactFormEmail({
+import { Resend } from 'resend';
+
+const CONTACT_NOTIFY_TO = 'cr@sinetcomm.com';
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function buildContactEmailHtml({
   firstName,
   lastName,
   email,
@@ -7,46 +19,58 @@ export async function sendContactFormEmail({
   contactNumber,
   message,
 }) {
-  const RESEND_API_KEY = process.env.RESEND_API_KEY;
-  const EMAIL_FROM = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+  const rows = [
+    ['Name', `${firstName} ${lastName}`.trim()],
+    ['Email', email],
+    ['Company', company || '—'],
+    ['Country', country || '—'],
+    ['Contact number', contactNumber || '—'],
+    ['Message', message],
+  ];
 
-  if (!RESEND_API_KEY) {
-    console.error('RESEND_API_KEY is not set');
-    return { ok: false, error: 'Email service configuration error' };
+  const body = rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:8px 12px;border:1px solid #e5e7eb;font-weight:600;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:8px 12px;border:1px solid #e5e7eb;white-space:pre-wrap;">${escapeHtml(value)}</td></tr>`,
+    )
+    .join('');
+
+  return `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;font-size:15px;color:#111;">
+<p>New message from the Sinetcom website contact form.</p>
+<table style="border-collapse:collapse;max-width:640px;">${body}</table>
+</body></html>`;
+}
+
+/**
+ * Sends a notification email after a contact form submission is stored.
+ * Set RESEND_API_KEY. Use RESEND_FROM_EMAIL for production (your verified domain);
+ * otherwise Resend test address onboarding@resend.dev is used (limited recipients).
+ * Notifications are always sent to cr@sinetcomm.com.
+ */
+export async function sendContactFormEmail(payload) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return { ok: false, error: 'Email service is not configured.' };
   }
 
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: EMAIL_FROM,
-        to: ['support@sinetcomm.com'], // Or the user's email
-        subject: `Contact Form Submission from ${firstName} ${lastName}`,
-        html: `
-          <h3>New Contact Form Submission</h3>
-          <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company || 'N/A'}</p>
-          <p><strong>Country:</strong> ${country || 'N/A'}</p>
-          <p><strong>Contact Number:</strong> ${contactNumber || 'N/A'}</p>
-          <p><strong>Message:</strong></p>
-          <p>${message}</p>
-        `,
-      }),
-    });
+  const from =
+    process.env.RESEND_FROM_EMAIL || 'Sinetcom Contact <onboarding@resend.dev>';
 
-    if (!response.ok) {
-      const data = await response.json();
-      return { ok: false, error: data.message || 'Failed to send email via resend API' };
-    }
+  const to = CONTACT_NOTIFY_TO;
 
-    return { ok: true };
-  } catch (error) {
-    console.error('Error sending email:', error);
-    return { ok: false, error: error.message || 'Error occurred while sending email' };
+  const resend = new Resend(apiKey);
+  const { error } = await resend.emails.send({
+    from,
+    to,
+    subject: `Contact form: ${payload.firstName} ${payload.lastName}`,
+    html: buildContactEmailHtml(payload),
+    replyTo: payload.email,
+  });
+
+  if (error) {
+    console.error('Resend error:', error);
+    return { ok: false, error: error.message || 'Failed to send email.' };
   }
+
+  return { ok: true };
 }
