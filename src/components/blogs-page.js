@@ -21,13 +21,23 @@ function BlogCard({ blog, index }) {
     >
       <Link href={`/blogs/${blog.slug}`} className="block flex-1 flex flex-col">
         <div className="relative aspect-[16/10] bg-gray-100 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-500" />
+          {blog.heroImage ? (
+            <Image
+              src={blog.heroImage}
+              alt={blog.title}
+              fill
+              className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={80}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-500" />
+          )}
           <span className="absolute top-4 left-4 px-3 py-1 text-xs font-semibold uppercase tracking-wide rounded-full text-white" style={{ backgroundColor: colors.primary }}>
             {blog.category}
           </span>
         </div>
         <div className="p-6 flex-1 flex flex-col">
-          <time className="text-sm text-gray-500 mb-2">{blog.date} · {blog.readTime}</time>
           <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:underline decoration-2 underline-offset-4 line-clamp-2">
             {blog.title}
           </h2>

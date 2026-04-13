@@ -172,6 +172,24 @@ const additionalSolutions = [
   }
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 36 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: 'easeOut' },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
 export default function SophosSolutions() {
   return (
     <div className="w-full">
@@ -245,7 +263,13 @@ export default function SophosSolutions() {
           </header>
 
           {/* Main 3 Solution Cards - Modern Design */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-16"
+          >
             {mainSolutions.map((solution, index) => (
               <Link
                 key={solution.id}
@@ -254,7 +278,10 @@ export default function SophosSolutions() {
                 rel="noopener noreferrer"
                 className="group block cursor-pointer"
               >
-                <article className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full border border-gray-100 hover:border-gray-200 relative">
+                <motion.article
+                  variants={fadeUp}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full border border-gray-100 hover:border-gray-200 relative"
+                >
                   {/* Image Section */}
                   <div className="relative w-full h-48 md:h-52 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
                     {solution.image ? (
@@ -301,10 +328,10 @@ export default function SophosSolutions() {
                       </div>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               </Link>
             ))}
-          </div>
+          </motion.div>
 
           {/* Additional Solutions Section */}
           <div className="mt-16 pt-12 border-t border-gray-200">
@@ -319,7 +346,13 @@ export default function SophosSolutions() {
             </motion.h3>
 
             {/* 2-Column Grid for Additional Solutions */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.12 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+            >
               {additionalSolutions.map((solution, index) => (
                 <Link
                   key={solution.id || index}
@@ -328,7 +361,10 @@ export default function SophosSolutions() {
                   rel="noopener noreferrer"
                   className="group block"
                 >
-                  <article className="bg-white rounded-xl p-5 hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex items-start gap-4">
+                  <motion.article
+                    variants={fadeUp}
+                    className="bg-white rounded-xl p-5 hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-gray-200 flex items-start gap-4"
+                  >
                     {/* Image Thumbnail */}
                     <div className="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 relative">
                       {solution.image ? (
@@ -365,10 +401,10 @@ export default function SophosSolutions() {
                         </svg>
                       </div>
                     </div>
-                  </article>
+                  </motion.article>
                 </Link>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -396,9 +432,15 @@ export default function SophosSolutions() {
               Manage all your Sophos products in one place.
             </motion.p>
           </header>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+          >
             {/* Left Column - Branding & Content */}
-            <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+            <motion.div variants={fadeUp} className="text-center lg:text-left flex flex-col items-center lg:items-start">
               <div className="flex items-center justify-center lg:justify-start gap-4 mb-8">
                 <Image
                   src={sophosLogo}
@@ -433,9 +475,9 @@ export default function SophosSolutions() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
-            </div>
+            </motion.div>
             {/* Right Column - Image */}
-            <div className="relative aspect-[4/3] lg:aspect-video rounded-2xl overflow-hidden shadow-xl">
+            <motion.div variants={fadeUp} className="relative aspect-[4/3] lg:aspect-video rounded-2xl overflow-hidden shadow-xl">
               <Image
                 src={sophosCentralImage}
                 alt="Sophos Central - Unified management console"
@@ -445,8 +487,8 @@ export default function SophosSolutions() {
                 priority={false}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
     </div>

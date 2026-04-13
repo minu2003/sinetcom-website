@@ -13,6 +13,24 @@ const ImagePlaceholder = ({ label, className }) => (
     </div>
 );
 
+const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: 'easeOut' },
+    },
+};
+
+const staggerContainer = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.12,
+        },
+    },
+};
+
 export default function BlogDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -36,6 +54,13 @@ export default function BlogDetailPage() {
     }
 
     const getInnerImage = (index) => blog.innerImages ? blog.innerImages[index] : null;
+    const hasStructuredContent = Array.isArray(blog.content) && blog.content.length > 0;
+    const articleHighlights = hasStructuredContent
+        ? blog.content
+            .filter((block) => block.type === 'heading' || block.type === 'numberedHeading')
+            .map((block) => block.text)
+            .slice(0, 3)
+        : ['Core Insights', 'Business Impact', 'Action Plan'];
 
     return (
         <div className="pt-[var(--navbar-height,80px)] bg-white min-h-screen font-sans">
@@ -72,17 +97,17 @@ export default function BlogDetailPage() {
                 {/* Bottom: Blog Title */}
                 <div className="relative z-10 w-full lg:w-3/4">
                     <motion.h1
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.6, ease: 'easeOut' }}
                         className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.15]"
                     >
                         {blog.title}
                     </motion.h1>
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.18, duration: 0.6, ease: 'easeOut' }}
                         className="flex items-center gap-3 text-white/90 text-sm font-medium"
                     >
                         <span>Share</span>
@@ -96,149 +121,181 @@ export default function BlogDetailPage() {
             <section className="bg-gray-50/50 py-16">
                 <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
 
-                    {/* Meta Bar */}
-                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 border-b border-gray-200 pb-8 mb-10">
-                        {/* Author Info */}
-                        <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 shrink-0 rounded-full overflow-hidden bg-gray-200 border border-gray-300">
-                                {blog.authorImage ? (
-                                    <Image src={blog.authorImage} alt={blog.authorName} width={56} height={56} className="object-cover w-full h-full" />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-500 font-bold text-xl">
-                                        {blog.authorName?.charAt(0) || 'U'}
-                                    </div>
-                                )}
+                    {/* Key Takeaways Panel */}
+                    <motion.div
+                        variants={fadeUp}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        className="rounded-2xl border border-slate-200 bg-white p-5 md:p-6 mb-8 shadow-sm"
+                    >
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: colors.accent }}>Sinetcom Perspective</p>
+                                <h2 className="text-lg md:text-xl font-semibold" style={{ color: colors.primary }}>Key takeaways</h2>
                             </div>
-                            <div className="flex flex-col">
-                                <div className="text-gray-900 text-sm">
-                                    <span className="font-semibold">{blog.authorName}</span>
-                                    {blog.authorRole && (
-                                        <>
-                                            <span className="mx-1.5 text-gray-400">,</span>
-                                            <span className="text-gray-600">{blog.authorRole}</span>
-                                        </>
-                                    )}
-                                </div>
-                                <div className="text-gray-400 text-sm mt-0.5">
-                                    Read time: {blog.readTime || '5 mins'}
-                                </div>
-                            </div>
+                            <Link
+                                href="/contact"
+                                className="inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                                style={{ backgroundColor: colors.primary }}
+                            >
+                                Talk to Sinetcom
+                            </Link>
                         </div>
-
-                        {/* Date & Categories */}
-                        <div className="flex items-center flex-wrap gap-x-6 gap-y-3 lg:border-l lg:border-gray-200 lg:pl-8">
-                            <div className="font-bold text-gray-900 text-base">
-                                {blog.date}
-                            </div>
-                            <div className="hidden lg:block w-[1px] h-10 bg-gray-200" />
-                            <div className="flex flex-col text-xs font-bold text-gray-900 gap-1.5">
-                                <div className="flex items-center gap-2">
-                                    <span>Energy, Utilities ...</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span>Events</span>
-                                    <span className="bg-gray-200 text-gray-700 px-1.5 py-0.5 rounded text-[10px]">+ 3</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, amount: 0.25 }}
+                            className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3"
+                        >
+                            {articleHighlights.map((item, index) => (
+                                <motion.div variants={fadeUp} key={`highlight-${index}`} className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 flex items-start gap-2">
+                                    <span className="mt-0.5 text-xs font-bold" style={{ color: colors.accent }}>●</span>
+                                    <span>{item}</span>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </motion.div>
 
                     {/* Prose Article */}
-                    <article className="prose prose-lg md:prose-xl max-w-[900px] mx-auto text-gray-700 font-sans leading-relaxed">
+                    <motion.article
+                        variants={fadeUp}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.08 }}
+                        className="prose prose-lg md:prose-xl max-w-[900px] mx-auto text-gray-700 font-sans leading-relaxed"
+                    >
+                        {hasStructuredContent ? (
+                            <>
+                                {blog.content.map((block, index) => {
+                                    if (block.type === 'heading') {
+                                        return (
+                                            <h2 key={`heading-${index}`} className="text-3xl font-medium text-gray-800 mb-4">
+                                                {block.text}
+                                            </h2>
+                                        );
+                                    }
 
-                        <p className="font-semibold italic text-xl text-gray-900 mb-6">
-                            "Houston, we might have a problem."
-                        </p>
+                                    if (block.type === 'numberedHeading') {
+                                        return (
+                                            <h3 key={`numbered-${index}`} className="text-2xl font-semibold text-gray-800 mb-3 mt-8">
+                                                {block.text}
+                                            </h3>
+                                        );
+                                    }
 
-                        <p className="mb-6">
-                            That's how I opened the session at <span className="font-bold text-[#8b5cf6] underline decoration-[#8b5cf6]">Industrial X Unleashed</span>. Because while AI is reshaping every industry, it can't run on promises alone. <strong>AI needs power</strong> - a lot of it.
-                        </p>
+                                    if (block.type === 'bullet') {
+                                        return (
+                                            <ul key={`bullet-${index}`} className="list-disc pl-6 mb-4">
+                                                <li>{block.text}</li>
+                                            </ul>
+                                        );
+                                    }
 
-                        {/* Right-floated Image */}
-                        <div className="float-right ml-8 mb-6 mt-2 w-full max-w-[450px]">
-                            {getInnerImage(0) ? (
-                                <div className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-sm">
-                                    <Image 
-                                        src={getInnerImage(0)} 
-                                        alt="AI Event Presentation" 
-                                        fill 
-                                        className="object-cover" 
-                                        sizes="(max-width: 768px) 100vw, 450px"
-                                        quality={75}
-                                    />
+                                    return (
+                                        <p key={`paragraph-${index}`} className="mb-6">
+                                            {block.text}
+                                        </p>
+                                    );
+                                })}
+                            </>
+                        ) : (
+                            <>
+                                <p className="font-semibold italic text-xl text-gray-900 mb-6">
+                                    "Houston, we might have a problem."
+                                </p>
+
+                                <p className="mb-6">
+                                    That's how I opened the session at <span className="font-bold text-[#8b5cf6] underline decoration-[#8b5cf6]">Industrial X Unleashed</span>. Because while AI is reshaping every industry, it can't run on promises alone. <strong>AI needs power</strong> - a lot of it.
+                                </p>
+
+                                {/* Right-floated Image */}
+                                <div className="float-right ml-8 mb-6 mt-2 w-full max-w-[450px]">
+                                    {getInnerImage(0) ? (
+                                        <div className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-sm">
+                                            <Image
+                                                src={getInnerImage(0)}
+                                                alt="AI Event Presentation"
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, 450px"
+                                                quality={75}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <ImagePlaceholder label="Right-aligned Image" className="aspect-[4/3] rounded-sm w-full" />
+                                    )}
                                 </div>
-                            ) : (
-                                <ImagePlaceholder label="Right-aligned Image" className="aspect-[4/3] rounded-sm w-full" />
-                            )}
-                        </div>
 
-                        <p className="mb-6">
-                            In the next five years, global electricity demand is projected to rise by 50 percent. Data-center growth, electrification of transport and industry, and the surge of AI computation are putting unprecedented pressure on grids that are already stretched thin.
-                        </p>
+                                <p className="mb-6">
+                                    In the next five years, global electricity demand is projected to rise by 50 percent. Data-center growth, electrification of transport and industry, and the surge of AI computation are putting unprecedented pressure on grids that are already stretched thin.
+                                </p>
 
-                        <p className="mb-8">
-                            The truth is simple: <strong>the AI revolution will stall without an energy revolution to power it.</strong>
-                        </p>
+                                <p className="mb-8">
+                                    The truth is simple: <strong>the AI revolution will stall without an energy revolution to power it.</strong>
+                                </p>
 
-                        <h2 className="text-3xl font-medium text-gray-800 mb-4 clear-none">The Scale of the Challenge</h2>
+                                <h2 className="text-3xl font-medium text-gray-800 mb-4 clear-none">The Scale of the Challenge</h2>
 
-                        <p className="mb-6">
-                            As I told the audience, the issue isn't theoretical. It's visible in brownouts in California, winter grid failures in Texas, and long waiting times for new connections worldwide.
-                        </p>
+                                <p className="mb-6">
+                                    As I told the audience, the issue isn't theoretical. It's visible in brownouts in California, winter grid failures in Texas, and long waiting times for new connections worldwide.
+                                </p>
 
-                        <p className="mb-6 clear-right">
-                            We're reshoring manufacturing, electrifying vehicles, and fuelling vast AI infrastructure - all at once. The world needs more power, cleaner power, and smarter grids to move it.
-                        </p>
+                                <p className="mb-6 clear-right">
+                                    We're reshoring manufacturing, electrifying vehicles, and fuelling vast AI infrastructure - all at once. The world needs more power, cleaner power, and smarter grids to move it.
+                                </p>
 
-                        <p className="mb-8">
-                            That's why IFS brought together two of the companies best positioned to solve this challenge: <strong>Microsoft</strong> and <span className="font-bold text-[#8b5cf6] underline decoration-[#8b5cf6]">Siemens</span>.
-                        </p>
+                                <p className="mb-8">
+                                    That's why IFS brought together two of the companies best positioned to solve this challenge: <strong>Microsoft</strong> and <span className="font-bold text-[#8b5cf6] underline decoration-[#8b5cf6]">Siemens</span>.
+                                </p>
 
-                        <h2 className="text-3xl font-medium text-gray-800 mb-4">All-In on Energy: Microsoft's Perspective</h2>
+                                <h2 className="text-3xl font-medium text-gray-800 mb-4">All-In on Energy: Microsoft's Perspective</h2>
 
-                        <p className="mb-6">
-                            <strong>Darryl Willis</strong>, Corporate Vice President for Energy & Resources Industry at Microsoft, joined me on stage and didn't mince words.
-                        </p>
+                                <p className="mb-6">
+                                    <strong>Darryl Willis</strong>, Corporate Vice President for Energy & Resources Industry at Microsoft, joined me on stage and didn't mince words.
+                                </p>
 
-                        {/* Left-floated Image */}
-                        <div className="float-left mr-8 mb-6 mt-2 w-full max-w-[450px]">
-                            {getInnerImage(1) ? (
-                                <div className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-sm">
-                                    <Image 
-                                        src={getInnerImage(1)} 
-                                        alt="Panel Discussion" 
-                                        fill 
-                                        className="object-cover" 
-                                        sizes="(max-width: 768px) 100vw, 450px"
-                                        quality={75}
-                                    />
+                                {/* Left-floated Image */}
+                                <div className="float-left mr-8 mb-6 mt-2 w-full max-w-[450px]">
+                                    {getInnerImage(1) ? (
+                                        <div className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-sm">
+                                            <Image
+                                                src={getInnerImage(1)}
+                                                alt="Panel Discussion"
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 100vw, 450px"
+                                                quality={75}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <ImagePlaceholder label="Left-aligned Image" className="aspect-[4/3] rounded-sm w-full" />
+                                    )}
                                 </div>
-                            ) : (
-                                <ImagePlaceholder label="Left-aligned Image" className="aspect-[4/3] rounded-sm w-full" />
-                            )}
-                        </div>
 
-                        <p className="mb-6 text-gray-600 font-medium italic relative">
-                            "It's going to take every type of energy we can put our hands on to deliver on the promise of artificial intelligence."
-                        </p>
+                                <p className="mb-6 text-gray-600 font-medium italic relative">
+                                    "It's going to take every type of energy we can put our hands on to deliver on the promise of artificial intelligence."
+                                </p>
 
-                        <p className="mb-6">
-                            Wind, solar, nuclear, natural gas, geothermal - even next-generation hydrogen. Darryl called this moment <em>"an all-in energy economy,"</em> driven by partnerships.
-                        </p>
+                                <p className="mb-6">
+                                    Wind, solar, nuclear, natural gas, geothermal - even next-generation hydrogen. Darryl called this moment <em>"an all-in energy economy,"</em> driven by partnerships.
+                                </p>
 
-                        <p className="mb-6">
-                            He described how Microsoft's AI ambitions depend on resilient, diversified power:
-                        </p>
+                                <p className="mb-6">
+                                    He described how Microsoft's AI ambitions depend on resilient, diversified power:
+                                </p>
 
-                        <p className="mb-6 text-gray-600 font-medium italic">
-                            "We need energy for AI, but we also need AI for energy."
-                        </p>
+                                <p className="mb-6 text-gray-600 font-medium italic">
+                                    "We need energy for AI, but we also need AI for energy."
+                                </p>
 
-                        <p className="mb-6 clear-left">
-                            Microsoft is investing heavily to make that a reality - spending $80 billion this year alone on data-center infrastructure, all powered by carbon-free sources. AI models are already helping to monitor fugitive emissions, optimise wind and solar operations, and reduce emissions in steel and cement production.
-                        </p>
-
-                    </article>
+                                <p className="mb-6 clear-left">
+                                    Microsoft is investing heavily to make that a reality - spending $80 billion this year alone on data-center infrastructure, all powered by carbon-free sources. AI models are already helping to monitor fugitive emissions, optimise wind and solar operations, and reduce emissions in steel and cement production.
+                                </p>
+                            </>
+                        )}
+                    </motion.article>
                 </div>
             </section>
         </div>
