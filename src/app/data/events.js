@@ -51,6 +51,14 @@ import partner8_1 from '@/app/assets/event/partner8-1.jpg';
 import partner8_2 from '@/app/assets/event/partner8-2.jpg';
 import partner8_3 from '@/app/assets/event/partner8-3.jpg';
 import partner8_4 from '@/app/assets/event/partner8-4.jpg';
+import customer3_1 from '@/app/assets/event/customer3-1.jpg';
+import customer3_2 from '@/app/assets/event/customer3-2.jpg';
+import partner9_1 from '@/app/assets/event/partner9-1.jpg';
+import partner9_2 from '@/app/assets/event/partner9-2.jpg';
+import partner9_3 from '@/app/assets/event/partner9-3.jpg';
+import partner9_4 from '@/app/assets/event/partner9-4.jpg';
+import partner9_5 from '@/app/assets/event/partner9-5.jpg';
+import partner9_6 from '@/app/assets/event/partner9-6.jpg';
 
 
 export const INITIAL_EVENTS = [
@@ -163,5 +171,27 @@ export const INITIAL_EVENTS = [
     slug: 'Advanced Sophos Training Session with Finco Technologies – Part II',
     images: [partner8_1, partner8_2, partner8_3, partner8_4],
     description: "Sinetcom (Pvt) Ltd hosted the second phase of its specialized Sophos training session for Finco Technologies Private Limited, focusing on deeper insights into the evolving threat landscape and advanced security solutions. Led by industry experts including Mr. Prasad Wijesuriya and Mr. Sahan Marga, the session emphasized strategic implementation and market trends, strengthening collaboration and empowering partners to deliver enhanced cybersecurity solutions."
+  },
+  {
+    id: 11,
+    title: 'Sophos Product Awareness Session – Customer Connect 2026',
+    type: 'customer',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Sophos Product Awareness Session – Customer Connect 2026',
+    images: [customer3_1,customer3_2],
+    description: "Sinetcom recently hosted a Sophos Product Awareness Session as part of our Customer Connect initiative, bringing together partners and customers for an engaging experience. The session explored the latest cybersecurity trends and evolving digital threats in today’s landscape. Attendees gained valuable insights into how Sophos solutions are designed to stay ahead of modern challenges. It also provided a platform for interactive discussions, knowledge sharing, and real-world understanding. We sincerely thank all participants for joining us and contributing to a safer digital future."
+  },
+  {
+    id: 12,
+    title: 'Strategic Collaboration Session with Liyakta Office Systems',
+    type: 'partner',
+    when: 'past',
+    date: '14/03/2026',
+    tag: 'PAST EVENT',
+    slug: 'Strategic Collaboration Session with Liyakta Office Systems',
+    images: [partner9_1,partner9_2,partner9_3,partner9_4,partner9_5,partner9_6],
+    description: "Sinetcom conducted a productive strategy session with Liyakta Office Systems (Pvt) Ltd, focusing on strengthening collaboration and growth. The discussion emphasized aligning goals, enhancing sales enablement, and driving channel marketing initiatives. It was an engaging session filled with valuable insights and teamwork. Together, we continue to build a stronger path toward shared success."
   },
 ];
