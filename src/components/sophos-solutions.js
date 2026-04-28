@@ -32,7 +32,7 @@ const mainSolutions = [
     title: 'Managed Detection and Response (MDR)',
     shortTitle: 'SOPHOS MDR',
     description: 'Sophos Managed Detection and Response (MDR) is a fully managed 24/7 cybersecurity service that detects, investigates and responds to advanced cyber threats that technology alone cannot stop. Delivered by a global team of threat experts, Sophos MDR integrates with your existing solutions to accelerate threat detection and response.',
-    href: 'https://www.sophos.com/en-us/services/managed-detection-and-response?partner_name=Sinetcom%20(PVT)%20Ltd&partner_referral_id=98304-24917',
+    href: '/sophos/mdr',
     image: sophosMdrImage,
   },
   {
@@ -40,7 +40,7 @@ const mainSolutions = [
     title: 'Endpoint Protection - Next-Gen Antivirus',
     shortTitle: 'SOPHOS ENDPOINT',
     description: 'Stop breaches, ransomware, and data loss with adaptive, AI-powered endpoint security. Sophos Endpoint provides unmatched protection and control, blocking advanced cyberattacks before they can strike. With a prevention-first approach, it rapidly neutralizes threats to keep your endpoints and servers secure.',
-    href: 'https://www.sophos.com/en-us/products/endpoint-security?partner_name=Sinetcom%20(PVT)%20Ltd&partner_referral_id=98304-24917',
+    href: '/sophos/endpoint',
     image: sophosEndpointImage,
   },
   {
@@ -48,7 +48,7 @@ const mainSolutions = [
     title: 'Next-Gen Firewall',
     shortTitle: 'SOPHOS FIREWALL',
     description: 'Sophos Firewall and the XGS Series appliances provide powerful performance and protection for your network as part of a tightly integrated network security platform all managed from the Sophos Central cloud.',
-    href: 'https://www.sophos.com/en-us/products/next-gen-firewall?partner_referral_id=98304-24917&partner_name=Sinetcom+(PVT)+Ltd',
+    href: '/sophos/firewall',
     image: sophosFirewallImage,
   },
 ];
@@ -274,8 +274,6 @@ export default function SophosSolutions() {
               <Link
                 key={solution.id}
                 href={solution.href}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="group block cursor-pointer"
               >
                 <motion.article
