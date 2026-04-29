@@ -8,6 +8,15 @@ import { colors } from './root';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const handleFooterClick = (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    // Keep normal behavior for links/buttons and embedded map interactions.
+    if (target.closest('a, button, iframe, input, textarea, select, [role="button"]')) return;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const quickLinks = [
     { name: 'Home', href: '/' },
@@ -74,7 +83,10 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0B1120] bg-gradient-to-b from-gray-900 to-[#050810] text-gray-300 border-t border-white/5 relative overflow-hidden">
+    <footer
+      onClick={handleFooterClick}
+      className="bg-[#0B1120] bg-gradient-to-b from-gray-900 to-[#050810] text-gray-300 border-t border-white/5 relative overflow-hidden"
+    >
       {/* Decorative gradient blur */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-32 bg-blue-500/10 blur-[100px] pointer-events-none z-0"></div>
 
