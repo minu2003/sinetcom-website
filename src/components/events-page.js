@@ -333,7 +333,7 @@ function EventCard({ event }) {
                       </button>
                     )}
                   </div>
-                  <div className="flex items-center justify-between pt-5 border-t border-gray-100">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-2 pt-5 border-t border-gray-100">
                     <div className="flex items-center gap-2 text-gray-500 font-semibold">
                       <svg className="w-5 h-5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       {event.date}
