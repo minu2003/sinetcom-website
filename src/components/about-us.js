@@ -6,6 +6,9 @@ import { motion, useInView } from 'framer-motion';
 import { colors } from './root';
 import aboutImage from '@/app/assets/about.jpg';
 import debugImage from '@/app/assets/debug.jpg';
+import achievement1Image from '@/app/assets/achievements/achievements1.jpeg';
+import achievement2Image from '@/app/assets/achievements/achievements2.jpeg';
+import achievement3Image from '@/app/assets/achievements/achievements3.jpeg';
 const headlineAbout = "Empowering Businesses with Secure Technology";
 const headlineAccentFromIndex = headlineAbout.indexOf('Secure');
 const letterVariants = {
@@ -29,12 +32,27 @@ const leadership = [
 
 // Placeholder achievements – replace with real award images and titles
 const achievements = [
-  { year: '2024', title: 'Excellence in Distribution', description: 'Award for outstanding channel performance' },
-  { year: '2023', title: 'Partner of the Year', description: 'Recognized for exceptional partnership' },
-  { year: '2023', title: 'Best Value-Added Distributor', description: 'Excellence in value-added services' },
-  { year: '2022', title: 'Growth Champion', description: 'Rapid growth and market expansion' },
-  { year: '2022', title: 'Customer Excellence', description: 'Superior customer satisfaction' },
-  { year: '2021', title: 'Innovation Leader', description: 'Leading innovative solutions delivery' },
+  {
+    year: '2025',
+    title: 'Sinetcom at INFOTEL 2025',
+    description:
+      'We are thrilled to be recognized as a Gold Partner at INFOTEL 2025 - TECH FRONTIER. Receiving special commendation from the organizers for our role in shaping Sri Lanka\'s digital landscape is a true honor. This achievement reflects our team\'s hard work and our commitment to delivering innovative, secure, and impactful technology solutions as we continue building a smarter, connected future for the nation.',
+    image: achievement1Image,
+  },
+  {
+    year: '2025',
+    title: 'Strategic Growth: Sinetcom Recognized as Sophos Value-Added Distributor of the Year (FY2025)',
+    description:
+      'We are thrilled to share that Sinetcom, part of the Debug Group of Companies, has received the Sophos Value-Added Distributor - Special Recognition Award for FY2025. This honor reflects our team\'s tireless efforts to bring best-in-class cybersecurity solutions to the Sri Lankan and Maldivian markets. We are grateful to our partners and the global Sophos community for their trust. As we celebrate this milestone, Sinetcom and the Debug Group are expanding our technology portfolio and invite innovative global hi-tech leaders to partner with us as their distributor for Sri Lanka and the Maldives.',
+    image: achievement2Image,
+  },
+  {
+    year: '2025',
+    title: 'Best Performing Strategic Business Unit (SBU)',
+    description:
+      'We at Sinetcom Pvt Ltd, a proud member of the Debug Group of Companies, are honored to be recognized as the Best Performing Strategic Business Unit (SBU). This achievement reflects the unwavering trust and support of our partners, customers, and team members across Sri Lanka and the Maldives. As the authorized distributor for Sophos, we remain committed to delivering world-class cybersecurity solutions and building lasting partnerships. Thank you for being part of our journey - here\'s to continued growth, innovation, and success together.',
+    image: achievement3Image,
+  },
 ];
 
 const journeyMilestones = [
@@ -402,17 +420,34 @@ export default function AboutUs() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={awardsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.05 * i }}
-                className="group bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden hover:border-white/30 transition-all duration-300"
               >
-                <div className="aspect-video bg-white/10 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 group-hover:scale-110 transition-transform">
-                    <svg className="w-8 h-8 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                <div className="relative w-full bg-white/10 flex items-center justify-center overflow-hidden">
+                  {award.image ? (
+                    <Image
+                      src={award.image}
+                      alt={award.title}
+                      className="w-full h-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:blur-sm"
+                    />
+                  ) : (
+                    <div className="aspect-video w-full flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 group-hover:scale-110 transition-transform">
+                      <svg className="w-8 h-8 text-white/80" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                      </div>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-15" />
+
+                  <div className="absolute inset-x-0 bottom-0 p-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-4">
+                    <span className="text-sm font-semibold" style={{ color: colors.accent }}>{award.year}</span>
+                    <h3 className="text-lg font-bold text-white mt-1 leading-snug">{award.title}</h3>
                   </div>
-                </div>
-                <div className="p-5">
-                  <span className="text-sm font-semibold" style={{ color: colors.accent }}>{award.year}</span>
-                  <h3 className="text-lg font-bold text-white mt-1">{award.title}</h3>
-                  <p className="text-gray-400 text-sm mt-1">{award.description}</p>
+
+                  <div className="absolute inset-4 rounded-xl border border-white/20 bg-[#071224]/92 backdrop-blur-md p-4 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 overflow-y-auto">
+                    <span className="text-sm font-semibold" style={{ color: colors.accent }}>{award.year}</span>
+                    <h3 className="text-lg font-bold text-white mt-1 leading-snug">{award.title}</h3>
+                    <p className="text-gray-300 text-sm mt-3 leading-relaxed">{award.description}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
