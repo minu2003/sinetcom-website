@@ -16,6 +16,9 @@ export default function Footer() {
     if (target.closest('a, button, iframe, input, textarea, select, [role="button"]')) return;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   const quickLinks = [
