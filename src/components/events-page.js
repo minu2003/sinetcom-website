@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -148,7 +148,27 @@ function CardCarousel({ images, title }) {
 function EventCard({ event }) {
   const [isCopied, setIsCopied] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isActive, setIsActive] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    const handleOutsideClick = (eventTarget) => {
+      if (!cardRef.current?.contains(eventTarget)) {
+        setIsActive(false);
+        setIsExpanded(false);
+      }
+    };
+
+    const onPointerDown = (event) => {
+      handleOutsideClick(event.target);
+    };
+
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [isActive]);
 
   const handleShare = async (e) => {
     e.preventDefault();
@@ -180,9 +200,19 @@ function EventCard({ event }) {
 
   return (
     <div
+      ref={cardRef}
       className="relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsActive((prev) => !prev)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setIsActive((prev) => !prev);
+        }
+      }}
+      tabIndex={0}
+      role="button"
     >
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -237,7 +267,7 @@ function EventCard({ event }) {
 
       {/* Global Backdrop Blur logic handled in parent, local here for focus */}
       <AnimatePresence>
-        {isHovered && (
+        {(isHovered || isActive) && (
           <>
             {/* Backdrop Overlay */}
             <motion.div
@@ -259,6 +289,18 @@ function EventCard({ event }) {
               <div className="bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-gray-100 w-full overflow-hidden flex flex-col transform-gpu ring-1 ring-black/5">
                 <CardCarousel images={event.images} title={event.title} />
                 <div className="p-6">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsActive(false);
+                      setIsExpanded(false);
+                    }}
+                    className="md:hidden absolute top-3 right-3 w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 text-gray-700 flex items-center justify-center"
+                    aria-label="Close details"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
                   <div className="flex items-center gap-3 mb-4">
                     <span className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider bg-blue-50 text-blue-600 rounded-full border border-blue-100">
                       {event.tag}
