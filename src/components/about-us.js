@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { colors } from './root';
@@ -94,6 +94,7 @@ export default function AboutUs() {
   const [historyRef, historyInView] = useFadeIn();
   const [leadRef, leadInView] = useFadeIn();
   const [awardsRef, awardsInView] = useFadeIn();
+  const [activeAchievementIndex, setActiveAchievementIndex] = useState(null);
 
   return (
     <div>
@@ -414,20 +415,31 @@ export default function AboutUs() {
             Recognized repeatedly for excellence in distribution, partnership, and customer satisfaction.
           </motion.p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {achievements.map((award, i) => (
+            {achievements.map((award, i) => {
+              const isActive = activeAchievementIndex === i;
+              return (
               <motion.div
                 key={`${award.year}-${award.title}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={awardsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.05 * i }}
-                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden hover:border-white/30 transition-all duration-300"
+                onClick={() => setActiveAchievementIndex(isActive ? null : i)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setActiveAchievementIndex(isActive ? null : i);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                className="group relative bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden hover:border-white/30 transition-all duration-300 cursor-pointer"
               >
                 <div className="relative w-full bg-white/10 flex items-center justify-center overflow-hidden">
                   {award.image ? (
                     <Image
                       src={award.image}
                       alt={award.title}
-                      className="w-full h-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:blur-sm"
+                      className={`w-full h-auto object-contain transition-all duration-700 group-hover:scale-105 group-hover:blur-sm ${isActive ? 'scale-105 blur-sm' : ''}`}
                     />
                   ) : (
                     <div className="aspect-video w-full flex items-center justify-center">
@@ -436,21 +448,22 @@ export default function AboutUs() {
                       </div>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-15" />
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent transition-opacity duration-300 group-hover:opacity-15 ${isActive ? 'opacity-15' : ''}`} />
 
-                  <div className="absolute inset-x-0 bottom-0 p-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-4">
+                  <div className={`absolute inset-x-0 bottom-0 p-5 transition-all duration-300 group-hover:opacity-0 group-hover:translate-y-4 ${isActive ? 'opacity-0 translate-y-4' : ''}`}>
                     <span className="text-sm font-semibold" style={{ color: colors.accent }}>{award.year}</span>
                     <h3 className="text-lg font-bold text-white mt-1 leading-snug">{award.title}</h3>
                   </div>
 
-                  <div className="absolute inset-4 rounded-xl border border-white/20 bg-[#071224]/92 backdrop-blur-md p-4 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 overflow-y-auto">
+                  <div className={`absolute inset-4 rounded-xl border border-white/20 bg-[#071224]/92 backdrop-blur-md p-4 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 overflow-y-auto ${isActive ? 'opacity-100 translate-y-0' : ''}`}>
                     <span className="text-sm font-semibold" style={{ color: colors.accent }}>{award.year}</span>
                     <h3 className="text-lg font-bold text-white mt-1 leading-snug">{award.title}</h3>
                     <p className="text-gray-300 text-sm mt-3 leading-relaxed">{award.description}</p>
                   </div>
                 </div>
               </motion.div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>
