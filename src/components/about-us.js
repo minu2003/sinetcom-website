@@ -94,6 +94,7 @@ export default function AboutUs() {
   const [historyRef, historyInView] = useFadeIn();
   const [leadRef, leadInView] = useFadeIn();
   const [awardsRef, awardsInView] = useFadeIn();
+  const [activeShield, setActiveShield] = useState(null);
   const [activeAchievementIndex, setActiveAchievementIndex] = useState(null);
 
   return (
@@ -195,7 +196,16 @@ export default function AboutUs() {
               initial={{ opacity: 0, y: 30 }}
               animate={visionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5 }}
-              className="flex-1 w-full filter drop-shadow-xl hover:-translate-y-2 transition-transform duration-500"
+              onClick={() => setActiveShield((prev) => (prev === 'vision' ? null : 'vision'))}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setActiveShield((prev) => (prev === 'vision' ? null : 'vision'));
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              className={`flex-1 w-full filter drop-shadow-xl hover:-translate-y-2 transition-transform duration-500 cursor-pointer ${activeShield === 'vision' ? '-translate-y-2' : ''}`}
             >
               <div
                 className="group relative h-full w-full p-[1px] md:p-[2px]"
@@ -212,10 +222,13 @@ export default function AboutUs() {
                   }}
                 >
                   {/* Subtle top glow inside the shield */}
-                  <div className="absolute top-0 inset-x-0 h-40 opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" style={{ background: colors.primary }} />
+                  <div
+                    className={`absolute top-0 inset-x-0 h-40 opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500 pointer-events-none ${activeShield === 'vision' ? 'opacity-20' : ''}`}
+                    style={{ background: colors.primary }}
+                  />
 
                   <span 
-                    className="w-16 h-16 sm:w-20 sm:h-20 mb-6 flex items-center justify-center text-white font-bold relative z-10 transition-transform duration-500 group-hover:rotate-[360deg] shadow-lg" 
+                    className={`w-16 h-16 sm:w-20 sm:h-20 mb-6 flex items-center justify-center text-white font-bold relative z-10 transition-transform duration-500 group-hover:rotate-[360deg] shadow-lg ${activeShield === 'vision' ? 'rotate-[360deg]' : ''}`}
                     style={{ background: colors.primary, clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
                   >
                     <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,7 +250,16 @@ export default function AboutUs() {
               initial={{ opacity: 0, y: 30 }}
               animate={visionInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex-1 w-full filter drop-shadow-xl hover:-translate-y-2 transition-transform duration-500"
+              onClick={() => setActiveShield((prev) => (prev === 'mission' ? null : 'mission'))}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  setActiveShield((prev) => (prev === 'mission' ? null : 'mission'));
+                }
+              }}
+              tabIndex={0}
+              role="button"
+              className={`flex-1 w-full filter drop-shadow-xl hover:-translate-y-2 transition-transform duration-500 cursor-pointer ${activeShield === 'mission' ? '-translate-y-2' : ''}`}
             >
               <div
                 className="group relative h-full w-full p-[1px] md:p-[2px]"
@@ -254,10 +276,13 @@ export default function AboutUs() {
                   }}
                 >
                   {/* Subtle top glow inside the shield */}
-                  <div className="absolute top-0 inset-x-0 h-40 opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500 pointer-events-none" style={{ background: colors.accent }} />
+                  <div
+                    className={`absolute top-0 inset-x-0 h-40 opacity-10 blur-3xl group-hover:opacity-20 transition-opacity duration-500 pointer-events-none ${activeShield === 'mission' ? 'opacity-20' : ''}`}
+                    style={{ background: colors.accent }}
+                  />
 
                   <span 
-                    className="w-16 h-16 sm:w-20 sm:h-20 mb-6 flex items-center justify-center text-white font-bold relative z-10 transition-transform duration-500 group-hover:rotate-[360deg] shadow-lg" 
+                    className={`w-16 h-16 sm:w-20 sm:h-20 mb-6 flex items-center justify-center text-white font-bold relative z-10 transition-transform duration-500 group-hover:rotate-[360deg] shadow-lg ${activeShield === 'mission' ? 'rotate-[360deg]' : ''}`}
                     style={{ background: colors.accent, clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}
                   >
                     <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
