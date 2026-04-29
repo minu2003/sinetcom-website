@@ -336,11 +336,11 @@ export default function AboutUs() {
                 alt="Sinetcom digital trust journey"
                 width={900}
                 height={900}
-                className="w-full h-[230px] sm:h-[290px] lg:h-[590px] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                className="w-full h-auto lg:h-[590px] object-contain lg:object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 42vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050b18]/70 via-[#050b18]/25 to-transparent pointer-events-none" />
-              <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md px-4 py-3">
+              <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-[#050b18]/70 via-[#050b18]/25 to-transparent pointer-events-none" />
+              <div className="mx-4 my-4 lg:my-0 lg:mx-0 lg:absolute lg:bottom-5 lg:left-5 lg:right-5 rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md px-4 py-3">
                 <p className="text-xs uppercase tracking-[0.12em] text-white/75">Legacy Timeline</p>
                 <p className="text-lg font-semibold text-white">From Debug Foundation to Sinetcom Leadership</p>
               </div>
