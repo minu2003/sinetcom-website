@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import sinetcomLogo from '@/app/assets/sinetcom-logo.png';
-import sinetcomLogoDark from '@/app/assets/sinetcom1-logo.png';
+import sinetcomLogo from '@/app/assets/sinetcom2-logo2.png';
+import sinetcomLogoDark from '@/app/assets/sinetcom2-logo.png';
 import { colors } from './root';
 
 export default function Navbar() {
